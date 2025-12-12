@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vexez Shop | Premium Digital Products</title>
+    <!-- Tailwind CSS (Tasarım için gerekli kütüphane) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- İkonlar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#8b5cf6', // Mor tonu
+                            600: '#7c3aed',
+                            900: '#4c1d95',
+                        },
+                        dark: {
+                            900: '#0f172a', // Arkaplan
+                            800: '#1e293b', // Kartlar
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+        }
+        .glass-effect {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-gray-800 bg-dark-900/80 backdrop-blur-md">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl font-bold whitespace-nowrap text-white glow-text">VEXEZ</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="text-white bg-brand-600 hover:bg-brand-700 focus:ring-4 focus:outline-none focus:ring-brand-900 font-medium rounded-lg text-sm px-4 py-2 text-center transition-all shadow-[0_0_15px_rgba(124,58,237,0.5)]">
+                    <i class="fa-brands fa-discord mr-2"></i>Discord'a Katıl
+                </a>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-700 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                    <li>
+                        <a href="#" class="block py-2 px-3 text-white bg-brand-600 rounded md:bg-transparent md:text-brand-500 md:p-0" aria-current="page">Ana Sayfa</a>
+                    </li>
+                    <li>
+                        <a href="#products" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-brand-500 md:p-0 transition-colors">Ürünler</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-brand-500 md:p-0 transition-colors">Destek</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 overflow-hidden">
+        <!-- Arkaplan Efekti -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-600/20 rounded-full blur-[120px] -z-10"></div>
+        
+        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl glow-text">
+                Oyun Deneyimini <span class="text-brand-500">Zirveye Taşı</span>
+            </h1>
+            <p class="mb-8 text-lg font-normal text-gray-400 lg:text-xl sm:px-16 lg:px-48">
+                En kaliteli yazılımlar ve dijital ürünler Vexez güvencesiyle. Hemen Discord sunucumuza katılın ve satın alım yapın.
+            </p>
+            <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
+                <a href="#products" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-brand-600 hover:bg-brand-700 focus:ring-4 focus:ring-brand-900 transition-all">
+                    Ürünleri İncele
+                    <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                </a>
+                <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="py-3 px-5 sm:ms-4 text-base font-medium text-center text-white rounded-lg border border-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-gray-700 transition-all">
+                    Discord
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-dark-900">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">Popüler <span class="text-brand-500">Ürünlerimiz</span></h2>
+            
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                
+                <!-- Ürün Kartı 1 -->
+                <div class="glass-effect rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-40 bg-gradient-to-br from-brand-900 to-dark-800 rounded-xl mb-4 flex items-center justify-center">
+                        <i class="fa-solid fa-crown text-5xl text-brand-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Vexez Premium</h3>
+                    <p class="text-gray-400 text-sm mb-4">En çok tercih edilen paketimiz. Tüm özelliklere erişim sağlar.</p>
+                    
+                    <ul class="space-y-2 mb-6 text-gray-300 text-sm">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> 7/24 Destek</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Otomatik Teslimat</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Yüksek Kalite</li>
+                    </ul>
+
+                    <!-- Fiyat YOK, Sadece Discord Butonu -->
+                    <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="block w-full text-center text-white bg-brand-600 hover:bg-brand-700 font-bold py-3 px-4 rounded-lg transition-colors shadow-lg shadow-brand-900/50">
+                        <i class="fa-brands fa-discord mr-2"></i>Satın Almak İçin Tıkla
+                    </a>
+                </div>
+
+                <!-- Ürün Kartı 2 -->
+                <div class="glass-effect rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300 border-brand-500/30 border">
+                    <div class="absolute top-0 right-0 bg-brand-600 text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">POPÜLER</div>
+                    <div class="h-40 bg-gradient-to-br from-blue-900 to-dark-800 rounded-xl mb-4 flex items-center justify-center">
+                        <i class="fa-solid fa-bolt text-5xl text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Vexez Gold</h3>
+                    <p class="text-gray-400 text-sm mb-4">Orta seviye kullanıcılar için ideal çözüm.</p>
+                    
+                    <ul class="space-y-2 mb-6 text-gray-300 text-sm">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Güvenli Altyapı</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Hızlı Kurulum</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Özel Roller</li>
+                    </ul>
+
+                    <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="block w-full text-center text-white bg-brand-600 hover:bg-brand-700 font-bold py-3 px-4 rounded-lg transition-colors shadow-lg shadow-brand-900/50">
+                        <i class="fa-brands fa-discord mr-2"></i>Satın Almak İçin Tıkla
+                    </a>
+                </div>
+
+                <!-- Ürün Kartı 3 -->
+                <div class="glass-effect rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-40 bg-gradient-to-br from-purple-900 to-dark-800 rounded-xl mb-4 flex items-center justify-center">
+                        <i class="fa-solid fa-rocket text-5xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Vexez Lite</h3>
+                    <p class="text-gray-400 text-sm mb-4">Başlangıç seviyesi için temel özellikler.</p>
+                    
+                    <ul class="space-y-2 mb-6 text-gray-300 text-sm">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Anında Erişim</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Temel Destek</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i> Kolay Kullanım</li>
+                    </ul>
+
+                    <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="block w-full text-center text-white bg-brand-600 hover:bg-brand-700 font-bold py-3 px-4 rounded-lg transition-colors shadow-lg shadow-brand-900/50">
+                        <i class="fa-brands fa-discord mr-2"></i>Satın Almak İçin Tıkla
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-800 border-t border-gray-800 py-8">
+        <div class="max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <span class="text-2xl font-bold text-white mb-4 md:mb-0">VEXEZ</span>
+            <div class="text-gray-400 text-sm">
+                &copy; 2024 Vexez Shop. Tüm hakları saklıdır.
+            </div>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="https://discord.gg/WsW34xqKy3" class="text-gray-400 hover:text-brand-500 transition-colors"><i class="fa-brands fa-discord text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brand-500 transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brand-500 transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
