@@ -1,104 +1,107 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Soluna Shop | Download</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soluna Shop</title>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                            700: '#6d28d9'
-                        },
-                        dark: {
-                            900: '#0f172a',
-                            800: '#1e293b'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif']
-                    }
-                }
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9'
             }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
         }
-    </script>
+      }
+    }
+  </script>
 
-    <style>
-        body { background:#0f172a; color:white; }
-        .glass { background:rgba(30,41,59,.65); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.08); }
-        .glow { text-shadow:0 0 25px rgba(139,92,246,.6); }
-    </style>
+  <style>
+    body { background:#020617; color:white; }
+    .glass { background:rgba(15,23,42,.75); backdrop-filter: blur(18px); border:1px solid rgba(255,255,255,.08); }
+    .glow { text-shadow:0 0 40px rgba(139,92,246,.9); }
+  </style>
 </head>
-<body class="antialiased">
+<body class="overflow-x-hidden">
+
+<!-- Background Effects -->
+<div class="fixed inset-0 -z-10">
+  <div class="absolute top-[-200px] left-[-200px] w-[500px] h-[500px] bg-brand-600/30 rounded-full blur-[180px]"></div>
+  <div class="absolute bottom-[-200px] right-[-200px] w-[500px] h-[500px] bg-brand-400/20 rounded-full blur-[180px]"></div>
+</div>
 
 <!-- Navbar -->
-<nav class="fixed top-0 w-full z-50 bg-dark-900/80 backdrop-blur border-b border-gray-800">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <span class="text-2xl font-extrabold glow">Soluna Shop</span>
-        <a href="https://discord.gg/WsW34xqKy3" target="_blank"
-           class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 transition shadow-lg">
-            <i class="fa-brands fa-discord mr-2"></i>Discord
-        </a>
-    </div>
+<nav class="fixed top-0 w-full z-50 glass">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <span class="text-3xl font-black glow">Soluna Shop</span>
+    <a href="https://discord.gg/WsW34xqKy3" target="_blank"
+       class="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 transition shadow-[0_0_25px_rgba(139,92,246,.8)]">
+      <i class="fa-brands fa-discord mr-2"></i>Discord
+    </a>
+  </div>
 </nav>
 
 <!-- Hero -->
-<section class="pt-36 pb-24 text-center relative overflow-hidden">
-    <div class="absolute inset-0 -z-10">
-        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-600/20 blur-[120px] rounded-full"></div>
-    </div>
+<section class="pt-40 pb-32 text-center relative">
+  <h1 class="text-6xl md:text-7xl font-black mb-6 glow">SOLUNA</h1>
+  <p class="text-gray-400 text-xl max-w-2xl mx-auto mb-12">
+    En üst seviye executor deneyimi. Key yok. Bekleme yok. Direkt indir.
+  </p>
 
-    <h1 class="text-5xl md:text-6xl font-extrabold mb-6 glow">Soluna Shop</h1>
-    <p class="text-gray-400 max-w-xl mx-auto mb-10 text-lg">
-        Key sistemi yok. Tek tıkla indir, direkt kullan.
-    </p>
-
-    <a href="https://raw.githubusercontent.com/akrep0644/soluashops.github.io/main/VORTEX.zip"
-       class="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-brand-600 hover:bg-brand-700 transition shadow-[0_0_30px_rgba(139,92,246,.6)]"
-       download>
-        <i class="fa-solid fa-download"></i>
-        VORTEX.zip indir
-    </a>
+  <a href="https://raw.githubusercontent.com/akrep0644/soluashops.github.io/main/VORTEX.zip"
+     class="inline-flex items-center gap-4 px-10 py-5 text-xl font-bold rounded-2xl bg-brand-600 hover:bg-brand-700 transition shadow-[0_0_40px_rgba(139,92,246,1)]"
+     download>
+    <i class="fa-solid fa-download"></i>
+    VORTEX.zip indir
+  </a>
 </section>
 
-<!-- Info Cards -->
-<section class="pb-24">
-    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6">
-        <div class="glass rounded-2xl p-6 text-center">
-            <i class="fa-solid fa-bolt text-brand-500 text-3xl mb-4"></i>
-            <h3 class="font-bold text-xl mb-2">Hızlı Kurulum</h3>
-            <p class="text-gray-400 text-sm">Zip indir, çıkart, çalıştır.</p>
-        </div>
-        <div class="glass rounded-2xl p-6 text-center">
-            <i class="fa-solid fa-lock-open text-brand-500 text-3xl mb-4"></i>
-            <h3 class="font-bold text-xl mb-2">Key Yok</h3>
-            <p class="text-gray-400 text-sm">Key, doğrulama, bekleme yok.</p>
-        </div>
-        <div class="glass rounded-2xl p-6 text-center">
-            <i class="fa-solid fa-palette text-brand-500 text-3xl mb-4"></i>
-            <h3 class="font-bold text-xl mb-2">Modern UI</h3>
-            <p class="text-gray-400 text-sm">Temiz, cam efekti tasarım.</p>
-        </div>
+<!-- Feature Cards -->
+<section class="pb-32">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+
+    <div class="glass rounded-3xl p-8 text-center hover:scale-105 transition">
+      <i class="fa-solid fa-rocket text-brand-500 text-4xl mb-4"></i>
+      <h3 class="text-2xl font-bold mb-2">Ultra Hız</h3>
+      <p class="text-gray-400">Optimize edilmiş performans.</p>
     </div>
+
+    <div class="glass rounded-3xl p-8 text-center hover:scale-105 transition">
+      <i class="fa-solid fa-lock-open text-brand-500 text-4xl mb-4"></i>
+      <h3 class="text-2xl font-bold mb-2">Key Sistemi Yok</h3>
+      <p class="text-gray-400">Direkt erişim, sıfır engel.</p>
+    </div>
+
+    <div class="glass rounded-3xl p-8 text-center hover:scale-105 transition">
+      <i class="fa-solid fa-wand-magic-sparkles text-brand-500 text-4xl mb-4"></i>
+      <h3 class="text-2xl font-bold mb-2">Premium UI</h3>
+      <p class="text-gray-400">Modern, futuristik tasarım.</p>
+    </div>
+
+  </div>
 </section>
 
 <!-- Footer -->
-<footer class="border-t border-gray-800 py-8 text-center text-gray-400 text-sm">
-    © 2025 Soluna Shop — All rights reserved
+<footer class="border-t border-white/10 py-10 text-center text-gray-400">
+  © 2025 Soluna Shop • All Rights Reserved
 </footer>
 
 </body>
