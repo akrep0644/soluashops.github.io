@@ -127,8 +127,8 @@
           <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="flex-1 text-center py-2 rounded bg-brand-600">Discord</a>
           <a href="https://raw.githubusercontent.com/akrep0644/soluashops.github.io/main/VORTEX.zip" class="flex-1 text-center py-2 rounded bg-gradient-to-r from-brand-500 to-brand-700 text-white" download>İndir</a>
         </div>
+        </div>
       </div>
-    </div>
   </header>
 
     <main id="main" class="pt-36">
@@ -237,7 +237,7 @@
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-2xl font-bold">Popüler Paketler</h3>
         <a href="#pricing" class="text-sm text-gray-300 hover:text-white">Tüm paketlere bak →</a>
-        </div>
+      </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <article class="glass rounded-2xl p-6 hover:scale-105 transition shadow">
@@ -435,7 +435,6 @@
                 e.preventDefault(); // Formun varsayılan gönderimini engelle
 
                 // Formdaki alan değerlerini al
-                // Not: Güvenilir seçim için inputların id veya name özelliklerini kullanmak daha iyi olur, ancak burada sırasına göre alıyoruz.
                 const nameInput = contactForm.querySelector('input:nth-of-type(1)');
                 const emailInput = contactForm.querySelector('input[type="email"]');
                 const messageTextarea = contactForm.querySelector('textarea');
@@ -444,7 +443,7 @@
                 const email = emailInput ? emailInput.value.trim() : 'Bilinmiyor';
                 const message = messageTextarea ? messageTextarea.value.trim() : 'Boş Mesaj';
                 
-                // Form alanlarından herhangi biri boşsa göndermeyi engelle (required attribute'ü sayesinde bu genelde gerekmez ama ekstra kontrol)
+                // Gerekli alanların dolu olduğundan emin ol (HTML required attribute'ü de çalışır)
                 if (!name || !email || !message) {
                     alert('Lütfen tüm alanları doldurun.');
                     return;
@@ -453,7 +452,7 @@
                 // Discord Embed yapısını oluştur
                 const embed = {
                     title: '⚡ Soluna Shop Yeni İletişim Formu Girişi',
-                    color: 5814783, // Mor Renk (#5865F2 - Discord mavi/mor karışımı)
+                    color: 5814783, // Mor Renk
                     fields: [
                         {
                             name: '👤 Ad',
@@ -484,7 +483,7 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        // content: '@everyone Yeni bir iletişim talebi alındı!', // İsteğe bağlı etiket
+                        content: 'Yeni bir iletişim talebi alındı!',
                         embeds: [embed],
                     }),
                 })
