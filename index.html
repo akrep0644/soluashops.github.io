@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html lang="tr" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soluna Executor | Key Sistemi</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soluna Shop | Download</title>
 
-    <!-- Tailwind Play CDN (geliştirme için hızlı kurulum). -->
-    <!-- Resmi dokümanda Play CDN kullanımı örneği bulunur; prod için farklı yaklaşımlar önerilir. -->
-    <!-- Kaynak: Tailwind Play CDN kullanım rehberi. --> 
-    <!-- :contentReference[oaicite:0]{index=0} -->
+    <!-- Tailwind CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome ikonları -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <script>
-        // Tailwind config (renkler ve font)
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f5f3ff',
-                            100: '#ede9fe',
-                            500: '#8b5cf6', // Mor tonu
+                            500: '#8b5cf6',
                             600: '#7c3aed',
-                            900: '#4c1d95',
+                            700: '#6d28d9'
                         },
                         dark: {
                             900: '#0f172a',
-                            800: '#1e293b',
+                            800: '#1e293b'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
                     }
                 }
             }
@@ -43,189 +38,68 @@
     </script>
 
     <style>
-        body {
-            background-color: #0f172a;
-            color: white;
-        }
-        .glass-effect {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .glow-text {
-            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
-        }
+        body { background:#0f172a; color:white; }
+        .glass { background:rgba(30,41,59,.65); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.08); }
+        .glow { text-shadow:0 0 25px rgba(139,92,246,.6); }
     </style>
 </head>
-<body class="antialiased selection:bg-brand-500 selection:text-white">
+<body class="antialiased">
 
-    <!-- Navbar -->
-    <nav class="fixed w-full z-50 top-0 start-0 border-b border-gray-800 bg-dark-900/80 backdrop-blur-md">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-2xl font-bold whitespace-nowrap text-white glow-text">Soluna Executor</span>
-            </a>
-            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                <!-- Discord DM yönlendirmesi -->
-                <a href="https://discord.gg/WsW34xqKy3" target="_blank"
-                   class="text-white bg-brand-600 hover:bg-brand-700 focus:ring-4 focus:outline-none focus:ring-brand-900 font-medium rounded-lg text-sm px-4 py-2 text-center transition-all shadow-[0_0_15px_rgba(124,58,237,0.5)]">
-                    <i class="fa-brands fa-discord mr-2"></i>Discord DM
-                </a>
-            </div>
-            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-700 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-                    <li>
-                        <a href="#hero" class="block py-2 px-3 text-white bg-brand-600 rounded md:bg-transparent md:text-brand-500 md:p-0" aria-current="page">Ana Sayfa</a>
-                    </li>
-                    <li>
-                        <a href="#key-section" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-brand-500 md:p-0 transition-colors">Key</a>
-                    </li>
-                    <li>
-                        <a href="#download-section" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-brand-500 md:p-0 transition-colors">İndir</a>
-                    </li>
-                </ul>
-            </div>
+<!-- Navbar -->
+<nav class="fixed top-0 w-full z-50 bg-dark-900/80 backdrop-blur border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <span class="text-2xl font-extrabold glow">Soluna Shop</span>
+        <a href="https://discord.gg/WsW34xqKy3" target="_blank"
+           class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 transition shadow-lg">
+            <i class="fa-brands fa-discord mr-2"></i>Discord
+        </a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="pt-36 pb-24 text-center relative overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-600/20 blur-[120px] rounded-full"></div>
+    </div>
+
+    <h1 class="text-5xl md:text-6xl font-extrabold mb-6 glow">Soluna Shop</h1>
+    <p class="text-gray-400 max-w-xl mx-auto mb-10 text-lg">
+        Key sistemi yok. Tek tıkla indir, direkt kullan.
+    </p>
+
+    <a href="https://github.com/USERNAME/REPO/raw/main/VORTEX.zip"
+       class="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-brand-600 hover:bg-brand-700 transition shadow-[0_0_30px_rgba(139,92,246,.6)]"
+       download>
+        <i class="fa-solid fa-download"></i>
+        VORTEX.zip indir
+    </a>
+</section>
+
+<!-- Info Cards -->
+<section class="pb-24">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6">
+        <div class="glass rounded-2xl p-6 text-center">
+            <i class="fa-solid fa-bolt text-brand-500 text-3xl mb-4"></i>
+            <h3 class="font-bold text-xl mb-2">Hızlı Kurulum</h3>
+            <p class="text-gray-400 text-sm">Zip indir, çıkart, çalıştır.</p>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="hero" class="relative pt-32 pb-20 overflow-hidden">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-600/20 rounded-full blur-[120px] -z-10"></div>
-        
-        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl glow-text">
-                Soluna Executor
-            </h1>
-            <p class="mb-8 text-lg font-normal text-gray-400 lg:text-xl sm:px-16 lg:px-48">
-                Tek ürün, basit sistem. Key al, gir, indir.
-            </p>
-            <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-                <a href="#key-section" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-brand-600 hover:bg-brand-700 focus:ring-4 focus:ring-brand-900 transition-all">
-                    Key Gir ve İndir
-                    <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </a>
-                <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="py-3 px-5 sm:ms-4 text-base font-medium text-center text-white rounded-lg border border-gray-600 hover:bg-gray-800 focus:ring-4 focus:ring-gray-700 transition-all">
-                    Key satın al
-                </a>
-            </div>
+        <div class="glass rounded-2xl p-6 text-center">
+            <i class="fa-solid fa-lock-open text-brand-500 text-3xl mb-4"></i>
+            <h3 class="font-bold text-xl mb-2">Key Yok</h3>
+            <p class="text-gray-400 text-sm">Key, doğrulama, bekleme yok.</p>
         </div>
-    </section>
-
-    <!-- Key Section -->
-    <section id="key-section" class="py-16 bg-dark-900">
-        <div class="max-w-md mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-8 text-white">Key girerek indirim al</h2>
-
-            <!-- Açıklama -->
-            <p class="text-center text-gray-300 mb-6">
-                10 adet örnek key var. Doğru key girilince .zip dosyası otomatik olarak indirilecek.
-                Key satın almak için Discord DM atın.
-            </p>
-
-            <!-- Key girişi -->
-            <div class="glass-effect rounded-2xl p-6">
-                <label for="keyInput" class="block mb-2 text-sm font-medium text-gray-200">Key</label>
-                <input id="keyInput" type="text" placeholder="KEY-XXXX" 
-                       class="w-full mb-4 px-4 py-2 bg-dark-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600" />
-
-                <button id="checkKeyBtn"
-                        class="w-full py-3 text-base font-medium text-white bg-brand-600 hover:bg-brand-700 rounded-lg transition-colors">
-                    Key'i Kontrol Et
-                </button>
-
-                <p id="keyResult" class="mt-4 text-sm text-center"></p>
-            </div>
-
-            <!-- Örnek Key listesi (gizli istemezsen kaldır) -->
-            <div class="mt-8 text-gray-400 text-sm text-center">
-                <p>Örnek keyler:</p>
-                <p class="mt-2">
-                    KEY-1, KEY-2, KEY-3, KEY-4, KEY-5,<br>
-                    KEY-6, KEY-7, KEY-8, KEY-9, KEY-10
-                </p>
-            </div>
+        <div class="glass rounded-2xl p-6 text-center">
+            <i class="fa-solid fa-palette text-brand-500 text-3xl mb-4"></i>
+            <h3 class="font-bold text-xl mb-2">Modern UI</h3>
+            <p class="text-gray-400 text-sm">Temiz, cam efekti tasarım.</p>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Download Section (başlangıçta gizli) -->
-    <section id="download-section" class="py-16 bg-dark-800 hidden">
-        <div class="max-w-md mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-6 text-white">İndir</h2>
-            <p class="mb-6 text-gray-300">Key doğrulandı. Aşağıdaki butona basarak .zip dosyasını indir.</p>
-            <!--
-                Buraya gerçek dosya linkini koy. Örneğin:
-                "files/soluna_executor.zip" veya
-                "https://example.com/soluna_executor.zip"
-            -->
-            <a id="downloadLink" href="#" download
-               class="inline-flex items-center justify-center py-3 px-6 text-base font-medium text-white bg-brand-600 hover:bg-brand-700 rounded-lg transition-colors">
-                <i class="fa-solid fa-download me-2"></i> Dosyayı indir (.zip)
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark-900 border-t border-gray-800 py-8">
-        <div class="max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-            <span class="text-2xl font-bold text-white mb-4 md:mb-0">Soluna Executor</span>
-            <div class="text-gray-400 text-sm">
-                &copy; 2024 Soluna Executor. Tüm hakları saklıdır.
-            </div>
-            <div class="flex space-x-4 mt-4 md:mt-0">
-                <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="text-gray-400 hover:text-brand-500 transition-colors">
-                    <i class="fa-brands fa-discord text-xl"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JS: Key kontrol ve indir -->
-    <script>
-        // Örnek geçerli key listesi (10 adet). Değiştirilebilir.
-        const validKeys = [
-            "KEY-1", "KEY-2", "KEY-3", "KEY-4", "KEY-5",
-            "KEY-6", "KEY-7", "KEY-8", "KEY-9", "KEY-10"
-        ];
-
-        // İndirilecek dosya linki (örn: zip). BURAYA GERÇEK LINKİ KOY.
-        const downloadUrl = "files/soluna_executor.zip"; // veya tam URL.
-
-        const keyInput = document.getElementById("keyInput");
-        const checkKeyBtn = document.getElementById("checkKeyBtn");
-        const keyResult = document.getElementById("keyResult");
-        const downloadSection = document.getElementById("download-section");
-        const downloadLink = document.getElementById("downloadLink");
-
-        // Buton tıklanınca kontrol
-        checkKeyBtn.addEventListener("click", () => {
-            const enteredKey = keyInput.value.trim();
-            if (!enteredKey) {
-                keyResult.textContent = "Lütfen bir key girin.";
-                keyResult.className = "text-sm text-center text-yellow-400";
-                return;
-            }
-
-            // Key doğrulama
-            if (validKeys.includes(enteredKey)) {
-                keyResult.textContent = "Key geçerli. İndirime hazırsınız!";
-                keyResult.className = "text-sm text-center text-green-400";
-
-                // İndir bölümünü göster
-                downloadSection.classList.remove("hidden");
-
-                // Download linkini ayarla
-                downloadLink.href = downloadUrl;
-
-                // Opsiyonel: key'i kullandıktan sonra listeden kaldırmak istersen:
-                // validKeys.splice(validKeys.indexOf(enteredKey), 1);
-            } else {
-                keyResult.textContent = "Geçersiz key. Lütfen tekrar deneyin veya Discord'dan satın alın.";
-                keyResult.className = "text-sm text-center text-red-400";
-            }
-        });
-    </script>
+<!-- Footer -->
+<footer class="border-t border-gray-800 py-8 text-center text-gray-400 text-sm">
+    © 2025 Soluna Shop — All rights reserved
+</footer>
 
 </body>
 </html>
