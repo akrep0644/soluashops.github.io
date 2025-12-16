@@ -138,16 +138,14 @@
 <section class="hero">
     <h1>VORTEX Executor</h1>
     <p>
-        🚀 <b>VORTEX</b> is a powerful re-make of Void Executor, focused on performance, stability and modern Byfron bypass methods.
-        Designed for speed, safety and smooth execution.
+        🚀 <b>VORTEX</b> is a powerful re-make of Void Executor, focused on performance,
+        stability and modern Byfron bypass methods.
         <br><br>
         🔒 <b>0% Ban Risk*</b> • ⚡ Ultra Fast Injection • 🛠 DLL Status: <b>Working</b>
     </p>
 
-    <!-- 🔥 DOWNLOAD LINK -->
-    <a class="download-btn"
-       href="https://github.com/akrep0644/VORTEX-Offical/releases/download/v1.0.0/VORTEX.zip"
-       download>
+    <!-- 🔥 DOWNLOAD LINK (CONFIG.JSON) -->
+    <a id="downloadBtn" class="download-btn">
         ⬇ DOWNLOAD VORTEX
     </a>
 </section>
@@ -156,8 +154,8 @@
     <div class="card">
         <h3>⚡ Ultra Performance</h3>
         <p>
-            Optimized execution engine with fast script injection and minimal delay.
-            Built for maximum FPS stability.
+            Optimized execution engine with fast script injection
+            and minimal delay.
         </p>
     </div>
 
@@ -190,6 +188,19 @@
 <footer>
     © 2025 VORTEX Executor • Not affiliated with Roblox Corporation
 </footer>
+
+<script>
+fetch("config.json")
+  .then(res => res.json())
+  .then(cfg => {
+    const btn = document.getElementById("downloadBtn");
+    btn.href = cfg.download;
+    btn.setAttribute("download", "");
+  })
+  .catch(() => {
+    document.getElementById("downloadBtn").innerText = "Download unavailable";
+  });
+</script>
 
 </body>
 </html>
