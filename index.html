@@ -1,288 +1,195 @@
-<!doctype html>
-<html lang="tr">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#07060a"/>
-  <title>Soluna Shop — Premium Executor</title>
+    <meta charset="UTF-8">
+    <title>VORTEX Executor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    // Tailwind config: brand renkleri ve font
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f5f3ff',
-              300: '#c4b5fd',
-              400: '#a78bfa',
-              500: '#8b5cf6',
-              600: '#7c3aed',
-              700: '#6d28d9'
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'ui-sans-serif', 'system-ui']
-          }
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
-      }
-    };
-  </script>
-  <!-- Font + Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <style>
-    :root {
-      --bg: #05060b;
-      --glass: rgba(255,255,255,0.04);
-      --glass-strong: rgba(255,255,255,0.06);
-    }
+        body {
+            background: radial-gradient(circle at top, #0f172a, #020617);
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
 
-    html, body { height: 100%; background: var(--bg); color: #e6eef8; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 40px;
+        }
 
-    .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.04);
-      backdrop-filter: blur(10px);
-    }
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: #38bdf8;
+            letter-spacing: 2px;
+        }
 
-    /* Glow utility */
-    .glow {
-      text-shadow: 0 6px 30px rgba(139,92,246,0.18), 0 0 10px rgba(139,92,246,0.08);
-    }
+        .nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #cbd5f5;
+            font-weight: 500;
+        }
 
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
-    }
+        .hero {
+            text-align: center;
+            padding: 120px 20px;
+        }
 
-    /* subtle hero background shapes */
-    .bg-orb {
-      filter: blur(140px);
-      opacity: .95;
-      mix-blend-mode: screen;
-    }
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    /* focus styles for accessibility */
-    :focus { outline: 3px solid rgba(139,92,246,0.22); outline-offset: 3px; border-radius: 8px; }
-  </style>
+        .hero p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #c7d2fe;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .download-btn {
+            margin-top: 40px;
+            display: inline-block;
+            padding: 16px 34px;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #38bdf8, #6366f1);
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 20px 40px rgba(56,189,248,0.3);
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 60px rgba(99,102,241,0.5);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            background: rgba(15,23,42,0.85);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 0 0 1px rgba(148,163,184,0.08);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #7dd3fc;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #cbd5f5;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
 </head>
-<body class="antialiased">
+<body>
 
-  <!-- Skip link for keyboard users -->
-  <a href="#main" class="sr-only focus:not-sr-only fixed left-4 top-4 z-50 bg-brand-600 text-white px-3 py-2 rounded-md">Ana içeriğe atla</a>
-
-  <!-- Background orbs -->
-  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10">
-    <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-brand-600 via-purple-600 to-brand-400 bg-orb opacity-60"></div>
-    <div class="absolute -bottom-40 -right-40 w-80 h-80 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 bg-orb opacity-50"></div>
-  </div>
-
-  <!-- NAVBAR -->
-  <header class="fixed w-full z-40 top-4 px-4">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-      <nav class="glass rounded-2xl p-3 flex items-center w-full shadow-lg">
-        <div class="flex items-center gap-4">
-          <a href="#" class="flex items-center gap-3" aria-label="Soluna Shop ana sayfa">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-md">
-              <i class="fa-solid fa-cube"></i>
-            </div>
-            <span class="font-extrabold text-xl tracking-tight glow">Soluna</span>
-          </a>
-        </div>
-
-        <!-- center nav (hidden on mobile) -->
-        <div class="hidden md:flex items-center ml-6 gap-6 text-sm text-gray-200">
-          <a href="#features" class="hover:text-white transition">Özellikler</a>
-          <a href="#products" class="hover:text-white transition">Ürünler</a>
-          <a href="#pricing" class="hover:text-white transition">Fiyat</a>
-          <a href="#contact" class="hover:text-white transition">İletişim</a>
-        </div>
-
-        <div class="ml-auto flex items-center gap-3">
-          <button id="searchBtn" class="hidden md:inline-flex items-center gap-2 px-3 py-2 text-sm rounded-lg bg-white/5 hover:bg-white/6 transition" aria-label="Ara">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <span class="text-sm text-gray-200">Ara</span>
-          </button>
-
-          <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 transition shadow">
-            <i class="fa-brands fa-discord"></i>
-            <span class="font-semibold">Discord</span>
-          </a>
-
-          <a href="#download" id="downloadDesktop" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-500 to-brand-700 hover:from-brand-600 transition text-white">
-            <i class="fa-solid fa-download"></i> İndir
-          </a>
-
-          <!-- Mobile menu button -->
-          <button id="mobileBtn" class="md:hidden p-2 rounded-lg text-gray-200 hover:bg-white/5" aria-label="Menüyü aç" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
-          </button>
-        </div>
-      </nav>
-
-      <!-- Mobile menu (popout) -->
-      <div id="mobileMenu" class="hidden absolute right-4 top-20 w-64 glass rounded-xl p-4 shadow-xl">
-        <a href="#features" class="block py-2 px-2 rounded hover:bg-white/3">Özellikler</a>
-        <a href="#products" class="block py-2 px-2 rounded hover:bg-white/3">Ürünler</a>
-        <a href="#pricing" class="block py-2 px-2 rounded hover:bg-white/3">Fiyat</a>
-        <a href="#contact" class="block py-2 px-2 rounded hover:bg-white/3">İletişim</a>
-        <div class="mt-3 flex gap-2">
-          <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="flex-1 text-center py-2 rounded bg-brand-600">Discord</a>
-          <a href="https://raw.githubusercontent.com/akrep0644/soluashops.github.io/main/VORTEXS.zip" class="flex-1 text-center py-2 rounded bg-gradient-to-r from-brand-500 to-brand-700 text-white" download>İndir</a>
-        </div>
-      </div>
+<header>
+    <div class="logo">VORTEX</div>
+    <div class="nav">
+        <a href="#features">Features</a>
+        <a href="https://github.com/akrep0644/VORTEX-Offical" target="_blank">GitHub</a>
     </div>
-  </header>
+</header>
 
-  <!-- MAIN -->
-  <main id="main" class="pt-36">
-    <!-- HERO -->
-    <section class="max-w-7xl mx-auto px-6 text-center">
-      <div class="glass rounded-3xl p-10 md:p-16 shadow-2xl">
-        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight glow">SOLUNA — En Üst Seviye Executor Deneyimi</h1>
-        <p class="mt-4 text-gray-300 max-w-2xl mx-auto">Key yok. Bekleme yok. Direkt indir. Hız, güvenilirlik ve modern UI bir arada.</p>
+<section class="hero">
+    <h1>VORTEX Executor</h1>
+    <p>
+        🚀 <b>VORTEX</b> is a powerful re-make of Void Executor, focused on performance, stability and modern Byfron bypass methods.
+        Designed for speed, safety and smooth execution.
+        <br><br>
+        🔒 <b>0% Ban Risk*</b> • ⚡ Ultra Fast Injection • 🛠 DLL Status: <b>Working</b>
+    </p>
 
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="https://raw.githubusercontent.com/akrep0644/soluashops.github.io/main/VORTEX.zip" id="downloadHero" class="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-700 hover:scale-[1.02] transition text-white shadow-lg" download>
-            <i class="fa-solid fa-download"></i> VORTEX.zip indir
-          </a>
+    <!-- 🔥 DOWNLOAD LINK -->
+    <a class="download-btn"
+       href="https://github.com/akrep0644/VORTEX-Offical/releases/download/v1.0.0/VORTEX.zip"
+       download>
+        ⬇ DOWNLOAD VORTEX
+    </a>
+</section>
 
-          <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/6 hover:bg-white/8 transition text-white">
-            <i class="fa-brands fa-discord"></i> Topluluğa Katıl
-          </a>
-        </div>
+<section id="features" class="cards">
+    <div class="card">
+        <h3>⚡ Ultra Performance</h3>
+        <p>
+            Optimized execution engine with fast script injection and minimal delay.
+            Built for maximum FPS stability.
+        </p>
+    </div>
 
-        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-          <div class="p-4 rounded-xl bg-white/3">
-           <h4 class="font-semibold">Byfron Bypass</h4>
-          <p class="text-sm text-gray-200">0% chance of getting banned.</p>
+    <div class="card">
+        <h3>🛡 Byfron Bypass</h3>
+        <p>
+            Advanced bypass logic tested against latest protections.
+            Constant updates for safety.
+        </p>
+    </div>
 
-          </div>
-          <div class="p-4 rounded-xl bg-white/3">
-            <h4 class="font-semibold">Key Sistemi Yok</h4>
-            <p class="text-sm text-gray-200">Anında erişim, sıfır bekleme.</p>
-          </div>
-          <div class="p-4 rounded-xl bg-white/3">
-            <h4 class="font-semibold">Premium UI</h4>
-            <p class="text-sm text-gray-200">Modern, sezgisel ve karanlık temaya özel tasarım.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="card">
+        <h3>🧠 Smart Core</h3>
+        <p>
+            Clean core architecture with stable DLL loading.
+            Reduced crashes and smoother execution.
+        </p>
+    </div>
 
-    <!-- FEATURES -->
-    <section id="features" class="mt-16 max-w-7xl mx-auto px-6">
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <div class="order-2 md:order-1">
-          <h2 class="text-3xl font-bold glow">Neden Soluna?</h2>
-          <p class="mt-3 text-gray-300">Hız, güvenilirlik ve kullanım kolaylığı üzerine inşa edildi. Her seviyeden kullanıcı için optimize edildi; gelişmiş özellikler profesyonellerin ihtiyaçlarına cevap verir.</p>
-          <!-- Özellikler listesi burada -->
-        </div>
-        <div class="order-1 md:order-2">
-          <!-- UI Mock veya görsel -->
-        </div>
-      </div>
-    </section>
+    <div class="card">
+        <h3>📦 DLL Status</h3>
+        <p>
+            <b>Status:</b> Working ✅<br>
+            <b>Build:</b> In Progress 🚧<br>
+            <b>Power:</b> 90 / 85
+        </p>
+    </div>
+</section>
 
-    <!-- Ürünler, Fiyatlar, İletişim gibi bölümler burada devam eder... -->
+<footer>
+    © 2025 VORTEX Executor • Not affiliated with Roblox Corporation
+</footer>
 
-    <!-- Contact / Footer -->
-    <section id="contact" class="mt-16 max-w-7xl mx-auto px-6 mb-24">
-      <div class="glass rounded-2xl p-8 grid md:grid-cols-2 gap-6">
-        <div>
-          <h4 class="text-xl font-bold">İletişime Geç</h4>
-          <p class="text-gray-300 mt-2">Soruların mı var? Bize Discord üzerinden ulaş veya formu doldur.</p>
-
-          <div class="mt-4 flex gap-3">
-            <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="px-4 py-2 rounded-lg bg-brand-600 text-white">Discord</a>
-            <a href="mailto:hello@soluna.example" class="px-4 py-2 rounded-lg border border-white/6">E-posta</a>
-          </div>
-        </div>
-
-        <!-- Form -->
-        <form id="contactForm" class="space-y-3" onsubmit="return false;">
-          <label class="block">
-            <span class="text-sm text-gray-300">Ad</span>
-            <input type="text" id="name" class="mt-1 block w-full rounded-md bg-transparent border border-white/6 px-3 py-2 focus:ring-0" required />
-          </label>
-
-          <label class="block">
-            <span class="text-sm text-gray-300">E-posta</span>
-            <input type="email" id="email" class="mt-1 block w-full rounded-md bg-transparent border border-white/6 px-3 py-2 focus:ring-0" required />
-          </label>
-
-          <label class="block">
-            <span class="text-sm text-gray-300">Mesaj</span>
-            <textarea id="message" class="mt-1 block w-full rounded-md bg-transparent border border-white/6 px-3 py-2 focus:ring-0" rows="3" required></textarea>
-          </label>
-
-          <div class="flex gap-3">
-            <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-brand-500 to-brand-700 text-white" id="sendBtn">Gönder</button>
-            <a href="https://discord.gg/WsW34xqKy3" target="_blank" class="px-4 py-2 rounded-lg border border-white/6">Discord</a>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <footer class="max-w-7xl mx-auto px-6 pb-8">
-      <div class="text-center text-gray-400 text-sm">© 2025 Soluna Shop • Tüm hakları saklıdır</div>
-    </footer>
-  </main>
-
-  <script>
-    // Mobil menü script
-    const mobileBtn = document.getElementById('mobileBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    mobileBtn?.addEventListener('click', () => {
-      const expanded = mobileBtn.getAttribute('aria-expanded') === 'true';
-      mobileBtn.setAttribute('aria-expanded', String(!expanded));
-      mobileMenu.classList.toggle('hidden');
-    });
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.add('hidden');
-        mobileBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.add('hidden');
-        mobileBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    // Webhook ve form gönderim kodu
-    const webhookUrl = "https://discord.com/api/webhooks/1450108182184853604/49bkkpmp9Kt1b1g92ARbNABRf7htS8EFdx_bSkPvPyq6G7IFKZg_T-mKua9szFKMbdi_";
-
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-
-      const content = `**Yeni Mesaj**\nİsim: ${name}\nE-posta: ${email}\nMesaj: ${message}`;
-
-      fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: content })
-      }).then(res => {
-        if (res.ok) {
-          alert('Mesaj gönderildi!');
-          document.getElementById('contactForm').reset();
-        } else {
-          alert('Mesaj gönderilemedi.');
-        }
-      }).catch(err => {
-        alert('Hata oluştu.');
-        console.error(err);
-      });
-    });
-  </script>
 </body>
 </html>
