@@ -2,70 +2,84 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Gerçek IP Adresim</title>
+  <title>IP & Şehir Bilgim</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
-      background: #0a0a0a;
-      color: #eaeaea;
+      background:#0a0a0a;
+      color:#eaeaea;
       font-family: monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      margin:0;
     }
-
-    .card {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 10px;
-      padding: 30px;
-      width: 340px;
-      text-align: center;
-      box-shadow: 0 0 25px rgba(0,0,0,0.7);
+    .box {
+      background:#111;
+      border:1px solid #333;
+      border-radius:10px;
+      padding:30px;
+      width:360px;
+      box-shadow:0 0 25px rgba(0,0,0,.7);
     }
-
     h2 {
-      margin: 0 0 15px;
+      margin-top:0;
+      text-align:center;
     }
-
-    .ip {
-      font-size: 22px;
-      color: #00ff88;
-      margin-top: 10px;
-      word-break: break-all;
+    .row {
+      margin:10px 0;
+      font-size:14px;
     }
-
-    .info {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #888;
+    .label {
+      color:#888;
+    }
+    .value {
+      color:#00ff88;
+      word-break:break-all;
+    }
+    .note {
+      margin-top:20px;
+      font-size:12px;
+      color:#777;
+      text-align:center;
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h2>Gerçek IP Adresin</h2>
-    <div id="ip" class="ip">Yükleniyor...</div>
-    <div class="info">
-      Bu site hiçbir veri kaydetmez.<br>
-      Sadece kendi IP adresini gösterir.
-    </div>
-  </div>
+<div class="box">
+  <h2>Bağlantı Bilgilerin</h2>
 
-  <script>
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("ip").textContent = data.ip;
-      })
-      .catch(() => {
-        document.getElementById("ip").textContent = "IP alınamadı";
-      });
-  </script>
+  <div class="row"><span class="label">IP:</span> <span id="ip" class="value">Yükleniyor...</span></div>
+  <div class="row"><span class="label">Şehir:</span> <span id="city" class="value">Yükleniyor...</span></div>
+  <div class="row"><span class="label">Ülke:</span> <span id="country" class="value">Yükleniyor...</span></div>
+  <div class="row"><span class="label">ISP:</span> <span id="isp" class="value">Yükleniyor...</span></div>
+
+  <div class="note">
+    Bu site hiçbir veri kaydetmez.<br>
+    Bilgiler yaklaşık olabilir.
+  </div>
+</div>
+
+<script>
+fetch("https://ipwho.is/")
+  .then(res => res.json())
+  .then(data => {
+    if (!data.success) throw "API error";
+
+    document.getElementById("ip").textContent = data.ip;
+    document.getElementById("city").textContent = data.city || "Bilinmiyor";
+    document.getElementById("country").textContent = data.country || "Bilinmiyor";
+    document.getElementById("isp").textContent = data.isp || "Bilinmiyor";
+  })
+  .catch(() => {
+    document.querySelectorAll(".value").forEach(e => {
+      e.textContent = "Alınamadı";
+    });
+  });
+</script>
 
 </body>
 </html>
