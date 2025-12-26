@@ -2,43 +2,57 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>IP Bilgim</title>
+  <title>Gerçek IP Adresim</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
-      background:#0b0b0b;
-      color:#eaeaea;
+      background: #0a0a0a;
+      color: #eaeaea;
       font-family: monospace;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
-    .box {
-      background:#111;
-      border:1px solid #333;
-      padding:30px;
-      border-radius:8px;
-      text-align:center;
-      width:320px;
+
+    .card {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 30px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0,0,0,0.7);
     }
+
+    h2 {
+      margin: 0 0 15px;
+    }
+
     .ip {
-      font-size:20px;
-      margin-top:15px;
-      color:#00ff88;
+      font-size: 22px;
+      color: #00ff88;
+      margin-top: 10px;
+      word-break: break-all;
     }
-    .note {
-      margin-top:15px;
-      font-size:12px;
-      color:#888;
+
+    .info {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>IP Adresin</h2>
+
+  <div class="card">
+    <h2>Gerçek IP Adresin</h2>
     <div id="ip" class="ip">Yükleniyor...</div>
-    <div class="note">
-      Bu site hiçbir veri kaydetmez.
+    <div class="info">
+      Bu site hiçbir veri kaydetmez.<br>
+      Sadece kendi IP adresini gösterir.
     </div>
   </div>
 
@@ -46,11 +60,12 @@
     fetch("https://api.ipify.org?format=json")
       .then(res => res.json())
       .then(data => {
-        document.getElementById("ip").innerText = data.ip;
+        document.getElementById("ip").textContent = data.ip;
       })
       .catch(() => {
-        document.getElementById("ip").innerText = "IP alınamadı";
+        document.getElementById("ip").textContent = "IP alınamadı";
       });
   </script>
+
 </body>
 </html>
